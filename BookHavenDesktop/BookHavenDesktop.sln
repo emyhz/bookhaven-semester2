@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLayer", "..\LogicLayer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "..\DataAccessLayer\DataAccessLayer.csproj", "{FB403623-B794-42AD-A064-AABE0F2CCEDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookHavenUnitTests", "..\BookHavenUnitTests\BookHavenUnitTests.csproj", "{C97D5291-752B-4E97-BB75-63F37C34A552}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{FB403623-B794-42AD-A064-AABE0F2CCEDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB403623-B794-42AD-A064-AABE0F2CCEDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB403623-B794-42AD-A064-AABE0F2CCEDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C97D5291-752B-4E97-BB75-63F37C34A552}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C97D5291-752B-4E97-BB75-63F37C34A552}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C97D5291-752B-4E97-BB75-63F37C34A552}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C97D5291-752B-4E97-BB75-63F37C34A552}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
