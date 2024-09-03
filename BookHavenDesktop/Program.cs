@@ -1,4 +1,4 @@
-namespace BookHaven
+namespace BookHavenDesktop
 {
     internal static class Program
     {

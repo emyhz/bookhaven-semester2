@@ -1,4 +1,4 @@
-﻿namespace BookHaven
+﻿namespace BookHavenDesktop
 {
     partial class Form1
     {
