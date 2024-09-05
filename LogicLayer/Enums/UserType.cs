@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicLayer.EntityClasses
+namespace LogicLayer.Enums
 {
-    public class Book
+    public enum UserType
     {
-  
+        ADMIN,
+        CUSTOMER,
+        EMPLOYEE
     }
 }
