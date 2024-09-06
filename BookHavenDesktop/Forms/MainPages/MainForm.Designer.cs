@@ -30,10 +30,16 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             panel1 = new Panel();
-            pictureBox1 = new PictureBox();
+            btnLogOut = new Button();
             lblAccessHead = new Label();
+            pictureBox1 = new PictureBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
             btnHome = new Button();
+            btnProducts = new Button();
+            btnOrders = new Button();
+            btnEmployees = new Button();
+            btnClients = new Button();
+            btnMyAccount = new Button();
             pnlMainForm = new Panel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -43,6 +49,7 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(btnLogOut);
             panel1.Controls.Add(lblAccessHead);
             panel1.Controls.Add(pictureBox1);
             panel1.Location = new Point(0, 0);
@@ -50,16 +57,20 @@
             panel1.Size = new Size(1930, 110);
             panel1.TabIndex = 0;
             // 
-            // pictureBox1
+            // btnLogOut
             // 
-            pictureBox1.BackColor = Color.White;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(12, 12);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(106, 82);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            btnLogOut.BackColor = Color.FromArgb(130, 76, 113);
+            btnLogOut.FlatAppearance.BorderSize = 0;
+            btnLogOut.FlatStyle = FlatStyle.Flat;
+            btnLogOut.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnLogOut.ForeColor = Color.White;
+            btnLogOut.Location = new Point(1692, 24);
+            btnLogOut.Name = "btnLogOut";
+            btnLogOut.Size = new Size(200, 58);
+            btnLogOut.TabIndex = 4;
+            btnLogOut.Text = "Log out";
+            btnLogOut.UseVisualStyleBackColor = false;
+            btnLogOut.Click += btnLogOut_Click;
             // 
             // lblAccessHead
             // 
@@ -72,10 +83,26 @@
             lblAccessHead.TabIndex = 3;
             lblAccessHead.Text = "BookHaven";
             // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.White;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(12, 12);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(112, 92);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.BackColor = Color.FromArgb(130, 76, 113);
             flowLayoutPanel1.Controls.Add(btnHome);
+            flowLayoutPanel1.Controls.Add(btnProducts);
+            flowLayoutPanel1.Controls.Add(btnOrders);
+            flowLayoutPanel1.Controls.Add(btnEmployees);
+            flowLayoutPanel1.Controls.Add(btnClients);
+            flowLayoutPanel1.Controls.Add(btnMyAccount);
             flowLayoutPanel1.Location = new Point(0, 110);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(293, 954);
@@ -98,6 +125,102 @@
             btnHome.TextAlign = ContentAlignment.MiddleLeft;
             btnHome.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnHome.UseVisualStyleBackColor = true;
+            btnHome.Click += btnHome_Click;
+            // 
+            // btnProducts
+            // 
+            btnProducts.FlatAppearance.BorderSize = 0;
+            btnProducts.FlatStyle = FlatStyle.Flat;
+            btnProducts.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnProducts.ForeColor = Color.White;
+            btnProducts.Image = (Image)resources.GetObject("btnProducts.Image");
+            btnProducts.ImageAlign = ContentAlignment.MiddleLeft;
+            btnProducts.Location = new Point(0, 70);
+            btnProducts.Margin = new Padding(0);
+            btnProducts.Name = "btnProducts";
+            btnProducts.Size = new Size(290, 70);
+            btnProducts.TabIndex = 1;
+            btnProducts.Text = "Products";
+            btnProducts.TextAlign = ContentAlignment.MiddleLeft;
+            btnProducts.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnProducts.UseVisualStyleBackColor = true;
+            btnProducts.Click += btnProducts_Click;
+            // 
+            // btnOrders
+            // 
+            btnOrders.FlatAppearance.BorderSize = 0;
+            btnOrders.FlatStyle = FlatStyle.Flat;
+            btnOrders.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnOrders.ForeColor = Color.White;
+            btnOrders.Image = (Image)resources.GetObject("btnOrders.Image");
+            btnOrders.ImageAlign = ContentAlignment.MiddleLeft;
+            btnOrders.Location = new Point(0, 140);
+            btnOrders.Margin = new Padding(0);
+            btnOrders.Name = "btnOrders";
+            btnOrders.Size = new Size(290, 70);
+            btnOrders.TabIndex = 2;
+            btnOrders.Text = "Orders";
+            btnOrders.TextAlign = ContentAlignment.MiddleLeft;
+            btnOrders.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnOrders.UseVisualStyleBackColor = true;
+            btnOrders.Click += btnOrders_Click;
+            // 
+            // btnEmployees
+            // 
+            btnEmployees.FlatAppearance.BorderSize = 0;
+            btnEmployees.FlatStyle = FlatStyle.Flat;
+            btnEmployees.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEmployees.ForeColor = Color.White;
+            btnEmployees.Image = (Image)resources.GetObject("btnEmployees.Image");
+            btnEmployees.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEmployees.Location = new Point(0, 210);
+            btnEmployees.Margin = new Padding(0);
+            btnEmployees.Name = "btnEmployees";
+            btnEmployees.Size = new Size(290, 70);
+            btnEmployees.TabIndex = 3;
+            btnEmployees.Text = "Employees";
+            btnEmployees.TextAlign = ContentAlignment.MiddleLeft;
+            btnEmployees.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnEmployees.UseVisualStyleBackColor = true;
+            btnEmployees.Click += btnEmployees_Click;
+            // 
+            // btnClients
+            // 
+            btnClients.FlatAppearance.BorderSize = 0;
+            btnClients.FlatStyle = FlatStyle.Flat;
+            btnClients.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnClients.ForeColor = Color.White;
+            btnClients.Image = (Image)resources.GetObject("btnClients.Image");
+            btnClients.ImageAlign = ContentAlignment.MiddleLeft;
+            btnClients.Location = new Point(0, 280);
+            btnClients.Margin = new Padding(0);
+            btnClients.Name = "btnClients";
+            btnClients.Size = new Size(290, 70);
+            btnClients.TabIndex = 4;
+            btnClients.Text = "Clients";
+            btnClients.TextAlign = ContentAlignment.MiddleLeft;
+            btnClients.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnClients.UseVisualStyleBackColor = true;
+            btnClients.Click += btnClients_Click;
+            // 
+            // btnMyAccount
+            // 
+            btnMyAccount.FlatAppearance.BorderSize = 0;
+            btnMyAccount.FlatStyle = FlatStyle.Flat;
+            btnMyAccount.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnMyAccount.ForeColor = Color.White;
+            btnMyAccount.Image = (Image)resources.GetObject("btnMyAccount.Image");
+            btnMyAccount.ImageAlign = ContentAlignment.MiddleLeft;
+            btnMyAccount.Location = new Point(0, 350);
+            btnMyAccount.Margin = new Padding(0);
+            btnMyAccount.Name = "btnMyAccount";
+            btnMyAccount.Size = new Size(290, 70);
+            btnMyAccount.TabIndex = 5;
+            btnMyAccount.Text = "My Account";
+            btnMyAccount.TextAlign = ContentAlignment.MiddleLeft;
+            btnMyAccount.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnMyAccount.UseVisualStyleBackColor = true;
+            btnMyAccount.Click += btnMyAccount_Click;
             // 
             // pnlMainForm
             // 
@@ -134,5 +257,11 @@
         private FlowLayoutPanel flowLayoutPanel1;
         private Button btnHome;
         private Panel pnlMainForm;
+        private Button btnProducts;
+        private Button btnOrders;
+        private Button btnEmployees;
+        private Button btnClients;
+        private Button btnMyAccount;
+        private Button btnLogOut;
     }
 }

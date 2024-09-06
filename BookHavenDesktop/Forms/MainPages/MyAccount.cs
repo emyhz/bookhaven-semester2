@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BookHavenDesktop.Forms
+namespace BookHavenDesktop.Forms.MainPages
 {
-    public partial class Books : Form
+    public partial class MyAccount : Form
     {
-        public Books()
+        public MyAccount()
         {
             InitializeComponent();
         }

@@ -1,6 +1,6 @@
 ﻿namespace BookHavenDesktop.Forms.MainPages
 {
-    partial class Employees
+    partial class Products
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,13 @@
         {
             SuspendLayout();
             // 
-            // Employees
+            // Products
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1622, 907);
-            Name = "Employees";
-            Text = "Employees";
+            Name = "Products";
+            Text = "Products";
             ResumeLayout(false);
         }
 
