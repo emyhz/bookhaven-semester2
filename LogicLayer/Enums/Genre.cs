@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace LogicLayer.Enums
 {
-    public enum UserType
+    public enum Genre
     {
-        CUSTOMER,
-        EMPLOYEE,
-        ADMIN,
-       ADMIN_APPROVE
+        HORROR,
+        ROMANCE,
+        FANTASY,
+        FICTION,
+        NON_FICTION,
     }
 }

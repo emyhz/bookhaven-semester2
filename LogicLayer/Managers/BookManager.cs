@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookHavenDesktop.Forms.PopUpForms
+namespace LogicLayer.Managers
 {
-    internal class Comic
+    internal class BookManager
     {
     }
 }

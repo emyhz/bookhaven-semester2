@@ -8,8 +8,6 @@ namespace LogicLayer.Enums
 {
     public enum OrderCreation
     {
-        PROCESSING,
-        SHIPPED,
-        DELIVERED
+        
     }
 }

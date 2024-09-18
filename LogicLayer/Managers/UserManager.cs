@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicLayer.Enums
+namespace LogicLayer.Managers
 {
-    public enum UserType
+    internal class UserManager
     {
-        CUSTOMER,
-        EMPLOYEE,
-        ADMIN,
-       ADMIN_APPROVE
     }
 }

@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Managers\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Factories\" />
     <Folder Include="Exceptions\" />
