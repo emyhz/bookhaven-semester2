@@ -77,7 +77,7 @@
             btnSearchClient.Name = "btnSearchClient";
             btnSearchClient.Size = new Size(298, 50);
             btnSearchClient.TabIndex = 20;
-            btnSearchClient.Text = "Search client";
+            btnSearchClient.Text = "Search customer";
             btnSearchClient.UseVisualStyleBackColor = false;
             // 
             // txtEmailSearch
@@ -153,9 +153,9 @@
             lbl1.ForeColor = Color.FromArgb(220, 204, 163);
             lbl1.Location = new Point(21, 23);
             lbl1.Name = "lbl1";
-            lbl1.Size = new Size(196, 31);
+            lbl1.Size = new Size(235, 62);
             lbl1.TabIndex = 4;
-            lbl1.Text = "Search for a client\r\n";
+            lbl1.Text = "Search for a customer\r\n\r\n";
             // 
             // lblCLients
             // 
@@ -164,9 +164,9 @@
             lblCLients.ForeColor = Color.FromArgb(130, 76, 113);
             lblCLients.Location = new Point(24, 9);
             lblCLients.Name = "lblCLients";
-            lblCLients.Size = new Size(128, 46);
+            lblCLients.Size = new Size(174, 46);
             lblCLients.TabIndex = 3;
-            lblCLients.Text = "Clients";
+            lblCLients.Text = "Customer";
             // 
             // Clients
             // 

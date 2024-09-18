@@ -39,7 +39,14 @@
             btnSearchEmployee = new Button();
             lbl1 = new Label();
             lblEmployees = new Label();
+            panel2 = new Panel();
+            lblApprove = new Label();
+            cmbPendingEmployee = new ComboBox();
+            btnApprove = new Button();
+            btnDeny = new Button();
+            lblEmailPending = new Label();
             panel1.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -168,12 +175,87 @@
             lblEmployees.TabIndex = 2;
             lblEmployees.Text = "Employees";
             // 
+            // panel2
+            // 
+            panel2.BackColor = Color.White;
+            panel2.Controls.Add(lblEmailPending);
+            panel2.Controls.Add(btnDeny);
+            panel2.Controls.Add(btnApprove);
+            panel2.Controls.Add(cmbPendingEmployee);
+            panel2.Controls.Add(lblApprove);
+            panel2.Location = new Point(37, 554);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(355, 341);
+            panel2.TabIndex = 3;
+            // 
+            // lblApprove
+            // 
+            lblApprove.AutoSize = true;
+            lblApprove.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblApprove.ForeColor = Color.FromArgb(220, 204, 163);
+            lblApprove.Location = new Point(15, 27);
+            lblApprove.Name = "lblApprove";
+            lblApprove.Size = new Size(317, 31);
+            lblApprove.TabIndex = 4;
+            lblApprove.Text = "Approve a pending employee\r\n";
+            // 
+            // cmbPendingEmployee
+            // 
+            cmbPendingEmployee.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbPendingEmployee.Font = new Font("Segoe UI", 13F);
+            cmbPendingEmployee.FormattingEnabled = true;
+            cmbPendingEmployee.Location = new Point(15, 79);
+            cmbPendingEmployee.Margin = new Padding(3, 4, 3, 4);
+            cmbPendingEmployee.Name = "cmbPendingEmployee";
+            cmbPendingEmployee.Size = new Size(325, 38);
+            cmbPendingEmployee.TabIndex = 46;
+            // 
+            // btnApprove
+            // 
+            btnApprove.BackColor = Color.FromArgb(144, 170, 134);
+            btnApprove.FlatAppearance.BorderSize = 0;
+            btnApprove.FlatStyle = FlatStyle.Flat;
+            btnApprove.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnApprove.ForeColor = Color.White;
+            btnApprove.Location = new Point(28, 207);
+            btnApprove.Name = "btnApprove";
+            btnApprove.Size = new Size(298, 50);
+            btnApprove.TabIndex = 17;
+            btnApprove.Text = "Approve";
+            btnApprove.UseVisualStyleBackColor = false;
+            // 
+            // btnDeny
+            // 
+            btnDeny.BackColor = Color.FromArgb(220, 204, 163);
+            btnDeny.FlatAppearance.BorderSize = 0;
+            btnDeny.FlatStyle = FlatStyle.Flat;
+            btnDeny.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnDeny.ForeColor = Color.White;
+            btnDeny.Location = new Point(28, 275);
+            btnDeny.Name = "btnDeny";
+            btnDeny.Size = new Size(298, 50);
+            btnDeny.TabIndex = 47;
+            btnDeny.Text = "Deny";
+            btnDeny.UseVisualStyleBackColor = false;
+            // 
+            // lblEmailPending
+            // 
+            lblEmailPending.AutoSize = true;
+            lblEmailPending.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblEmailPending.ForeColor = Color.Black;
+            lblEmailPending.Location = new Point(28, 142);
+            lblEmailPending.Name = "lblEmailPending";
+            lblEmailPending.Size = new Size(98, 28);
+            lblEmailPending.TabIndex = 17;
+            lblEmailPending.Text = "UserEmail";
+            // 
             // Employees
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(233, 210, 224);
             ClientSize = new Size(1622, 907);
+            Controls.Add(panel2);
             Controls.Add(lblEmployees);
             Controls.Add(panel1);
             Controls.Add(flowLayoutPanel1);
@@ -181,6 +263,8 @@
             Text = "Employees";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -198,5 +282,11 @@
         private Label lblFname;
         private Label lblEmail;
         private Label lblLName;
+        private Panel panel2;
+        private ComboBox cmbPendingEmployee;
+        private Label lblApprove;
+        private Label lblEmailPending;
+        private Button btnDeny;
+        private Button btnApprove;
     }
 }
