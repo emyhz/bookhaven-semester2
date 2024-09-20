@@ -8,10 +8,12 @@ namespace LogicLayer.EntityClasses
 {
     public class OrderItem
     {
+        //data fields
         private int id;
         private int quantity;
         private decimal price;
 
+        //constructor
         public OrderItem(int id, int quantity, decimal price)
         {
             this.id = id;
@@ -19,6 +21,7 @@ namespace LogicLayer.EntityClasses
             this.price = price;
         }
 
+        //properties
         public int Id { get { return id; } set { id = value; } }
         public int Quantity { get { return quantity; } set { quantity = value; } }
         public decimal Price { get { return price; } set { price = value; } }

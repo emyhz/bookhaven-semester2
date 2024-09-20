@@ -9,11 +9,12 @@ namespace LogicLayer.EntityClasses
 {
     public class PhysicalBook : Book
     {
+        //data fields
         private int dimensions;
         private int pages;
         private string coverType;
 
-
+        //constructors
         public PhysicalBook(int id, string title, string author, int isbn, DateTime publishYear, decimal price, Genre genre, string language, int dimensions, int pages, string coverType)
         : base(id, title, author, isbn, publishYear, price, genre, language)
         {
@@ -22,10 +23,12 @@ namespace LogicLayer.EntityClasses
             this.coverType = coverType;
         }
 
+        //properties
         public int Dimensions { get { return dimensions; } set { dimensions = value; } }
         public int Pages { get { return pages; } set { pages = value; } }
         public string CoverType { get { return coverType; } set { coverType = value; } }
 
+        //methods
         public override void CheckOut()//no implementation yet
         {
             throw new NotImplementedException();

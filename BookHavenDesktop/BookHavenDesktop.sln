@@ -3,15 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookHavenDesktop", "BookHavenDesktop.csproj", "{A10AFD5C-0B61-472E-847B-0C2B3720AA58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookHavenDesktop", "BookHavenDesktop.csproj", "{A10AFD5C-0B61-472E-847B-0C2B3720AA58}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B0B72E07-395B-49D6-A334-337AE9CC038C} = {B0B72E07-395B-49D6-A334-337AE9CC038C}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookHavenWebApp", "..\BookHavenWebApp\BookHavenWebApp.csproj", "{406BC7C9-2C54-4365-B2AC-E51BEE4172B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookHavenWebApp", "..\BookHavenWebApp\BookHavenWebApp.csproj", "{406BC7C9-2C54-4365-B2AC-E51BEE4172B4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B0B72E07-395B-49D6-A334-337AE9CC038C} = {B0B72E07-395B-49D6-A334-337AE9CC038C}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLayer", "..\LogicLayer\LogicLayer.csproj", "{B0B72E07-395B-49D6-A334-337AE9CC038C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicLayer", "..\LogicLayer\LogicLayer.csproj", "{B0B72E07-395B-49D6-A334-337AE9CC038C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FB403623-B794-42AD-A064-AABE0F2CCEDA} = {FB403623-B794-42AD-A064-AABE0F2CCEDA}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "..\DataAccessLayer\DataAccessLayer.csproj", "{FB403623-B794-42AD-A064-AABE0F2CCEDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "..\DataAccessLayer\DataAccessLayer.csproj", "{FB403623-B794-42AD-A064-AABE0F2CCEDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookHavenUnitTests", "..\BookHavenUnitTests\BookHavenUnitTests.csproj", "{C97D5291-752B-4E97-BB75-63F37C34A552}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookHavenUnitTests", "..\BookHavenUnitTests\BookHavenUnitTests.csproj", "{C97D5291-752B-4E97-BB75-63F37C34A552}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

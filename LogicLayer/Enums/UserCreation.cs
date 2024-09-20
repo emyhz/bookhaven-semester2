@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace LogicLayer.Enums
 {
-    internal class UserCreation
+    public enum UserCreation
     {
+        SUCCESS,
+        INVALID_EMAIL,
+        INVALID_PASSWORD,
+        MISSING_FIELDS,
+        EMAIL_ALREADY_EXISTS
+
     }
 }

@@ -8,6 +8,7 @@ namespace LogicLayer.EntityClasses
 {
     public class Order
     {
+        //data fields
         private int id;
         private DateTime dateCreated;
         private User user;
@@ -18,6 +19,8 @@ namespace LogicLayer.EntityClasses
         private decimal totalPrice;
         private List<OrderItem> orderItems;
 
+
+        //constructors
         public Order(int id, DateTime dateCreated, User user, string address, string country, string city, decimal zipCode, decimal totalPrice, List<OrderItem> orderItems)
         {
             this.id = id;
@@ -31,6 +34,8 @@ namespace LogicLayer.EntityClasses
             this.orderItems = orderItems;
         }
 
+
+        //properties
         public int Id { get { return id; } set { id = value; } }
         public DateTime DateCreated { get { return dateCreated; } set { dateCreated = value; } }
         public User User { get { return user; } set { user = value; } }

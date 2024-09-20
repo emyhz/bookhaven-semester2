@@ -9,6 +9,7 @@ namespace LogicLayer.EntityClasses
 {
     public abstract class Book
     {
+        //data fields
         private int id;
         private string title;
         private string author;
@@ -18,6 +19,8 @@ namespace LogicLayer.EntityClasses
         private Genre genre;
         private string language;
 
+
+        //constructors
         public Book(int id, string title, string author, int isbn, DateTime publishYear, decimal price, Genre genre, string language)
         {
             this.id = id;
@@ -30,6 +33,8 @@ namespace LogicLayer.EntityClasses
             this.language = language;
         }
 
+
+        //properties
         public int Id { get { return id; } set { id = value; } }
 
         public string Title { get { return title; } set { title = value; } }
@@ -40,6 +45,8 @@ namespace LogicLayer.EntityClasses
         public Genre Genre { get { return genre; } set { genre = value; } }
         public string Language { get { return language; } set { language = value; } }
 
+
+        //methods
         public abstract void CheckOut();
 
     }

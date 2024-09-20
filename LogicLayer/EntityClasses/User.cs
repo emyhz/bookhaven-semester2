@@ -9,6 +9,7 @@ namespace LogicLayer.EntityClasses
 {
     public class User
     {
+        //data fields
         private int id;
         private string firstName;
         private string lastName;
@@ -17,7 +18,7 @@ namespace LogicLayer.EntityClasses
         private UserType userType;
         private DateTime dateCreated;
 
-
+        //constructors
         public User(int id, string firstName, string lastName, string email, string password, UserType userType, DateTime dateCreated)
         {
             this.id = id;
@@ -29,6 +30,7 @@ namespace LogicLayer.EntityClasses
             this.dateCreated = dateCreated;
         }
 
+        //properties
         public int Id { get { return id; } set { id = value; } }
         public string FirstName { get { return firstName; } set { firstName = value; } }
         public string LastName { get { return lastName; } set { lastName = value; } }

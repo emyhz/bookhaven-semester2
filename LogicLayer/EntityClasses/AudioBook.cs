@@ -9,10 +9,11 @@ namespace LogicLayer.EntityClasses
 {
     public class AudioBook : Book
     {
-
+        //data fields
         private int audioLength;
         private int fileSize;
 
+        //constructor
         public AudioBook(int id, string title, string author, int isbn, DateTime publishYear, decimal price, Genre genre, string language, int audioLength, int fileSize)
         : base(id, title, author, isbn, publishYear, price, genre, language)
         {
@@ -20,6 +21,7 @@ namespace LogicLayer.EntityClasses
             this.fileSize = fileSize;
         }
 
+        //properties
         public int AudioLength { get { return audioLength; } set { audioLength = value; } }
         public int FileSize { get { return fileSize; } set { fileSize = value; } }
 

@@ -9,7 +9,7 @@ namespace DataAccessLayer
 {
     public class DatabaseConnection
     {
-        private string connectionString = "Server=mssqlstud.fhict.local;Database=dbi531971_bookhaven;User Id=dbi531971_bookhaven;Password=bookhaven;";
+        protected string connectionString = "Server=mssqlstud.fhict.local;Database=dbi531971_bookhaven;User Id=dbi531971_bookhaven;Password=bookhaven;";
 
        
     }

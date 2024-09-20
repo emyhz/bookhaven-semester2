@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace LogicLayer.Enums
 {
-    internal class OrderStatus
+    public enum OrderStatus
     {
+        PENDING,
+        SHIPPED,
+        DELIVERED,
+
     }
 }

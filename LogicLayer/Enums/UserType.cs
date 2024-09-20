@@ -11,6 +11,6 @@ namespace LogicLayer.Enums
         CUSTOMER,
         EMPLOYEE,
         ADMIN,
-       ADMIN_APPROVE
+        PENDING_EMPLOYEE
     }
 }

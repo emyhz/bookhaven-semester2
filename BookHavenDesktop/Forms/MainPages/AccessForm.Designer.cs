@@ -245,6 +245,7 @@
             btnSignUp.TabIndex = 12;
             btnSignUp.Text = "Sign Up";
             btnSignUp.UseVisualStyleBackColor = false;
+            btnSignUp.Click += btnSignUp_Click;
             // 
             // label1
             // 
