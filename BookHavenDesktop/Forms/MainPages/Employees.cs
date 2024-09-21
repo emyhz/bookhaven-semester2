@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BookHavenDesktop.UserControls;
 using LogicLayer.EntityClasses;
 using LogicLayer.Enums;
 using LogicLayer.Managers;
@@ -25,8 +26,40 @@ namespace BookHavenDesktop.Forms.MainPages
             _userEmail = userEmail;
             empUsers = userManager.GetEmployees();
             LoadPendingEmployees();
+            GenerateEmployees(empUsers);
+
 
         }
+
+        private void GenerateEmployees(List<User> employees)
+        {
+            // Clear existing controls from the FlowLayoutPanel
+            flpEmployees.Controls.Clear();
+
+            // Check if the employees list is not null and has employees
+            if (employees != null && employees.Count > 0)
+            {
+                // Create an array of EmployeeList controls
+                EmployeeList[] listItems = new EmployeeList[employees.Count];
+
+                // Iterate through each employee in the list
+                for (int i = 0; i < employees.Count; i++)
+                {
+                    User employee = employees[i];
+                    listItems[i] = new EmployeeList();
+
+                    // Set the name and email for each EmployeeList control
+                    string name = $"{employee.FirstName} {employee.LastName}";
+                    listItems[i].Name = name;
+                    listItems[i].Email = employee.Email;
+
+                    // Add the EmployeeList control to the FlowLayoutPanel
+                    flpEmployees.Controls.Add(listItems[i]);
+                }
+            }
+        }
+
+
 
         private void LoadPendingEmployees()
         {
@@ -63,8 +96,7 @@ namespace BookHavenDesktop.Forms.MainPages
 
                     if (result == DialogResult.Yes)
                     {
-                        // Debug: Check the logged-in user's email
-                        MessageBox.Show($"Logged-in User Email: {_userEmail}", "Debug", MessageBoxButtons.OK);
+
 
                         // Check if the logged-in email is set
                         if (string.IsNullOrEmpty(_userEmail))
@@ -105,5 +137,18 @@ namespace BookHavenDesktop.Forms.MainPages
             }
 
         }
+
+        private void btnSearchEmployee_Click(object sender, EventArgs e)
+        {
+            string firstName = txtFNameSearch.Text;
+            string lastName = txtLNameSearch.Text;
+            string email = txtEmailSearch.Text;
+
+            List<User> searchResults = userManager.SearchEmployee(firstName, lastName, email);
+            GenerateEmployees(searchResults);
+        }
+
+        
+       
     }
 }

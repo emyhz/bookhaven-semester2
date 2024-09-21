@@ -13,13 +13,15 @@ namespace LogicLayer.Managers
     public class UserManager
     {
         private DBUser dbuser;
+        private List<User> users;
 
         public UserManager()
         {
             dbuser = new DBUser();
+            users = new List<User>();
         }
 
-        public void AddUser(string firstName,  string lastName, string email, string password, UserType userType)
+        public void AddUser(string firstName, string lastName, string email, string password, UserType userType)
         {
             string userTypeString = userType.ToString();
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
@@ -121,7 +123,7 @@ namespace LogicLayer.Managers
 
             // Get the logged-in user by email to check permissions
             User loggedInUser = GetUserByEmail(loggedIn);
-            if (loggedInUser.UserType  != UserType.ADMIN)
+            if (loggedInUser.UserType != UserType.ADMIN)
             {
                 throw new Exception("You do not have permission to do this");
             }
@@ -159,6 +161,22 @@ namespace LogicLayer.Managers
             return employees;
         }
 
+        public List<User> SearchEmployee(string firstName, string lastName, string email)
+        {
+            List<User> searchResults = new List<User>();
+            foreach (User user in users)
+            {
+                bool matchesFirstName = string.IsNullOrEmpty(firstName) || user.FirstName.ToLower().Contains(firstName.ToLower());
+                bool matchesLastName = string.IsNullOrEmpty(lastName) || user.LastName.ToLower().Contains(lastName.ToLower());
+                bool matchesEmail = string.IsNullOrEmpty(email) || user.Email.ToLower().Contains(email.ToLower());
+
+                if (matchesFirstName && matchesLastName && matchesEmail)
+                {
+                    searchResults.Add(user);
+                }
+            }
+            return searchResults;
+        }
     }
     
 }

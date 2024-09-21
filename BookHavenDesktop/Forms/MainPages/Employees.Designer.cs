@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            flpEmployees = new FlowLayoutPanel();
             panel1 = new Panel();
             lblEmail = new Label();
             lblLName = new Label();
@@ -49,13 +49,14 @@
             panel2.SuspendLayout();
             SuspendLayout();
             // 
-            // flowLayoutPanel1
+            // flpEmployees
             // 
-            flowLayoutPanel1.BackColor = Color.White;
-            flowLayoutPanel1.Location = new Point(432, -4);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(1194, 916);
-            flowLayoutPanel1.TabIndex = 0;
+            flpEmployees.AutoScroll = true;
+            flpEmployees.BackColor = Color.White;
+            flpEmployees.Location = new Point(432, -4);
+            flpEmployees.Name = "flpEmployees";
+            flpEmployees.Size = new Size(1194, 916);
+            flpEmployees.TabIndex = 0;
             // 
             // panel1
             // 
@@ -68,7 +69,7 @@
             panel1.Controls.Add(txtFNameSearch);
             panel1.Controls.Add(btnSearchEmployee);
             panel1.Controls.Add(lbl1);
-            panel1.Location = new Point(37, 72);
+            panel1.Location = new Point(37, 45);
             panel1.Name = "panel1";
             panel1.Size = new Size(355, 460);
             panel1.TabIndex = 1;
@@ -152,6 +153,7 @@
             btnSearchEmployee.TabIndex = 12;
             btnSearchEmployee.Text = "Search employee";
             btnSearchEmployee.UseVisualStyleBackColor = false;
+            btnSearchEmployee.Click += btnSearchEmployee_Click;
             // 
             // lbl1
             // 
@@ -169,7 +171,7 @@
             lblEmployees.AutoSize = true;
             lblEmployees.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblEmployees.ForeColor = Color.FromArgb(130, 76, 113);
-            lblEmployees.Location = new Point(37, 9);
+            lblEmployees.Location = new Point(37, -4);
             lblEmployees.Name = "lblEmployees";
             lblEmployees.Size = new Size(190, 46);
             lblEmployees.TabIndex = 2;
@@ -183,7 +185,7 @@
             panel2.Controls.Add(btnApprove);
             panel2.Controls.Add(cmbPendingEmployee);
             panel2.Controls.Add(lblApprove);
-            panel2.Location = new Point(37, 554);
+            panel2.Location = new Point(37, 525);
             panel2.Name = "panel2";
             panel2.Size = new Size(355, 341);
             panel2.TabIndex = 3;
@@ -259,7 +261,7 @@
             Controls.Add(panel2);
             Controls.Add(lblEmployees);
             Controls.Add(panel1);
-            Controls.Add(flowLayoutPanel1);
+            Controls.Add(flpEmployees);
             Name = "Employees";
             Text = "Employees";
             panel1.ResumeLayout(false);
@@ -272,7 +274,7 @@
 
         #endregion
 
-        private FlowLayoutPanel flowLayoutPanel1;
+        private FlowLayoutPanel flpEmployees;
         private Panel panel1;
         private Label lbl1;
         private Label lblEmployees;
