@@ -54,7 +54,7 @@ namespace BookHavenDesktop.Forms.MainPages
         {
             if (user.UserType == LogicLayer.Enums.UserType.EMPLOYEE || user.UserType == LogicLayer.Enums.UserType.ADMIN)
             {
-                MainForm mainForm = new MainForm();
+                MainForm mainForm = new MainForm(user.Email);
                 mainForm.Show();
                 this.Hide();
             }else if (user.UserType == LogicLayer.Enums.UserType.PENDING_EMPLOYEE)

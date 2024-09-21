@@ -49,12 +49,12 @@ namespace DataAccessLayer
             }
         }
 
-        public DataTable GetUsers(int userType)
+        public DataTable GetUsers(string userType)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT ID, FirstName, LastName, Email, CreatedDate, ProfilePicture FROM [User] WHERE UserType = @UserType";
+                string query = "SELECT ID, FirstName, LastName, Email, CreatedDate FROM [User] WHERE UserType = @UserType";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@UserType", userType);
@@ -70,6 +70,7 @@ namespace DataAccessLayer
         
         public DataTable GetUserByEmail(string email)
         {
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();

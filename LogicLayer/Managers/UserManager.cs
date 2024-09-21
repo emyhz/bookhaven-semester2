@@ -22,13 +22,40 @@ namespace LogicLayer.Managers
         public void AddUser(string firstName,  string lastName, string email, string password, UserType userType)
         {
             string userTypeString = userType.ToString();
-            dbuser.AddUser(firstName, lastName, email, password, userTypeString);
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+
+            dbuser.AddUser(firstName, lastName, email, hashedPassword, userTypeString);
         }
 
         public User GetUserByEmail(string email)
         {
             DataTable dt = dbuser.GetUserByEmail(email);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                DataRow row = dt.Rows[0];
+
+                // Parse the UserType from the database string value directly to the UserType enum
+                UserType userType;
+                if (Enum.TryParse(row["UserType"].ToString(), out userType))
+                {
+                    // Create and return the User object
+                    return new User(
+                        Convert.ToInt32(row["Id"]),
+                        row["FirstName"].ToString(),
+                        row["LastName"].ToString(),
+                        row["Email"].ToString(),
+                        row["Password"].ToString(),
+                        userType,  // Directly using the enum
+                        Convert.ToDateTime(row["CreatedDate"])
+                    );
+                }
+            }
+            return null; // Return null if no user is found or if UserType parsing fails
+        }
+
+        public User GetUserById(int id)
+        {
+            DataTable dt = dbuser.GetUserById(id);
             if (dt != null && dt.Rows.Count > 0)
             {
                 DataRow row = dt.Rows[0];
@@ -63,5 +90,75 @@ namespace LogicLayer.Managers
         }
 
         //public void DeleteUser()
+
+        public List<User> GetPendingEmployees()
+        {
+            DataTable table = dbuser.GetUsers(UserType.PENDING_EMPLOYEE.ToString());
+            List<User> pendingUsers = new List<User>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                pendingUsers.Add(new User(
+                    Convert.ToInt32(row["Id"]),
+                    row["FirstName"].ToString(),
+                    row["LastName"].ToString(),
+                    row["Email"].ToString(),
+                    UserType.PENDING_EMPLOYEE,
+                    Convert.ToDateTime(row["CreatedDate"])
+                ));
+            }
+            return pendingUsers;
+        }
+
+        public void UpdateToEmployee(int id, string loggedIn)
+        {
+            // Get the user to be promoted by ID
+            User updateToEmp = GetUserById(id);
+            if (updateToEmp == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            // Get the logged-in user by email to check permissions
+            User loggedInUser = GetUserByEmail(loggedIn);
+            if (loggedInUser.UserType  != UserType.ADMIN)
+            {
+                throw new Exception("You do not have permission to do this");
+            }
+
+            // Update the user type to EMPLOYEE
+            dbuser.UpdateUserType(id, UserType.EMPLOYEE.ToString());
+        }
+
+        public List<User> GetEmployees()
+        {
+            DataTable dt = dbuser.GetUsersTable();
+            List<User> employees = new List<User>();
+
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    User user = new User(
+                        Convert.ToInt32(row["Id"]),
+                        row["FirstName"].ToString(),
+                        row["LastName"].ToString(),
+                        row["Email"].ToString(),
+                        row["Password"].ToString(),
+                        (UserType)Enum.Parse(typeof(UserType), row["UserType"].ToString()),
+                        Convert.ToDateTime(row["CreatedDate"])
+                    );
+
+                    if (user.UserType == UserType.EMPLOYEE)
+                    {
+                        employees.Add(user);
+                    }
+                }
+            }
+
+            return employees;
+        }
+
     }
+    
 }

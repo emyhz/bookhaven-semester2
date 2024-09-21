@@ -40,11 +40,11 @@
             lbl1 = new Label();
             lblEmployees = new Label();
             panel2 = new Panel();
-            lblApprove = new Label();
-            cmbPendingEmployee = new ComboBox();
-            btnApprove = new Button();
-            btnDeny = new Button();
             lblEmailPending = new Label();
+            btnDeny = new Button();
+            btnApprove = new Button();
+            cmbPendingEmployee = new ComboBox();
+            lblApprove = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -188,41 +188,15 @@
             panel2.Size = new Size(355, 341);
             panel2.TabIndex = 3;
             // 
-            // lblApprove
+            // lblEmailPending
             // 
-            lblApprove.AutoSize = true;
-            lblApprove.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblApprove.ForeColor = Color.FromArgb(220, 204, 163);
-            lblApprove.Location = new Point(15, 27);
-            lblApprove.Name = "lblApprove";
-            lblApprove.Size = new Size(317, 31);
-            lblApprove.TabIndex = 4;
-            lblApprove.Text = "Approve a pending employee\r\n";
-            // 
-            // cmbPendingEmployee
-            // 
-            cmbPendingEmployee.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbPendingEmployee.Font = new Font("Segoe UI", 13F);
-            cmbPendingEmployee.FormattingEnabled = true;
-            cmbPendingEmployee.Location = new Point(15, 79);
-            cmbPendingEmployee.Margin = new Padding(3, 4, 3, 4);
-            cmbPendingEmployee.Name = "cmbPendingEmployee";
-            cmbPendingEmployee.Size = new Size(325, 38);
-            cmbPendingEmployee.TabIndex = 46;
-            // 
-            // btnApprove
-            // 
-            btnApprove.BackColor = Color.FromArgb(144, 170, 134);
-            btnApprove.FlatAppearance.BorderSize = 0;
-            btnApprove.FlatStyle = FlatStyle.Flat;
-            btnApprove.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnApprove.ForeColor = Color.White;
-            btnApprove.Location = new Point(28, 207);
-            btnApprove.Name = "btnApprove";
-            btnApprove.Size = new Size(298, 50);
-            btnApprove.TabIndex = 17;
-            btnApprove.Text = "Approve";
-            btnApprove.UseVisualStyleBackColor = false;
+            lblEmailPending.AutoSize = true;
+            lblEmailPending.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblEmailPending.ForeColor = Color.Black;
+            lblEmailPending.Location = new Point(28, 142);
+            lblEmailPending.Name = "lblEmailPending";
+            lblEmailPending.Size = new Size(0, 28);
+            lblEmailPending.TabIndex = 17;
             // 
             // btnDeny
             // 
@@ -238,16 +212,43 @@
             btnDeny.Text = "Deny";
             btnDeny.UseVisualStyleBackColor = false;
             // 
-            // lblEmailPending
+            // btnApprove
             // 
-            lblEmailPending.AutoSize = true;
-            lblEmailPending.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblEmailPending.ForeColor = Color.Black;
-            lblEmailPending.Location = new Point(28, 142);
-            lblEmailPending.Name = "lblEmailPending";
-            lblEmailPending.Size = new Size(98, 28);
-            lblEmailPending.TabIndex = 17;
-            lblEmailPending.Text = "UserEmail";
+            btnApprove.BackColor = Color.FromArgb(144, 170, 134);
+            btnApprove.FlatAppearance.BorderSize = 0;
+            btnApprove.FlatStyle = FlatStyle.Flat;
+            btnApprove.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnApprove.ForeColor = Color.White;
+            btnApprove.Location = new Point(28, 207);
+            btnApprove.Name = "btnApprove";
+            btnApprove.Size = new Size(298, 50);
+            btnApprove.TabIndex = 17;
+            btnApprove.Text = "Approve";
+            btnApprove.UseVisualStyleBackColor = false;
+            btnApprove.Click += btnApprove_Click;
+            // 
+            // cmbPendingEmployee
+            // 
+            cmbPendingEmployee.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbPendingEmployee.Font = new Font("Segoe UI", 13F);
+            cmbPendingEmployee.FormattingEnabled = true;
+            cmbPendingEmployee.Location = new Point(15, 79);
+            cmbPendingEmployee.Margin = new Padding(3, 4, 3, 4);
+            cmbPendingEmployee.Name = "cmbPendingEmployee";
+            cmbPendingEmployee.Size = new Size(325, 38);
+            cmbPendingEmployee.TabIndex = 46;
+            cmbPendingEmployee.SelectedIndexChanged += cmbPendingEmployee_SelectedIndexChanged;
+            // 
+            // lblApprove
+            // 
+            lblApprove.AutoSize = true;
+            lblApprove.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblApprove.ForeColor = Color.FromArgb(220, 204, 163);
+            lblApprove.Location = new Point(15, 27);
+            lblApprove.Name = "lblApprove";
+            lblApprove.Size = new Size(317, 31);
+            lblApprove.TabIndex = 4;
+            lblApprove.Text = "Approve a pending employee\r\n";
             // 
             // Employees
             // 

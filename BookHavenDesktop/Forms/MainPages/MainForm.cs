@@ -13,10 +13,11 @@ namespace BookHavenDesktop.Forms.MainPages
     public partial class MainForm : Form
     {
         private Form _activeForm;
-
-        public MainForm()
+        private string _userEmail;
+        public MainForm(string userEmail)
         {
             InitializeComponent();
+            _userEmail = userEmail;
         }
 
         private void OpenChildForms(Form childForm, object btnSender)
@@ -47,7 +48,7 @@ namespace BookHavenDesktop.Forms.MainPages
 
         private void btnEmployees_Click(object sender, EventArgs e)
         {
-            OpenChildForms(new Employees(), sender);
+            OpenChildForms(new Employees(_userEmail), sender);
         }
 
         private void btnClients_Click(object sender, EventArgs e)

@@ -30,6 +30,17 @@ namespace LogicLayer.EntityClasses
             this.dateCreated = dateCreated;
         }
 
+        public User(int id, string firstName, string lastName, string email, UserType userType, DateTime dateCreated)
+        {
+            this.id = id;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this.userType = userType;
+            this.dateCreated = dateCreated;
+        }
+
+
         //properties
         public int Id { get { return id; } set { id = value; } }
         public string FirstName { get { return firstName; } set { firstName = value; } }
@@ -39,5 +50,11 @@ namespace LogicLayer.EntityClasses
         public UserType UserType { get { return userType; } set { userType = value; } }
         public DateTime DateCreated { get { return dateCreated; } set { dateCreated = value; } }
 
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";                  
+        }
     }
+
+
 }
