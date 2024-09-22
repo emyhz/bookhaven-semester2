@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LogicLayer.Managers
 {
-    internal class OrderManager
+    public class OrderManager
     {
     }
 }

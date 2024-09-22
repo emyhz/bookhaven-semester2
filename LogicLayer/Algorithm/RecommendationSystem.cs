@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicLayer.Managers
+namespace LogicLayer.Algorithm
 {
-    public class BookManager
+    public class RecommendationSystem
     {
-
     }
 }

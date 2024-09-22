@@ -1,7 +1,43 @@
+using LogicLayer.Managers;
+using LogicLayer.Algorithm;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+//authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login";
+        options.AccessDeniedPath = "/AccessDenied";
+    });
+
+//authorization
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("Employee", policy => policy.RequireRole("Employee"));
+    options.AddPolicy("Customer", policy => policy.RequireRole("Customer"));
+});
+
+
+
+// Add logic layer services to the container
+builder.Services.AddScoped<UserManager>();
+builder.Services.AddScoped<OrderManager>();
+builder.Services.AddScoped<BookManager>();
+
+
+
+//Add algorithm services to the container
+builder.Services.AddScoped<RecommendationSystem>();
+
 
 var app = builder.Build();
 

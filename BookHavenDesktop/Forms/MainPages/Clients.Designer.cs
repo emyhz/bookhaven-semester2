@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            flpCustomer = new FlowLayoutPanel();
             pnlClient = new Panel();
             btnSearchClient = new Button();
             txtEmailSearch = new TextBox();
@@ -42,13 +42,13 @@
             pnlClient.SuspendLayout();
             SuspendLayout();
             // 
-            // flowLayoutPanel1
+            // flpCustomer
             // 
-            flowLayoutPanel1.BackColor = Color.White;
-            flowLayoutPanel1.Location = new Point(426, -1);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(1201, 920);
-            flowLayoutPanel1.TabIndex = 0;
+            flpCustomer.BackColor = Color.White;
+            flpCustomer.Location = new Point(426, -1);
+            flpCustomer.Name = "flpCustomer";
+            flpCustomer.Size = new Size(1201, 920);
+            flpCustomer.TabIndex = 0;
             // 
             // pnlClient
             // 
@@ -176,7 +176,7 @@
             ClientSize = new Size(1622, 907);
             Controls.Add(lblCLients);
             Controls.Add(pnlClient);
-            Controls.Add(flowLayoutPanel1);
+            Controls.Add(flpCustomer);
             Name = "Clients";
             Text = "Clients";
             pnlClient.ResumeLayout(false);
@@ -187,7 +187,7 @@
 
         #endregion
 
-        private FlowLayoutPanel flowLayoutPanel1;
+        private FlowLayoutPanel flpCustomer;
         private Panel pnlClient;
         private Label lblCLients;
         private Label lbl1;

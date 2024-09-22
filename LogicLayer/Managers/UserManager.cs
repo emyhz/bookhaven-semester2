@@ -91,7 +91,7 @@ namespace LogicLayer.Managers
             return false;
         }
 
-        //public void DeleteUser()
+        
 
         public List<User> GetPendingEmployees()
         {
@@ -131,6 +131,19 @@ namespace LogicLayer.Managers
             // Update the user type to EMPLOYEE
             dbuser.UpdateUserType(id, UserType.EMPLOYEE.ToString());
         }
+        public bool EmailExists(string email)
+        {
+            return dbuser.EmailExists(email);
+        }
+        public bool UserAuth(string email, string password)
+        {
+            User user = GetUserByEmail(email);
+            if (user != null)
+            {
+                BCrypt.Net.BCrypt.Verify(password, user.Password);
+            }
+            return false;
+        }
 
         public List<User> GetEmployees()
         {
@@ -161,6 +174,35 @@ namespace LogicLayer.Managers
             return employees;
         }
 
+        public List<User> GetCustomers()
+        {
+            DataTable dt = dbuser.GetUsersTable();
+            List<User> customers = new List<User>();
+
+            if (dt != null)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    User user = new User(
+                        Convert.ToInt32(row["Id"]),
+                        row["FirstName"].ToString(),
+                        row["LastName"].ToString(),
+                        row["Email"].ToString(),
+                        row["Password"].ToString(),
+                        (UserType)Enum.Parse(typeof(UserType), row["UserType"].ToString()),
+                        Convert.ToDateTime(row["CreatedDate"])
+                    );
+
+                    if (user.UserType == UserType.CUSTOMER)
+                    {
+                        customers.Add(user);
+                    }
+                }
+            }
+
+            return customers;
+        }
+
         public List<User> SearchEmployee(string firstName, string lastName, string email)
         {
             List<User> searchResults = new List<User>();
@@ -176,6 +218,11 @@ namespace LogicLayer.Managers
                 }
             }
             return searchResults;
+        }
+
+        public void DeleteEmployee(string email)
+        {
+            dbuser.DeleteUser(email);
         }
     }
     
