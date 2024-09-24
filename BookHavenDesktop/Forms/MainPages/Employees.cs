@@ -148,7 +148,9 @@ namespace BookHavenDesktop.Forms.MainPages
             GenerateEmployees(searchResults);
         }
 
-        
-       
+        private void btnDeny_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

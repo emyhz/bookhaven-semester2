@@ -213,6 +213,7 @@
             btnDeny.TabIndex = 47;
             btnDeny.Text = "Deny";
             btnDeny.UseVisualStyleBackColor = false;
+            btnDeny.Click += btnDeny_Click;
             // 
             // btnApprove
             // 
