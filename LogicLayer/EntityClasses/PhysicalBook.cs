@@ -10,13 +10,13 @@ namespace LogicLayer.EntityClasses
     public class PhysicalBook : Book
     {
         //data fields
-        private int dimensions;
+        private string dimensions;
         private int pages;
         private string coverType;
 
         //constructors
-        public PhysicalBook(int id, string title, string author, int isbn, DateTime publishYear, decimal price, Genre genre, string language, int dimensions, int pages, string coverType)
-        : base(id, title, author, isbn, publishYear, price, genre, language)
+        public PhysicalBook(int id, string title, string author, long isbn, DateTime publishYear, decimal price, Genre genre, string language, string imagePath, int stock, string dimensions, int pages, string coverType)
+        : base(id, title, author, isbn, publishYear, price, genre, language, imagePath, stock)
         {
             this.dimensions = dimensions;
             this.pages = pages;
@@ -24,7 +24,7 @@ namespace LogicLayer.EntityClasses
         }
 
         //properties
-        public int Dimensions { get { return dimensions; } set { dimensions = value; } }
+        public string Dimensions { get { return dimensions; } set { dimensions = value; } }
         public int Pages { get { return pages; } set { pages = value; } }
         public string CoverType { get { return coverType; } set { coverType = value; } }
 

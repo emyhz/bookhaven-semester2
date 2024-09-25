@@ -10,20 +10,20 @@ namespace LogicLayer.EntityClasses
     public class AudioBook : Book
     {
         //data fields
-        private int audioLength;
-        private int fileSize;
+        private TimeSpan audioLength;
+        private string fileSize;
 
         //constructor
-        public AudioBook(int id, string title, string author, int isbn, DateTime publishYear, decimal price, Genre genre, string language, int audioLength, int fileSize)
-        : base(id, title, author, isbn, publishYear, price, genre, language)
+        public AudioBook(int id, string title, string author, long isbn, DateTime publishYear, decimal price, Genre genre, string language, string imagePath, int stock, TimeSpan audioLength, string fileSize)
+        : base(id, title, author, isbn, publishYear, price, genre, language, imagePath, stock)
         {
             this.audioLength = audioLength;
             this.fileSize = fileSize;
         }
 
         //properties
-        public int AudioLength { get { return audioLength; } set { audioLength = value; } }
-        public int FileSize { get { return fileSize; } set { fileSize = value; } }
+        public TimeSpan AudioLength { get { return audioLength; } set { audioLength = value; } }
+        public string FileSize { get { return fileSize; } set { fileSize = value; } }
 
         public override void CheckOut() //no implementation yet
         {

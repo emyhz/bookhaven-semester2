@@ -39,9 +39,13 @@
             lblAuthorSearch = new Label();
             lblTitleSearch = new Label();
             lbl1 = new Label();
-            lblGenreFilter = new Label();
-            cmbGenre = new ComboBox();
+            btnAddNewAudio = new Button();
+            panel1 = new Panel();
+            label2 = new Label();
+            btnAddPhysical = new Button();
+            label1 = new Label();
             pnlClient.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // flpProducts
@@ -169,27 +173,67 @@
             lbl1.TabIndex = 4;
             lbl1.Text = "Search for a book\r\n\r\n\r\n";
             // 
-            // lblGenreFilter
+            // btnAddNewAudio
             // 
-            lblGenreFilter.AutoSize = true;
-            lblGenreFilter.Font = new Font("Segoe UI Semibold", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblGenreFilter.ForeColor = Color.Black;
-            lblGenreFilter.Location = new Point(25, 662);
-            lblGenreFilter.Name = "lblGenreFilter";
-            lblGenreFilter.Size = new Size(100, 38);
-            lblGenreFilter.TabIndex = 21;
-            lblGenreFilter.Text = "Genre:";
+            btnAddNewAudio.BackColor = Color.FromArgb(220, 204, 163);
+            btnAddNewAudio.FlatAppearance.BorderSize = 0;
+            btnAddNewAudio.FlatStyle = FlatStyle.Flat;
+            btnAddNewAudio.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnAddNewAudio.ForeColor = Color.White;
+            btnAddNewAudio.Location = new Point(22, 177);
+            btnAddNewAudio.Name = "btnAddNewAudio";
+            btnAddNewAudio.Size = new Size(298, 50);
+            btnAddNewAudio.TabIndex = 21;
+            btnAddNewAudio.Text = "Add new audiobook";
+            btnAddNewAudio.UseVisualStyleBackColor = false;
+            btnAddNewAudio.Click += btnAddNewAudio_Click;
             // 
-            // cmbGenre
+            // panel1
             // 
-            cmbGenre.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbGenre.Font = new Font("Segoe UI", 13F);
-            cmbGenre.FormattingEnabled = true;
-            cmbGenre.Location = new Point(131, 665);
-            cmbGenre.Margin = new Padding(3, 4, 3, 4);
-            cmbGenre.Name = "cmbGenre";
-            cmbGenre.Size = new Size(250, 38);
-            cmbGenre.TabIndex = 60;
+            panel1.BackColor = Color.White;
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(btnAddPhysical);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(btnAddNewAudio);
+            panel1.Location = new Point(26, 627);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(355, 258);
+            panel1.TabIndex = 22;
+            // 
+            // label2
+            // 
+            label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.FromArgb(144, 170, 134);
+            label2.Location = new Point(33, 55);
+            label2.Name = "label2";
+            label2.Size = new Size(277, 38);
+            label2.TabIndex = 24;
+            label2.Text = "Select the type of book:";
+            // 
+            // btnAddPhysical
+            // 
+            btnAddPhysical.BackColor = Color.FromArgb(220, 204, 163);
+            btnAddPhysical.FlatAppearance.BorderSize = 0;
+            btnAddPhysical.FlatStyle = FlatStyle.Flat;
+            btnAddPhysical.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnAddPhysical.ForeColor = Color.White;
+            btnAddPhysical.Location = new Point(21, 111);
+            btnAddPhysical.Name = "btnAddPhysical";
+            btnAddPhysical.Size = new Size(298, 50);
+            btnAddPhysical.TabIndex = 23;
+            btnAddPhysical.Text = "Add new physical book";
+            btnAddPhysical.UseVisualStyleBackColor = false;
+            btnAddPhysical.Click += btnAddPhysical_Click;
+            // 
+            // label1
+            // 
+            label1.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.FromArgb(220, 204, 163);
+            label1.Location = new Point(33, 17);
+            label1.Name = "label1";
+            label1.Size = new Size(298, 38);
+            label1.TabIndex = 22;
+            label1.Text = "Want to add a new book?";
             // 
             // Products
             // 
@@ -197,8 +241,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(144, 170, 134);
             ClientSize = new Size(1622, 907);
-            Controls.Add(cmbGenre);
-            Controls.Add(lblGenreFilter);
+            Controls.Add(panel1);
             Controls.Add(pnlClient);
             Controls.Add(lblProducts);
             Controls.Add(flpProducts);
@@ -206,6 +249,7 @@
             Text = "Products";
             pnlClient.ResumeLayout(false);
             pnlClient.PerformLayout();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -223,7 +267,10 @@
         private Label lblAuthorSearch;
         private Label lblTitleSearch;
         private Label lbl1;
-        private Label lblGenreFilter;
-        private ComboBox cmbGenre;
+        private Button btnAddNewAudio;
+        private Panel panel1;
+        private Label label1;
+        private Button btnAddPhysical;
+        private Label label2;
     }
 }

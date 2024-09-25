@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace BookHavenDesktop.Forms.PopUpForms
 {
-    public partial class AddBook : Form
+    public partial class AddPhysical : Form
     {
-        public AddBook()
+        public AddPhysical()
         {
             InitializeComponent();
         }

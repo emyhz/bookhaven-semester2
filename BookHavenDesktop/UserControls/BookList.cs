@@ -12,12 +12,19 @@ namespace BookHavenDesktop.UserControls
 {
     public partial class BookList : UserControl
     {
+        private string image;
         private string title;
         private string author;
         private double price;
         public BookList()
         {
             InitializeComponent();
+        }
+
+        public string Image
+        {
+            get { return image; }
+            set { image = value; pbBook.ImageLocation = value; }
         }
 
         public string Title
