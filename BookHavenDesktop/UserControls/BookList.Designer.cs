@@ -28,13 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BookList));
             pbBook = new PictureBox();
             lblTitle = new Label();
             lblAuthor = new Label();
             lblPrice = new Label();
             pnlBook = new Panel();
+            pbMoney = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pbBook).BeginInit();
             pnlBook.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbMoney).BeginInit();
             SuspendLayout();
             // 
             // pbBook
@@ -71,7 +74,7 @@
             lblPrice.AutoSize = true;
             lblPrice.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblPrice.ForeColor = Color.Black;
-            lblPrice.Location = new Point(22, 346);
+            lblPrice.Location = new Point(57, 346);
             lblPrice.Name = "lblPrice";
             lblPrice.Size = new Size(54, 28);
             lblPrice.TabIndex = 9;
@@ -86,11 +89,21 @@
             pnlBook.Size = new Size(350, 227);
             pnlBook.TabIndex = 11;
             // 
+            // pbMoney
+            // 
+            pbMoney.Image = (Image)resources.GetObject("pbMoney.Image");
+            pbMoney.Location = new Point(22, 349);
+            pbMoney.Name = "pbMoney";
+            pbMoney.Size = new Size(32, 25);
+            pbMoney.TabIndex = 92;
+            pbMoney.TabStop = false;
+            // 
             // BookList
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
+            Controls.Add(pbMoney);
             Controls.Add(pnlBook);
             Controls.Add(lblPrice);
             Controls.Add(lblAuthor);
@@ -99,6 +112,7 @@
             Size = new Size(350, 461);
             ((System.ComponentModel.ISupportInitialize)pbBook).EndInit();
             pnlBook.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pbMoney).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -110,5 +124,6 @@
         private Label lblAuthor;
         private Label lblPrice;
         private Panel pnlBook;
+        private PictureBox pbMoney;
     }
 }

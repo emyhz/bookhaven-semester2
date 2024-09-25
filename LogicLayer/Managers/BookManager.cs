@@ -68,10 +68,10 @@ namespace LogicLayer.Managers
                     id: Convert.ToInt32(row["Id"]),
                     title: row["Title"].ToString(),
                     author: row["Author"].ToString(),
-                    isbn: Convert.ToInt64(row["ISBN"]), // Use Convert.ToInt64 for ISBN
+                    isbn: Convert.ToInt64(row["ISBN"]), 
                     publishYear: Convert.ToDateTime(row["PublishDate"]),
                     price: Convert.ToDecimal(row["Price"]),
-                    genre: (Genre)Enum.Parse(typeof(Genre), row["Genre"].ToString()), // Assuming Genre is an enum
+                    genre: (Genre)Enum.Parse(typeof(Genre), row["Genre"].ToString()),
                     language: row["Language"].ToString(),
                     imagePath: row["ImagePath"].ToString(),
                     stock: Convert.ToInt32(row["Stock"]),
