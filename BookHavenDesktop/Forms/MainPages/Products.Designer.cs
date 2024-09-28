@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             flpProducts = new FlowLayoutPanel();
+            label3 = new Label();
+            cmbGenre = new ComboBox();
             lblProducts = new Label();
             pnlClient = new Panel();
             btnSearchProduct = new Button();
@@ -44,6 +46,7 @@
             label2 = new Label();
             btnAddPhysical = new Button();
             label1 = new Label();
+            flpProducts.SuspendLayout();
             pnlClient.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -51,10 +54,34 @@
             // flpProducts
             // 
             flpProducts.BackColor = Color.White;
+            flpProducts.Controls.Add(label3);
+            flpProducts.Controls.Add(cmbGenre);
             flpProducts.Location = new Point(423, -2);
             flpProducts.Name = "flpProducts";
             flpProducts.Size = new Size(1201, 922);
             flpProducts.TabIndex = 1;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.FromArgb(220, 204, 163);
+            label3.Location = new Point(3, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(97, 46);
+            label3.TabIndex = 89;
+            label3.Text = "Sort:";
+            // 
+            // cmbGenre
+            // 
+            cmbGenre.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbGenre.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmbGenre.FormattingEnabled = true;
+            cmbGenre.Location = new Point(106, 4);
+            cmbGenre.Margin = new Padding(3, 4, 3, 4);
+            cmbGenre.Name = "cmbGenre";
+            cmbGenre.Size = new Size(341, 40);
+            cmbGenre.TabIndex = 88;
             // 
             // lblProducts
             // 
@@ -96,6 +123,7 @@
             btnSearchProduct.TabIndex = 20;
             btnSearchProduct.Text = "Search book";
             btnSearchProduct.UseVisualStyleBackColor = false;
+            btnSearchProduct.Click += btnSearchProduct_Click;
             // 
             // txtISBNSearch
             // 
@@ -247,6 +275,8 @@
             Controls.Add(flpProducts);
             Name = "Products";
             Text = "Products";
+            flpProducts.ResumeLayout(false);
+            flpProducts.PerformLayout();
             pnlClient.ResumeLayout(false);
             pnlClient.PerformLayout();
             panel1.ResumeLayout(false);
@@ -272,5 +302,7 @@
         private Label label1;
         private Button btnAddPhysical;
         private Label label2;
+        private ComboBox cmbGenre;
+        private Label label3;
     }
 }

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BookHavenDesktop.Forms.PopUpForms;
+using LogicLayer.EntityClasses;
 
 namespace BookHavenDesktop.UserControls
 {
@@ -16,10 +18,29 @@ namespace BookHavenDesktop.UserControls
         private string title;
         private string author;
         private double price;
+        private Book bookData;
         public BookList()
         {
             InitializeComponent();
+            this.Click += BookList_Click;
+            AttachClickEventToAllControls(this.Controls);
         }
+
+        private void AttachClickEventToAllControls(ControlCollection controls)
+        {
+            foreach (Control control in controls)
+            {
+                control.Click += BookList_Click;
+
+                // If the control has children, attach the event to them as well
+                if (control.HasChildren)
+                {
+                    AttachClickEventToAllControls(control.Controls);
+                }
+            }
+        }
+
+
 
         public string Image
         {
@@ -43,6 +64,17 @@ namespace BookHavenDesktop.UserControls
         {
             get { return price; }
             set { price = value; lblPrice.Text = value.ToString(); }
+        }
+        public Book BookData
+        {
+            get { return bookData; }
+            set { bookData = value; }
+        }
+
+        private void BookList_Click(object sender, EventArgs e)
+        {
+            BookDetails details = new BookDetails(bookData);
+            details.ShowDialog();
         }
     }
 }

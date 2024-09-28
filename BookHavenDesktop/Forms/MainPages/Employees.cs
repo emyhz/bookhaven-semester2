@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.DirectoryServices;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace BookHavenDesktop.Forms.MainPages
     public partial class Employees : Form
     {
         private List<User> empUsers;
+        private List<User> searchEmps;
         private UserManager userManager;
         private string _userEmail;
         public Employees(string userEmail)
@@ -26,36 +28,27 @@ namespace BookHavenDesktop.Forms.MainPages
             _userEmail = userEmail;
             empUsers = userManager.GetEmployees();
             LoadPendingEmployees();
-            GenerateEmployees(empUsers);
+            //GenerateEmployees(empUsers);
+            DisplayEmployees(empUsers);
 
 
         }
 
-        private void GenerateEmployees(List<User> employees)
+        
+
+        private void DisplayEmployees(List<User> employees)
         {
-            // Clear existing controls from the FlowLayoutPanel
             flpEmployees.Controls.Clear();
 
-            // Check if the employees list is not null and has employees
-            if (employees != null && employees.Count > 0)
+            foreach (User employee in employees)
             {
-                // Create an array of EmployeeList controls
-                EmployeeList[] listItems = new EmployeeList[employees.Count];
-
-                // Iterate through each employee in the list
-                for (int i = 0; i < employees.Count; i++)
+                EmployeeList employeeControl = new EmployeeList
                 {
-                    User employee = employees[i];
-                    listItems[i] = new EmployeeList();
+                    Name = $"{employee.FirstName} {employee.LastName}",
+                    Email = employee.Email
+                };
 
-                    // Set the name and email for each EmployeeList control
-                    string name = $"{employee.FirstName} {employee.LastName}";
-                    listItems[i].Name = name;
-                    listItems[i].Email = employee.Email;
-
-                    // Add the EmployeeList control to the FlowLayoutPanel
-                    flpEmployees.Controls.Add(listItems[i]);
-                }
+                flpEmployees.Controls.Add(employeeControl);
             }
         }
 
@@ -144,9 +137,11 @@ namespace BookHavenDesktop.Forms.MainPages
             string lastName = txtLNameSearch.Text;
             string email = txtEmailSearch.Text;
 
-            List<User> searchResults = userManager.SearchEmployee(firstName, lastName, email);
-            GenerateEmployees(searchResults);
+            searchEmps = userManager.SearchEmployee(firstName, lastName, email);
+            DisplayEmployees(searchEmps); 
         }
+
+
 
         private void btnDeny_Click(object sender, EventArgs e)
         {

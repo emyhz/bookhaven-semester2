@@ -121,7 +121,7 @@
   <data name="pbAudio.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DQAACw0B7QfALAAABhNJREFUaEPtm1eIJUUUhsecI+aAijlnMWIAxYAKvhhQRFAUxZxRTBhQMCtG1Adz
+        DAAACwwBP0AiyAAABhNJREFUaEPtm1eIJUUUhsecI+aAijlnMWIAxYAKvhhQRFAUxZxRTBhQMCtG1Adz
         woCKguiDqKBiBBHUBxOKOefwfT17xtra6r5h5s7tWeaHj711qrv6nJ6u7qpTtSPTGqzmhCVgxRn4ew6Y
         LWRw28IZ8Ci8B7/DvxnarHsEToetwXOnjNaGq+BTyIP7B76BT2bgb235cdZdCWtBa7URPA5pAO/DtXAg
         rAfzQy5t1h0E18EHEOf/DY/BBtAaLQY3gc7p5M9wI2wO/WoLuBlsKwK/ARaFoWpH+Bh06je4ApaCidLS
@@ -153,7 +153,7 @@
   <data name="pbMoney.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DQAACw0B7QfALAAAAO9JREFUSEvt1TFqAkEYhuHVTuy00SJYC/Z6gJwmuYKkTiFamMpGcwRJFVLkChax
+        DAAACwwBP0AiyAAAAO9JREFUSEvt1TFqAkEYhuHVTuy00SJYC/Z6gJwmuYKkTiFamMpGcwRJFVLkChax
         UCKC2CmWWijG99vdgamCzMx2+8KDu38xPyzLGuWFroN3rHHECRtM4VUBPfxZ9ildL+BVF+bgNzzAVEYr
         uXSrBj0OHT7QIHRP0OEXVDQI3Rha8BPfBewrtYMW6NfMbM7p0Ht49w0dpEcVtMfUDFrwac1sztmP4T/O
         vaZW0EG/1szmnb49WjCP7zLoGVpwRlWD0NWhr6aWDDXIohdogYzQgKmEZnLpXhF9mCVygD7XVywRpDYm
@@ -163,7 +163,7 @@
   <data name="btnClose.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DwAACw8BkvkDpQAAAJhJREFUSEvtlVEKgDAMQ3cJRY+ox9UPj6MJUhij1rVzfz4I7mNJhiuafiIs0Hgv
+        DgAACw4BQL7hQQAAAJhJREFUSEvtlVEKgDAMQ3cJRY+ox9UPj6MJUhij1rVzfz4I7mNJhiuafiIs0Hgv
         XdBDr8kKndAOeUq4lx56mfHIAG0QNx7QDL1ReibIxFPiDhdqSsLhglXSHC5oJZ+FC/mE8JmvI+Oskp/6
         s5PnaAU1I1xF11ekXah28SGsaWkuscKFcElNuOAu8YQLrpLun2vS9YfzU5DSBQe2VojXU1gyAAAAAElF
         TkSuQmCC

@@ -16,10 +16,14 @@ namespace BookHavenDesktop.Forms.MainPages
 {
     public partial class Products : Form
     {
+        private BookManager bookManager;
+        private List<Book> searchBooks;
+        private List<Book> books;
         public Products()
         {
             InitializeComponent();
-            DisplayAudioBooks();
+            bookManager = new BookManager();
+            DisplayBooks(books);
         }
 
         private void btnAddPhysical_Click(object sender, EventArgs e)
@@ -33,40 +37,51 @@ namespace BookHavenDesktop.Forms.MainPages
             AddAudio addAudio = new AddAudio();
             addAudio.ShowDialog();
         }
-        private void DisplayAudioBooks()
+        private void DisplayBooks(List<Book> books)
         {
             BookManager bookManager = new BookManager();
 
-            List<AudioBook> audioBooks = bookManager.GetAllAudioBooks();
-            List<PhysicalBook> physicalBooks = bookManager.GetAllPhysicalBooks();
+            // If no books list is provided, get all books
+            if (books == null)
+            {
+                books = new List<Book>();
+
+                books.AddRange(bookManager.GetAllAudioBooks());
+                books.AddRange(bookManager.GetAllPhysicalBooks());
+            }
 
             flpProducts.Controls.Clear();
 
-            foreach (AudioBook audioBook in audioBooks)
+            foreach (Book book in books)
             {
                 BookList bookControl = new BookList
                 {
-                    Title = audioBook.Title,
-                    Author = audioBook.Author,
-                    Price = (double)audioBook.Price,
-                    Image = audioBook.ImagePath
+                    Title = book.Title,
+                    Author = book.Author,
+                    Price = (double)book.Price,
+                    Image = book.ImagePath,
+                    BookData = book
                 };
 
                 flpProducts.Controls.Add(bookControl);
             }
 
-            foreach (PhysicalBook physicalBook in physicalBooks)
-            {
-                BookList bookControl = new BookList
-                {
-                    Title = physicalBook.Title,
-                    Author = physicalBook.Author,
-                    Price = (double)physicalBook.Price,
-                    Image = physicalBook.ImagePath 
-                };
+        }
 
-                flpProducts.Controls.Add(bookControl);
+        private void btnSearchProduct_Click(object sender, EventArgs e)
+        {
+            string title = txtTitleSearch.Text.Trim();
+            string author = txtAuthorSearch.Text.Trim();
+
+            // Validate and parse the ISBN number
+            long isbn = 0;
+            if (!long.TryParse(txtISBNSearch.Text.Trim(), out isbn))
+            {
+                MessageBox.Show("Invalid ISBN. Please enter a valid numeric ISBN.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
+            searchBooks = bookManager.SearchBook(title, author, isbn);
+            DisplayBooks(searchBooks);
         }
     }
 }

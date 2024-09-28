@@ -58,7 +58,7 @@ namespace BookHavenDesktop.Forms.MainPages
 
         private void btnMyAccount_Click(object sender, EventArgs e)
         {
-            OpenChildForms(new MyAccount(), sender);
+            OpenChildForms(new MyAccount(_userEmail), sender);
         }
 
         private void btnLogOut_Click(object sender, EventArgs e)

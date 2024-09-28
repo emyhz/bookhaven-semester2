@@ -51,11 +51,10 @@
             // 
             // lblTitle
             // 
-            lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitle.Location = new Point(37, 304);
+            lblTitle.Location = new Point(17, 285);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(62, 31);
+            lblTitle.Size = new Size(262, 73);
             lblTitle.TabIndex = 1;
             lblTitle.Text = "Title";
             // 
@@ -64,7 +63,7 @@
             lblAuthor.AutoSize = true;
             lblAuthor.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAuthor.ForeColor = Color.Black;
-            lblAuthor.Location = new Point(37, 357);
+            lblAuthor.Location = new Point(17, 358);
             lblAuthor.Name = "lblAuthor";
             lblAuthor.Size = new Size(73, 28);
             lblAuthor.TabIndex = 8;
@@ -75,7 +74,7 @@
             lblPrice.AutoSize = true;
             lblPrice.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblPrice.ForeColor = Color.Black;
-            lblPrice.Location = new Point(72, 411);
+            lblPrice.Location = new Point(52, 412);
             lblPrice.Name = "lblPrice";
             lblPrice.Size = new Size(54, 28);
             lblPrice.TabIndex = 9;
@@ -87,13 +86,13 @@
             pnlBook.Controls.Add(pbBook);
             pnlBook.Location = new Point(0, 0);
             pnlBook.Name = "pnlBook";
-            pnlBook.Size = new Size(350, 282);
+            pnlBook.Size = new Size(304, 282);
             pnlBook.TabIndex = 11;
             // 
             // pbMoney
             // 
             pbMoney.Image = (Image)resources.GetObject("pbMoney.Image");
-            pbMoney.Location = new Point(37, 414);
+            pbMoney.Location = new Point(17, 415);
             pbMoney.Name = "pbMoney";
             pbMoney.Size = new Size(32, 25);
             pbMoney.TabIndex = 92;
@@ -111,6 +110,7 @@
             Controls.Add(lblTitle);
             Name = "BookList";
             Size = new Size(304, 461);
+            Click += BookList_Click;
             ((System.ComponentModel.ISupportInitialize)pbBook).EndInit();
             pnlBook.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pbMoney).EndInit();

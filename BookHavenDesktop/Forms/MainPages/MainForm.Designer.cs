@@ -140,7 +140,7 @@
             btnProducts.Name = "btnProducts";
             btnProducts.Size = new Size(290, 70);
             btnProducts.TabIndex = 1;
-            btnProducts.Text = "Products";
+            btnProducts.Text = "Books";
             btnProducts.TextAlign = ContentAlignment.MiddleLeft;
             btnProducts.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnProducts.UseVisualStyleBackColor = true;

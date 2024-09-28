@@ -45,6 +45,9 @@
             btnApprove = new Button();
             cmbPendingEmployee = new ComboBox();
             lblApprove = new Label();
+            label1 = new Label();
+            cmbEmployeesFilter = new ComboBox();
+            flpEmployees.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -53,6 +56,8 @@
             // 
             flpEmployees.AutoScroll = true;
             flpEmployees.BackColor = Color.White;
+            flpEmployees.Controls.Add(label1);
+            flpEmployees.Controls.Add(cmbEmployeesFilter);
             flpEmployees.Location = new Point(432, -4);
             flpEmployees.Name = "flpEmployees";
             flpEmployees.Size = new Size(1194, 916);
@@ -253,6 +258,28 @@
             lblApprove.TabIndex = 4;
             lblApprove.Text = "Approve a pending employee\r\n";
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.FromArgb(130, 76, 113);
+            label1.Location = new Point(3, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(113, 46);
+            label1.TabIndex = 4;
+            label1.Text = "Filter:";
+            // 
+            // cmbEmployeesFilter
+            // 
+            cmbEmployeesFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbEmployeesFilter.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cmbEmployeesFilter.FormattingEnabled = true;
+            cmbEmployeesFilter.Location = new Point(122, 4);
+            cmbEmployeesFilter.Margin = new Padding(3, 4, 3, 4);
+            cmbEmployeesFilter.Name = "cmbEmployeesFilter";
+            cmbEmployeesFilter.Size = new Size(341, 40);
+            cmbEmployeesFilter.TabIndex = 89;
+            // 
             // Employees
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -265,6 +292,8 @@
             Controls.Add(flpEmployees);
             Name = "Employees";
             Text = "Employees";
+            flpEmployees.ResumeLayout(false);
+            flpEmployees.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
@@ -292,5 +321,7 @@
         private Label lblEmailPending;
         private Button btnDeny;
         private Button btnApprove;
+        private Label label1;
+        private ComboBox cmbEmployeesFilter;
     }
 }

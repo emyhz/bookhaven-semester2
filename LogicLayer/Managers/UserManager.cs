@@ -7,6 +7,7 @@ using DataAccessLayer;
 using LogicLayer.Enums;
 using LogicLayer.EntityClasses;
 using System.Data;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace LogicLayer.Managers
 {
@@ -18,7 +19,8 @@ namespace LogicLayer.Managers
         public UserManager()
         {
             dbuser = new DBUser();
-            users = new List<User>();
+            //users = new List<User>();
+            users = GetEmployees();
         }
 
         public void AddUser(string firstName, string lastName, string email, string password, UserType userType)
@@ -91,7 +93,7 @@ namespace LogicLayer.Managers
             return false;
         }
 
-        
+
 
         public List<User> GetPendingEmployees()
         {
@@ -206,6 +208,7 @@ namespace LogicLayer.Managers
         public List<User> SearchEmployee(string firstName, string lastName, string email)
         {
             List<User> searchResults = new List<User>();
+
             foreach (User user in users)
             {
                 bool matchesFirstName = string.IsNullOrEmpty(firstName) || user.FirstName.ToLower().Contains(firstName.ToLower());
@@ -217,12 +220,39 @@ namespace LogicLayer.Managers
                     searchResults.Add(user);
                 }
             }
+
             return searchResults;
         }
+
+
+        public List<User> SortUsers(UserCombobox usersort, List<User> usersToSort)
+        {
+            List<User> sortedUsers = new List<User>(usersToSort);
+
+            switch (usersort)
+            {
+                case UserCombobox.NAME_ASCENDING:
+                    sortedUsers.Sort((x, y) => string.Compare(x.FirstName, y.FirstName, StringComparison.OrdinalIgnoreCase));
+                    break;
+                case UserCombobox.START_DATE_ASCENDING:
+                    sortedUsers.Sort((x, y) => DateTime.Compare(x.DateCreated, y.DateCreated));
+                    break;
+                case UserCombobox.START_DATE_DESCENDING:
+                    sortedUsers.Sort((x, y) => DateTime.Compare(y.DateCreated, x.DateCreated));
+                    break;
+            }
+
+            return sortedUsers;
+        }
+
 
         public void DeleteEmployee(string email)
         {
             dbuser.DeleteUser(email);
+        }
+        public void DenyEmpAccess()
+        {
+
         }
     }
     

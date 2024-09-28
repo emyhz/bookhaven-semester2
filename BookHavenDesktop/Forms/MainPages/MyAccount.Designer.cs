@@ -39,7 +39,7 @@
             pictureBox1 = new PictureBox();
             panel2 = new Panel();
             button1 = new Button();
-            label4 = new Label();
+            lblUserEmail = new Label();
             lblEmail2 = new Label();
             lblPersonalInfoHead = new Label();
             panel3 = new Panel();
@@ -149,7 +149,7 @@
             // 
             panel2.BackColor = SystemColors.Control;
             panel2.Controls.Add(button1);
-            panel2.Controls.Add(label4);
+            panel2.Controls.Add(lblUserEmail);
             panel2.Controls.Add(lblEmail2);
             panel2.Controls.Add(lblPersonalInfoHead);
             panel2.Location = new Point(54, 351);
@@ -171,15 +171,15 @@
             button1.Text = "Edit";
             button1.UseVisualStyleBackColor = false;
             // 
-            // label4
+            // lblUserEmail
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(187, 78);
-            label4.Name = "label4";
-            label4.Size = new Size(117, 31);
-            label4.TabIndex = 24;
-            label4.Text = "UserEmail";
+            lblUserEmail.AutoSize = true;
+            lblUserEmail.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblUserEmail.Location = new Point(187, 78);
+            lblUserEmail.Name = "lblUserEmail";
+            lblUserEmail.Size = new Size(117, 31);
+            lblUserEmail.TabIndex = 24;
+            lblUserEmail.Text = "UserEmail";
             // 
             // lblEmail2
             // 
@@ -226,6 +226,7 @@
             btnDeleteAccount.TabIndex = 24;
             btnDeleteAccount.Text = "Delete Account";
             btnDeleteAccount.UseVisualStyleBackColor = false;
+            btnDeleteAccount.Click += btnDeleteAccount_Click;
             // 
             // label6
             // 
@@ -284,7 +285,7 @@
         private Label label2;
         private Label label1;
         private Button button1;
-        private Label label4;
+        private Label lblUserEmail;
         private Panel panel3;
         private Button btnDeleteAccount;
         private Label label6;
