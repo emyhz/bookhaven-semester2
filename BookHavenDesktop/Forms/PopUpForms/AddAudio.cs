@@ -35,7 +35,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 // Get the values from the form fields
                 string title = txtTitle.Text;
                 string author = txtAuthor.Text;
-                string isbn = txtISBN.Text;
+                long isbn = long.Parse(txtISBN.Text);
                 DateTime publishDate = dtpPublish.Value;
                 decimal price = numPrice.Value;
                 string genre = cmbGenre.SelectedItem.ToString(); // Get selected genre from combo box
@@ -59,8 +59,9 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 // Call the logic layer method to add the book
                 int bookId = bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, bookType, audioLength, fileSize);
 
-                MessageBox.Show($"AudioBook added successfully with ID: {bookId}");
+                MessageBox.Show($"AudioBook added successfully!");
 
+                this.Close();
                 // Clear form fields after adding the book
                 ClearFormFields();
             }

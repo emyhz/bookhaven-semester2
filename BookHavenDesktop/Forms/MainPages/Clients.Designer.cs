@@ -148,12 +148,11 @@
             // 
             // lbl1
             // 
-            lbl1.AutoSize = true;
             lbl1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl1.ForeColor = Color.FromArgb(220, 204, 163);
             lbl1.Location = new Point(21, 23);
             lbl1.Name = "lbl1";
-            lbl1.Size = new Size(235, 62);
+            lbl1.Size = new Size(235, 39);
             lbl1.TabIndex = 4;
             lbl1.Text = "Search for a customer\r\n\r\n";
             // 

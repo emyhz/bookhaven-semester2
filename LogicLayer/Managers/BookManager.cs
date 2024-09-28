@@ -22,13 +22,13 @@ namespace LogicLayer.Managers
             books = new List<Book>();
         }
 
-        public int AddBook(string title, string author, string isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales, string bookType,
+        public int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales, string bookType,
                        TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
         {
             // Validate the general book details
-            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(author) || string.IsNullOrEmpty(isbn))
+            if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(author))
             {
-                throw new ArgumentException("Title, Author, and ISBN are required fields.");
+                throw new ArgumentException("Title and Author are required fields.");
             }
 
             // Check the type of book and ensure necessary parameters are provided
@@ -83,6 +83,35 @@ namespace LogicLayer.Managers
             }
 
             return audioBooks;
+        }
+        public List<PhysicalBook> GetAllPhysicalBooks()
+        {
+            DataTable physicalBooksTable = dbBook.GetAllPhysicalBooks();
+
+            List<PhysicalBook> physicalBooks = new List<PhysicalBook>();
+
+            foreach (DataRow row in physicalBooksTable.Rows)
+            {
+                PhysicalBook physicalBook = new PhysicalBook(
+                    id: Convert.ToInt32(row["Id"]),
+                    title: row["Title"].ToString(),
+                    author: row["Author"].ToString(),
+                    isbn: Convert.ToInt64(row["ISBN"]),
+                    publishYear: Convert.ToDateTime(row["PublishDate"]),
+                    price: Convert.ToDecimal(row["Price"]),
+                    genre: (Genre)Enum.Parse(typeof(Genre), row["Genre"].ToString()),
+                    language: row["Language"].ToString(),
+                    imagePath: row["ImagePath"].ToString(),
+                    stock: Convert.ToInt32(row["Stock"]),
+                    dimensions: row["Dimensions"].ToString(),
+                    pages: Convert.ToInt32(row["Pages"]),
+                    coverType: row["CoverType"].ToString()
+                );
+
+                physicalBooks.Add(physicalBook);
+            }
+
+            return physicalBooks;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace BookHavenWebApp.Pages
 
         //properties
         [BindProperty]
-        [Required]
+        [Required(ErrorMessage = "Full name is required."), MinLength(length: 2, ErrorMessage = "Provide a name more than 2 characters ")]
         public string FirstName { get; set; }
 
         [BindProperty]
@@ -33,17 +33,19 @@ namespace BookHavenWebApp.Pages
         public string Email { get; set; }
 
         [BindProperty]
-        [Required]
+        [Required(ErrorMessage = "Password  is required."), MinLength(length: 7, ErrorMessage = "Provide a password with at least 7 characters. ")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [BindProperty]
-        [Required]
+        [Required (ErrorMessage = "Please confirm your password.")]
         [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public IActionResult OnPost()
         {
+            //if model is invalid
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -53,10 +55,7 @@ namespace BookHavenWebApp.Pages
             UserType userType = UserType.CUSTOMER;
             userManager.AddUser(FirstName, LastName, Email, Password, userType);
 
-            return RedirectToPage("Login");
+            return RedirectToPage("/Login");
         }
-        
-
-
     }
 }

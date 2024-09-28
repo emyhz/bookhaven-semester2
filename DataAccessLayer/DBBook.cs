@@ -13,7 +13,7 @@ namespace DataAccessLayer
 {
     public class DBBook : DatabaseConnection
     {
-        public int AddBook(string title, string author, string isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales, string bookType,
+        public int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales, string bookType,
                    TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
         {
             int bookId = 0; // Initialize bookId
@@ -116,6 +116,42 @@ namespace DataAccessLayer
             }
 
             return audioBooksTable;
+        }
+
+        public DataTable GetAllPhysicalBooks()
+        {
+            DataTable physicalBooksTable = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // SQL query to get all physical book details including ISBN, dimensions, pages, and cover type
+                string query = @"
+                                SELECT 
+                                b.Id,
+                                b.Title,
+                                b.Author,
+                                b.ISBN, -- Include ISBN in the query
+                                b.PublishDate,
+                                b.Price,
+                                b.Genre,
+                                b.Language,
+                                b.ImagePath,
+                                b.Stock,
+                                pb.Dimensions,
+                                pb.Pages,
+                                pb.CoverType
+                            FROM 
+                                [Book] b
+                            INNER JOIN 
+                                [PhysicalBook] pb ON b.Id = pb.Id;"; // Join with PhysicalBook table based on the book ID
+
+                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                adapter.Fill(physicalBooksTable);
+            }
+
+            return physicalBooksTable;
         }
 
         public void UpdateBook(int id, string title, string author, string isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales, string bookType, TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)

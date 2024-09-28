@@ -33,7 +33,7 @@
             btnLogOut = new Button();
             lblAccessHead = new Label();
             pictureBox1 = new PictureBox();
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            flpMainPage = new FlowLayoutPanel();
             btnHome = new Button();
             btnProducts = new Button();
             btnOrders = new Button();
@@ -43,7 +43,7 @@
             pnlMainForm = new Panel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            flowLayoutPanel1.SuspendLayout();
+            flpMainPage.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -94,19 +94,19 @@
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
-            // flowLayoutPanel1
+            // flpMainPage
             // 
-            flowLayoutPanel1.BackColor = Color.FromArgb(130, 76, 113);
-            flowLayoutPanel1.Controls.Add(btnHome);
-            flowLayoutPanel1.Controls.Add(btnProducts);
-            flowLayoutPanel1.Controls.Add(btnOrders);
-            flowLayoutPanel1.Controls.Add(btnEmployees);
-            flowLayoutPanel1.Controls.Add(btnClients);
-            flowLayoutPanel1.Controls.Add(btnMyAccount);
-            flowLayoutPanel1.Location = new Point(0, 110);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(293, 954);
-            flowLayoutPanel1.TabIndex = 1;
+            flpMainPage.BackColor = Color.FromArgb(130, 76, 113);
+            flpMainPage.Controls.Add(btnHome);
+            flpMainPage.Controls.Add(btnProducts);
+            flpMainPage.Controls.Add(btnOrders);
+            flpMainPage.Controls.Add(btnEmployees);
+            flpMainPage.Controls.Add(btnClients);
+            flpMainPage.Controls.Add(btnMyAccount);
+            flpMainPage.Location = new Point(0, 110);
+            flpMainPage.Name = "flpMainPage";
+            flpMainPage.Size = new Size(293, 954);
+            flpMainPage.TabIndex = 1;
             // 
             // btnHome
             // 
@@ -236,7 +236,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1924, 1055);
             Controls.Add(pnlMainForm);
-            Controls.Add(flowLayoutPanel1);
+            Controls.Add(flpMainPage);
             Controls.Add(panel1);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
@@ -245,7 +245,7 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            flowLayoutPanel1.ResumeLayout(false);
+            flpMainPage.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -254,7 +254,7 @@
         private Panel panel1;
         private PictureBox pictureBox1;
         private Label lblAccessHead;
-        private FlowLayoutPanel flowLayoutPanel1;
+        private FlowLayoutPanel flpMainPage;
         private Button btnHome;
         private Panel pnlMainForm;
         private Button btnProducts;

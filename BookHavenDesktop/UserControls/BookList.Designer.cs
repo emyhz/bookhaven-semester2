@@ -42,9 +42,10 @@
             // 
             // pbBook
             // 
-            pbBook.Location = new Point(57, 27);
+            pbBook.Location = new Point(37, 0);
             pbBook.Name = "pbBook";
-            pbBook.Size = new Size(218, 184);
+            pbBook.Size = new Size(218, 282);
+            pbBook.SizeMode = PictureBoxSizeMode.CenterImage;
             pbBook.TabIndex = 0;
             pbBook.TabStop = false;
             // 
@@ -52,7 +53,7 @@
             // 
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitle.Location = new Point(22, 239);
+            lblTitle.Location = new Point(37, 304);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(62, 31);
             lblTitle.TabIndex = 1;
@@ -63,7 +64,7 @@
             lblAuthor.AutoSize = true;
             lblAuthor.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblAuthor.ForeColor = Color.Black;
-            lblAuthor.Location = new Point(22, 292);
+            lblAuthor.Location = new Point(37, 357);
             lblAuthor.Name = "lblAuthor";
             lblAuthor.Size = new Size(73, 28);
             lblAuthor.TabIndex = 8;
@@ -74,7 +75,7 @@
             lblPrice.AutoSize = true;
             lblPrice.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblPrice.ForeColor = Color.Black;
-            lblPrice.Location = new Point(57, 346);
+            lblPrice.Location = new Point(72, 411);
             lblPrice.Name = "lblPrice";
             lblPrice.Size = new Size(54, 28);
             lblPrice.TabIndex = 9;
@@ -82,17 +83,17 @@
             // 
             // pnlBook
             // 
-            pnlBook.BackColor = SystemColors.Control;
+            pnlBook.BackColor = Color.WhiteSmoke;
             pnlBook.Controls.Add(pbBook);
             pnlBook.Location = new Point(0, 0);
             pnlBook.Name = "pnlBook";
-            pnlBook.Size = new Size(350, 227);
+            pnlBook.Size = new Size(350, 282);
             pnlBook.TabIndex = 11;
             // 
             // pbMoney
             // 
             pbMoney.Image = (Image)resources.GetObject("pbMoney.Image");
-            pbMoney.Location = new Point(22, 349);
+            pbMoney.Location = new Point(37, 414);
             pbMoney.Name = "pbMoney";
             pbMoney.Size = new Size(32, 25);
             pbMoney.TabIndex = 92;
@@ -102,14 +103,14 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
+            BackColor = Color.WhiteSmoke;
             Controls.Add(pbMoney);
             Controls.Add(pnlBook);
             Controls.Add(lblPrice);
             Controls.Add(lblAuthor);
             Controls.Add(lblTitle);
             Name = "BookList";
-            Size = new Size(350, 461);
+            Size = new Size(304, 461);
             ((System.ComponentModel.ISupportInitialize)pbBook).EndInit();
             pnlBook.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pbMoney).EndInit();

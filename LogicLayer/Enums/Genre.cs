@@ -13,5 +13,6 @@ namespace LogicLayer.Enums
         FANTASY,
         FICTION,
         NON_FICTION,
+        MYSTERY,
     }
 }

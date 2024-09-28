@@ -35,28 +35,36 @@ namespace BookHavenDesktop.Forms.MainPages
         }
         private void DisplayAudioBooks()
         {
-            // Create an instance of the logic layer class
-            BookManager bookManager = new BookManager(); // Assuming BookManager is your logic layer class
+            BookManager bookManager = new BookManager();
 
-            // Get the list of audiobooks from the logic layer
             List<AudioBook> audioBooks = bookManager.GetAllAudioBooks();
+            List<PhysicalBook> physicalBooks = bookManager.GetAllPhysicalBooks();
 
-            // Clear existing controls in the FlowLayoutPanel
             flpProducts.Controls.Clear();
 
-            // Iterate through the list of audiobooks
             foreach (AudioBook audioBook in audioBooks)
             {
-                // Create a new BookList control and set its properties
                 BookList bookControl = new BookList
                 {
                     Title = audioBook.Title,
                     Author = audioBook.Author,
                     Price = (double)audioBook.Price,
-                    Image = audioBook.ImagePath 
+                    Image = audioBook.ImagePath
                 };
 
-                // Add the BookList control to the FlowLayoutPanel
+                flpProducts.Controls.Add(bookControl);
+            }
+
+            foreach (PhysicalBook physicalBook in physicalBooks)
+            {
+                BookList bookControl = new BookList
+                {
+                    Title = physicalBook.Title,
+                    Author = physicalBook.Author,
+                    Price = (double)physicalBook.Price,
+                    Image = physicalBook.ImagePath 
+                };
+
                 flpProducts.Controls.Add(bookControl);
             }
         }

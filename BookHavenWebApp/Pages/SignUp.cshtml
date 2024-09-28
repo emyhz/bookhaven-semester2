@@ -15,7 +15,7 @@
             </div>
             <!-- Sign Up Form Column -->
             <div class="col-12 col-md-10 col-lg-6 offset-lg-3">
-                <form method="post">
+                <form method="post" novalidate>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="row mb-3">
                         <div class="col">
@@ -49,14 +49,12 @@
                         <span>Already have an account? <a class="link-custom" href="/Login">Login</a></span>
                     </div>
                 </form>
+                @section Scripts {
+                    <partial name="_ValidationScriptsPartial" />
+                }
             </div>
         </div>
     </div>
-    <style>
-        body {
-            margin-top: 40px;
-        }
-    </style>
 </body>
 
 
