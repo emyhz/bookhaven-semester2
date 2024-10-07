@@ -1,4 +1,4 @@
-namespace BookHavenUnitTests
+namespace BookHavenUnitTest
 {
     [TestClass]
     public class UnitTest1

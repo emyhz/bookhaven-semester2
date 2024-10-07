@@ -50,7 +50,7 @@ namespace LogicLayer.EntityClasses
         public UserType UserType { get { return userType; } set { userType = value; } }
         public DateTime DateCreated { get { return dateCreated; } set { dateCreated = value; } }
 
-        public override string ToString()
+        public override string ToString() //override the ToString method to return the full name of the user
         {
             return $"{FirstName} {LastName}";                  
         }
