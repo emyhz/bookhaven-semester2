@@ -15,28 +15,50 @@
         <div class="container-fluid d-flex flex-wrap px-3 align-items-center justify-content-between">
             <ul class="nav me-auto align-items-center">
                 <a class="navbar-brand highlight px-2 d-flex align-items-center" asp-area="" asp-page="/Index">
-                    <img src="/img/BookHaven Logo.png" alt="Logo" class="me-2" style="height: 90px; width: auto;">
+                    <img src="/img/BookHaven Logo.png" alt="Logo" class="me-2" style="height: 40px; width: auto;">
                         <span style="color: #90AA86; font-size: 1.5rem;">BookHaven</span>
                 </a>
                 <li class="nav-item"><a class="nav-link link-dark px-3" asp-area="" asp-page="/Books">Books</a></li>
                 <li class="nav-item"><a class="nav-link link-dark px-3" asp-area="" asp-page="/AboutUs">About us</a></li>
             </ul>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <!-- User is authenticated -->
+                    <ul class="nav d-flex align-items-center">
+                        <li class="nav-item">
+                            <a id="cartIcon" class="nav-link text-dark" asp-area="">
+                                <img src="/img/icons8-cart-48 (1).png" style="height: 20px; width: auto;">
+                            </a>
+                        </li>
+                        <div class="flex-shrink-0 dropdown">
+                            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="/img/web-account.png" style="height: 20px; width: auto;" class="rounded-circle">
+                            </a>
+                            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                                <li><a class="dropdown-item" asp-page="/Account">My Account</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-page="/LogOut">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </ul>
+                }
+                else
+                {
+                    <!-- User is not authenticated -->
+                    <ul class="nav d-flex align-items-center">
+                        <div class="flex-shrink-0 dropdown">
+                            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="/img/web-account.png" style="height: 20px; width: auto;" class="rounded-circle">
+                            </a>
+                            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                                <li><a class="dropdown-item" asp-page="/Login">Log In</a></li>
+                                <li><a class="dropdown-item" asp-page="/SignUp">Sign Up</a></li>
+                            </ul>
+                        </div>
+                    </ul>
+                }
+                </div>
 
-
-
-
-                    <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="/img/web-account.png" style="height: 32px; width: auto;" class="rounded-circle">
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end text-small shadow" aria-labelledby="dropdownUser2">
-                            <li><a class="dropdown-item" asp-page="/Login">Log In</a></li>
-                            <li><a class="dropdown-item" asp-page="/SignUp">Sign Up</a></li>
-                        </ul>
-                    </div>
-                
-            </ul>
-        </div>
     </nav>
 </header>
 

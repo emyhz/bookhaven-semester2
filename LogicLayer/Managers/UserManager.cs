@@ -254,6 +254,36 @@ namespace LogicLayer.Managers
         {
 
         }
+        public string UpdatePassword(string email, string oldPassword, string newPassword, string retypeNewPassword)
+        {
+            User user = GetUserByEmail(email);
+
+            // Check for missing fields
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(oldPassword) || string.IsNullOrEmpty(newPassword) || string.IsNullOrEmpty(retypeNewPassword))
+            {
+                return "Please fill in all fields.";
+            }
+
+            // Verify the old password matches the stored hashed password
+            if (!BCrypt.Net.BCrypt.Verify(oldPassword, user.Password))
+            {
+                return "The old password is incorrect.";
+            }
+
+            // Check if the new password matches the retyped password
+            if (!newPassword.Equals(retypeNewPassword))
+            {
+                return "The new passwords do not match.";
+            }
+
+            // Hash the new password before storing it
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+
+            // Update the user's password in the database
+            dbuser.UpdatePassword(email, hashedPassword);
+
+            return "Password updated successfully.";
+        }
     }
     
 }

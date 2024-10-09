@@ -46,10 +46,15 @@
             btnDeleteAccount = new Button();
             label6 = new Label();
             label7 = new Label();
+            panel4 = new Panel();
+            btnChangePassword = new Button();
+            label3 = new Label();
+            label4 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
+            panel4.SuspendLayout();
             SuspendLayout();
             // 
             // btnEditNameUserType
@@ -154,7 +159,7 @@
             panel2.Controls.Add(lblPersonalInfoHead);
             panel2.Location = new Point(54, 351);
             panel2.Name = "panel2";
-            panel2.Size = new Size(774, 184);
+            panel2.Size = new Size(774, 164);
             panel2.TabIndex = 19;
             // 
             // button1
@@ -208,7 +213,7 @@
             panel3.Controls.Add(btnDeleteAccount);
             panel3.Controls.Add(label6);
             panel3.Controls.Add(label7);
-            panel3.Location = new Point(54, 580);
+            panel3.Location = new Point(54, 572);
             panel3.Name = "panel3";
             panel3.Size = new Size(774, 184);
             panel3.TabIndex = 25;
@@ -248,12 +253,59 @@
             label7.TabIndex = 18;
             label7.Text = "Delete your Account";
             // 
+            // panel4
+            // 
+            panel4.BackColor = SystemColors.Control;
+            panel4.Controls.Add(btnChangePassword);
+            panel4.Controls.Add(label3);
+            panel4.Controls.Add(label4);
+            panel4.Location = new Point(887, 117);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(674, 160);
+            panel4.TabIndex = 26;
+            // 
+            // btnChangePassword
+            // 
+            btnChangePassword.BackColor = Color.FromArgb(130, 76, 113);
+            btnChangePassword.FlatAppearance.BorderSize = 0;
+            btnChangePassword.FlatStyle = FlatStyle.Flat;
+            btnChangePassword.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnChangePassword.ForeColor = Color.White;
+            btnChangePassword.Location = new Point(33, 80);
+            btnChangePassword.Name = "btnChangePassword";
+            btnChangePassword.Size = new Size(178, 50);
+            btnChangePassword.TabIndex = 24;
+            btnChangePassword.Text = "Change Password";
+            btnChangePassword.UseVisualStyleBackColor = false;
+            btnChangePassword.Click += btnChangePassword_Click;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.Black;
+            label3.Location = new Point(33, 78);
+            label3.Name = "label3";
+            label3.Size = new Size(0, 28);
+            label3.TabIndex = 20;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.Location = new Point(23, 21);
+            label4.Name = "label4";
+            label4.Size = new Size(252, 31);
+            label4.TabIndex = 18;
+            label4.Text = "Change your password";
+            // 
             // MyAccount
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1622, 907);
+            Controls.Add(panel4);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
@@ -267,6 +319,8 @@
             panel2.PerformLayout();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -290,5 +344,9 @@
         private Button btnDeleteAccount;
         private Label label6;
         private Label label7;
+        private Panel panel4;
+        private Button btnChangePassword;
+        private Label label3;
+        private Label label4;
     }
 }

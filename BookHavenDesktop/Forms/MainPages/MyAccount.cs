@@ -1,4 +1,5 @@
-﻿using LogicLayer.EntityClasses;
+﻿using BookHavenDesktop.Forms.PopUpForms;
+using LogicLayer.EntityClasses;
 using LogicLayer.Managers;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,12 @@ namespace BookHavenDesktop.Forms.MainPages
         private void btnDeleteAccount_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            ChangePassword changepassword = new ChangePassword(_userEmail, userManager);
+            changepassword.ShowDialog();
         }
     }
 }

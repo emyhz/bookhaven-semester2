@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -160,6 +161,20 @@ namespace DataAccessLayer
                 string query = "DELETE FROM [User] WHERE Email = @Email";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+        public void UpdatePassword(string email, string NewPass)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "UPDATE [User] SET Password = @Password WHERE Email = @Email";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Password", NewPass);
                     command.Parameters.AddWithValue("@Email", email);
                     command.ExecuteNonQuery();
                 }
