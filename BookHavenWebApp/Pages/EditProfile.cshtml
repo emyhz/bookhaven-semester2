@@ -10,25 +10,33 @@
 
     <div class="row">
         <div class="col-md-8">
-            <form action="/Profile/Edit" method="post" enctype="multipart/form-data">
+            <form method="post">
                 <div class="mb-3">
-                    <label for="Name" class="form-label">Name</label>
-                    <input type="text" id="Name" name="Name" class="form-control">
+                    <label for="FirstName" class="form-label">First Name</label>
+                    <input type="text" id="FirstName" name="NewFirstName" class="form-control" asp-for="NewfirstName">
+                    <span asp-validation-for="NewfirstName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="LastName" class="form-label">Last Name</label>
+                    <input type="text" id="LastName" name="NewLastName" class="form-control" asp-for="NewlastName">
+                    <span asp-validation-for="NewlastName" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label for="Email" class="form-label">Email</label>
-                    <input type="email" id="Email" name="Email" class="form-control">
-                </div>
-
-                <div class="mb-3">
-                    <label for="ProfilePicture" class="form-label">Profile Picture</label>
-                    <input type="file" id="ProfilePicture" name="ProfilePicture" class="form-control">
-                    <img src="https://via.placeholder.com/150" alt="Current Profile Picture" class="mt-2 img-fluid">
+                    <input type="email" id="Email" name="Email" class="form-control" asp-for="Email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Save Changes</button>
             </form>
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success mt-3">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
         </div>
     </div>
 </div>

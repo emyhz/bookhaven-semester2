@@ -17,10 +17,11 @@ namespace BookHavenDesktop.Forms.MainPages
     public partial class AccessForm : Form
     {
         private readonly UserManager userManager;
-        public AccessForm()
+        public AccessForm(UserManager userManager)
         {
             InitializeComponent();
-            userManager = new UserManager();
+            this.userManager = userManager;
+            //userManager = new UserManager();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -54,7 +55,7 @@ namespace BookHavenDesktop.Forms.MainPages
         {
             if (user.UserType == LogicLayer.Enums.UserType.EMPLOYEE || user.UserType == LogicLayer.Enums.UserType.ADMIN)
             {
-                MainForm mainForm = new MainForm(user.Email);
+                MainForm mainForm = new MainForm(user.Email, userManager);
                 mainForm.Show();
                 this.Hide();
             }else if (user.UserType == LogicLayer.Enums.UserType.PENDING_EMPLOYEE)

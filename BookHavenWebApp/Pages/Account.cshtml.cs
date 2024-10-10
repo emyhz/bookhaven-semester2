@@ -1,5 +1,7 @@
 using LogicLayer.EntityClasses;
 using LogicLayer.Managers;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
@@ -79,6 +81,22 @@ namespace BookHavenWebApp.Pages
             TempData["SuccessMessage"] = "Password changed successfully!";
             return RedirectToPage();
 
+        }
+        public IActionResult OnPostDeleteAccount()
+        {
+            user = _userManager.GetUserByEmail(User.Identity.Name);
+            if (user != null)
+            {
+                _userManager.DeleteEmployee(user.Email);  // Calls the logic layer to delete the user
+                TempData["SuccessMessage"] = "Your account has been deleted.";
+
+                // After account deletion, log the user out and redirect to the homepage or a confirmation page
+                HttpContext.SignOutAsync();
+                return RedirectToPage("/Login"); // Redirect to home or a "goodbye" confirmation page
+            }
+
+            TempData["ErrorMessage"] = "Account not found.";
+            return RedirectToPage("/Account");
         }
     }
 }

@@ -1,6 +1,8 @@
 using LogicLayer.Managers;
 using LogicLayer.Algorithm;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using DataAccessLayer.Interfaces;
+using DataAccessLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,16 +17,20 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 {
     options.LoginPath = new PathString("/Login");
     options.AccessDeniedPath = new PathString("/AccessDenied");
+    options.LogoutPath = new PathString("/LogOut");
 
 });
 
 //authorization
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("Employee", policy => policy.RequireRole("Employee"));
-    options.AddPolicy("Customer", policy => policy.RequireRole("Customer"));
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    
 });
+
+
+// registering data access layer services
+builder.Services.AddScoped<IUserDb, DBUser>();
 
 
 
@@ -55,6 +61,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapRazorPages();
 

@@ -18,10 +18,11 @@ namespace BookHavenDesktop.Forms.MainPages
         private UserManager userManager;
         private string _userEmail;
         private MainForm mainForm;
-        public MyAccount(string userEmail)
+        public MyAccount(string userEmail, UserManager userManager)
         {
             InitializeComponent();
-            userManager = new UserManager();
+            this.userManager = userManager;
+            //userManager = new UserManager();
             _userEmail = userEmail;
             DisplayUserDetails();
         }

@@ -18,10 +18,11 @@ namespace BookHavenDesktop.Forms.MainPages
 
         private List<User> customers;
         private UserManager userManager;
-        public Clients()
+        public Clients(UserManager userManager)
         {
             InitializeComponent();
-            userManager = new UserManager();
+            this.userManager = userManager;
+            //userManager = new UserManager();
             customers = userManager.GetCustomers();
             GenerateEmployees(customers);
         }

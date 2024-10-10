@@ -1,4 +1,7 @@
 using BookHavenDesktop.Forms.MainPages;
+using DataAccessLayer.Interfaces;
+using DataAccessLayer;
+using LogicLayer.Managers;
 
 namespace BookHavenDesktop
 {
@@ -10,10 +13,16 @@ namespace BookHavenDesktop
         [STAThread]
         static void Main()
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
+
+            IUserDb dbUser = new DBUser();  // Data access layer stays in the background
+            UserManager userManager = new UserManager(dbUser);
+
             ApplicationConfiguration.Initialize();
-            Application.Run(new AccessForm());
+            Application.Run(new AccessForm(userManager));
         }
     }
 }

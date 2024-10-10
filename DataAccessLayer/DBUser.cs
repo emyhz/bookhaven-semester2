@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
-    public class DBUser : DatabaseConnection
+    public class DBUser : DatabaseConnection , IUserDb
     {
 
 
@@ -138,20 +139,7 @@ namespace DataAccessLayer
             }
         }
 
-        public void UpdateUserPassword(string email, string newPassword)
-        {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                string query = "UPDATE [User] SET Password = @Password WHERE Email = @Email";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Password", newPassword);
-                    command.Parameters.AddWithValue("@Email", email);
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
+
 
         public void DeleteUser(string email)
         {
@@ -175,6 +163,21 @@ namespace DataAccessLayer
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Password", NewPass);
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+        public void UpdateCustomerInfo(string email, string FirstName, string LastName)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "UPDATE [User] SET FirstName = @FirstName, LastName = @LastName WHERE Email = @Email";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@FirstName", FirstName);
+                    command.Parameters.AddWithValue("@LastName", LastName);
                     command.Parameters.AddWithValue("@Email", email);
                     command.ExecuteNonQuery();
                 }

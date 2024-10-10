@@ -21,10 +21,11 @@ namespace BookHavenDesktop.Forms.MainPages
         private List<User> searchEmps;
         private UserManager userManager;
         private string _userEmail;
-        public Employees(string userEmail)
+        public Employees(string userEmail, UserManager userManager)
         {
             InitializeComponent();
-            userManager = new UserManager();
+            this.userManager = userManager;
+            //userManager = new UserManager();
             _userEmail = userEmail;
             empUsers = userManager.GetEmployees();
             LoadPendingEmployees();

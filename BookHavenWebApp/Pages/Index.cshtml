@@ -4,4 +4,94 @@
     ViewData["Title"] = "Home page";
 }
 
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <p class="text-uppercase text-primary fw-bold">Limited-Time Offer</p>
+            <h1 class="display-4 fw-bold">Discover Your Next Favorite Book – Anytime, Anywhere!</h1>
+            <p>
+                Whether you prefer the charm of a physical book or the convenience of an audiobook, we’ve got you covered. Join today and support local bookstores
+            </p>
+            <a href="/SignUp" class="btn btn-primary btn-lg">Sign up today</a>
+        </div>
 
+        <div class="col-md-6 text-center">
+            <img src="/img/Login.Signup.png" alt="Audiobook Sample" class="img-fluid">
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+    <h2 class="text-center">Bestselling Books</h2>
+    <p class="text-center">Browse bestsellers from our bookstore partners, updated hourly.</p>
+
+    <!-- Scrollable bestseller section -->
+    <div id="bestsellerCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="d-flex justify-content-center">
+                    <div class="card mx-2">
+                        <img src="/img/Login.Signup.png" class="card-img-top" alt="Book 1">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Title 1</h5>
+                            <p class="card-text">Author 1</p>
+                        </div>
+                    </div>
+                    <div class="card mx-2">
+                        <img src="/img/Login.Signup.png" class="card-img-top" alt="Book 2">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Title 2</h5>
+                            <p class="card-text">Author 2</p>
+                        </div>
+                    </div>
+                    <div class="card mx-2">
+                        <img src="/img/Login.Signup.png" class="card-img-top" alt="Book 3">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Title 3</h5>
+                            <p class="card-text">Author 3</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="d-flex justify-content-center">
+                    <div class="card mx-2">
+                        <img src="/img/Login.Signup.png" class="card-img-top" alt="Book 4">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Title 4</h5>
+                            <p class="card-text">Author 4</p>
+                        </div>
+                    </div>
+                    <div class="card mx-2">
+                        <img src="/img/Login.Signup.png" class="card-img-top" alt="Book 5">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Title 5</h5>
+                            <p class="card-text">Author 5</p>
+                        </div>
+                    </div>
+                    <div class="card mx-2">
+                        <img src="/img/Login.Signup.png" class="card-img-top" alt="Book 6">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Title 6</h5>
+                            <p class="card-text">Author 6</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#bestsellerCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#bestsellerCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- See all bestsellers button -->
+    <div class="text-center mt-4">
+        <a href="/bestsellers" class="btn btn-primary btn-lg">See all bestsellers</a>
+    </div>
+</div>

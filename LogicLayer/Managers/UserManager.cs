@@ -8,18 +8,18 @@ using LogicLayer.Enums;
 using LogicLayer.EntityClasses;
 using System.Data;
 using static System.Reflection.Metadata.BlobBuilder;
+using DataAccessLayer.Interfaces;
 
 namespace LogicLayer.Managers
 {
     public class UserManager
     {
-        private DBUser dbuser;
+        private IUserDb _dbuser;
         private List<User> users;
 
-        public UserManager()
+        public UserManager(IUserDb dbuser)
         {
-            dbuser = new DBUser();
-            //users = new List<User>();
+            _dbuser = dbuser;
             users = GetEmployees();
         }
 
@@ -28,12 +28,12 @@ namespace LogicLayer.Managers
             string userTypeString = userType.ToString();
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
 
-            dbuser.AddUser(firstName, lastName, email, hashedPassword, userTypeString);
+            _dbuser.AddUser(firstName, lastName, email, hashedPassword, userTypeString);
         }
 
         public User GetUserByEmail(string email)
         {
-            DataTable dt = dbuser.GetUserByEmail(email);
+            DataTable dt = _dbuser.GetUserByEmail(email);
             if (dt != null && dt.Rows.Count > 0)
             {
                 DataRow row = dt.Rows[0];
@@ -59,7 +59,7 @@ namespace LogicLayer.Managers
 
         public User GetUserById(int id)
         {
-            DataTable dt = dbuser.GetUserById(id);
+            DataTable dt = _dbuser.GetUserById(id);
             if (dt != null && dt.Rows.Count > 0)
             {
                 DataRow row = dt.Rows[0];
@@ -97,7 +97,7 @@ namespace LogicLayer.Managers
 
         public List<User> GetPendingEmployees()
         {
-            DataTable table = dbuser.GetUsers(UserType.PENDING_EMPLOYEE.ToString());
+            DataTable table = _dbuser.GetUsers(UserType.PENDING_EMPLOYEE.ToString());
             List<User> pendingUsers = new List<User>();
 
             foreach (DataRow row in table.Rows)
@@ -131,11 +131,11 @@ namespace LogicLayer.Managers
             }
 
             // Update the user type to EMPLOYEE
-            dbuser.UpdateUserType(id, UserType.EMPLOYEE.ToString());
+            _dbuser.UpdateUserType(id, UserType.EMPLOYEE.ToString());
         }
         public bool EmailExists(string email)
         {
-            return dbuser.EmailExists(email);
+            return _dbuser.EmailExists(email);
         }
         public bool UserAuth(string email, string password)
         {
@@ -149,7 +149,7 @@ namespace LogicLayer.Managers
 
         public List<User> GetEmployees()
         {
-            DataTable dt = dbuser.GetUsersTable();
+            DataTable dt = _dbuser.GetUsersTable();
             List<User> employees = new List<User>();
 
             if (dt != null)
@@ -178,7 +178,7 @@ namespace LogicLayer.Managers
 
         public List<User> GetCustomers()
         {
-            DataTable dt = dbuser.GetUsersTable();
+            DataTable dt = _dbuser.GetUsersTable();
             List<User> customers = new List<User>();
 
             if (dt != null)
@@ -248,7 +248,7 @@ namespace LogicLayer.Managers
 
         public void DeleteEmployee(string email)
         {
-            dbuser.DeleteUser(email);
+            _dbuser.DeleteUser(email);
         }
         public void DenyEmpAccess()
         {
@@ -280,9 +280,13 @@ namespace LogicLayer.Managers
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
 
             // Update the user's password in the database
-            dbuser.UpdatePassword(email, hashedPassword);
+            _dbuser.UpdatePassword(email, hashedPassword);
 
             return "Password updated successfully.";
+        }
+        public void UpdateCustomerInfo(string email, string newFirstName, string newLastName)
+        {
+            _dbuser.UpdateCustomerInfo(email, newFirstName, newLastName);
         }
     }
     
