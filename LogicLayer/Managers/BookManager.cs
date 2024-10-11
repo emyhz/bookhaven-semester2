@@ -162,18 +162,8 @@ namespace LogicLayer.Managers
 
         public void DeleteBook(int bookId)
         {
-            try
-            {
-                dbBook.DeleteBook(bookId);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while deleting the book: " + ex.Message);
-            }
+            dbBook.DeleteBook(bookId);
+
         }
-
-
-
-
     }
 }

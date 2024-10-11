@@ -164,7 +164,7 @@ namespace DataAccessLayer
                 try
                 {
                     // Update general book information in Book table
-                    string updateBookQuery = "UPDATE [Book] SET Title = @Title, Author = @Author, ISBN = @ISBN, PublishDate = @PublishDate, Price = @Price, " +
+                    string updateBookQuery = "UPDATE Book SET Title = @Title, Author = @Author, ISBN = @ISBN, PublishDate = @PublishDate, Price = @Price, " +
                                              "Genre = @Genre, Language = @Language, ImagePath = @ImagePath, Stock = @Stock, Sales = @Sales WHERE Id = @Id";
 
                     SqlCommand bookCommand = new SqlCommand(updateBookQuery, connection, transaction);
@@ -228,29 +228,36 @@ namespace DataAccessLayer
 
                 try
                 {
-                    // First, delete the entries from AudioBook and PhysicalBook tables (if they exist)
+                    // First, delete from AudioBook table if the book is an audiobook
                     string deleteAudioBookQuery = "DELETE FROM [AudioBook] WHERE Id = @Id";
                     SqlCommand audioBookCommand = new SqlCommand(deleteAudioBookQuery, connection, transaction);
                     audioBookCommand.Parameters.AddWithValue("@Id", id);
-                    audioBookCommand.ExecuteNonQuery();
+                    int audioBookRowsDeleted = audioBookCommand.ExecuteNonQuery();
 
+                    // Then, delete from PhysicalBook table if the book is a physical book
                     string deletePhysicalBookQuery = "DELETE FROM [PhysicalBook] WHERE Id = @Id";
                     SqlCommand physicalBookCommand = new SqlCommand(deletePhysicalBookQuery, connection, transaction);
                     physicalBookCommand.Parameters.AddWithValue("@Id", id);
-                    physicalBookCommand.ExecuteNonQuery();
+                    int physicalBookRowsDeleted = physicalBookCommand.ExecuteNonQuery();
 
-                    // Then, delete the entry from the Book table
+                    // Finally, delete the book from the Book table
                     string deleteBookQuery = "DELETE FROM [Book] WHERE Id = @Id";
                     SqlCommand bookCommand = new SqlCommand(deleteBookQuery, connection, transaction);
                     bookCommand.Parameters.AddWithValue("@Id", id);
-                    bookCommand.ExecuteNonQuery();
+                    int bookRowsDeleted = bookCommand.ExecuteNonQuery();
 
-                    // Commit transaction
-                    transaction.Commit();
+                    // Check if any rows were deleted, commit if successful
+                    if (audioBookRowsDeleted > 0 || physicalBookRowsDeleted > 0 || bookRowsDeleted > 0)
+                    {
+                        transaction.Commit();
+                    }
+                    else
+                    {
+                        throw new Exception("No matching book found to delete.");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    // Rollback transaction if there is an error
                     transaction.Rollback();
                     throw new Exception("An error occurred while deleting the book: " + ex.Message);
                 }

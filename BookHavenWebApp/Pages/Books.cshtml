@@ -2,3 +2,83 @@
 @model BookHavenWebApp.Pages.BooksModel
 @{
 }
+
+<div class="container-fluid p-5">
+    <div class="text-center">
+        <h1>@ViewData["Title"]</h1>
+        <p class="lead mb-5">Explore our vast collection of books across all genres</p>
+    </div>
+
+    <!-- Books Grid -->
+    <div class="row">
+        <div class="col-12">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+                @foreach (LogicLayer.EntityClasses.Book book in Model.Books)
+                {
+                    <div class="col">
+                        <a href="/BookDetails/@book.Id" class="card-link text-decoration-none">
+                            <div class="card border-0 shadow-sm h-100">
+                                <img src="/Resources/@book.ImagePath" class="card-img-top img-fluid mt-3" alt="Book Cover">
+                                <div class="card-body">
+                                    <h5 class="card-title">@book.Title</h5>
+                                    <p class="card-text mb-1 text-muted">Author: @book.Author</p>
+                                    <p class="card-text"><strong>€@book.Price</strong></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+                <!-- Pagination -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center mt-4">
+                        @if (Model.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="?currentPage=@(Model.CurrentPage - 1)">Previous</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link">Previous</a>
+                            </li>
+                        }
+
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            if (i == Model.CurrentPage)
+                            {
+                                <li class="page-item active">
+                                    <span class="page-link">@i</span>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="?currentPage=@i">@i</a>
+                                </li>
+                            }
+                        }
+
+                        @if (Model.CurrentPage < Model.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="?currentPage=@(Model.CurrentPage + 1)">Next</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item disabled">
+                                <a class="page-link">Next</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

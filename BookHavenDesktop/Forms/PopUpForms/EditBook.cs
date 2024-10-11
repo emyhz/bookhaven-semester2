@@ -108,5 +108,39 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 MessageBox.Show("An error occurred while updating the book: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnSelectImg_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Open file dialog to select an image from the Resources folder
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
+                    // Set the initial directory to the Resources folder
+                    string resourcesPath = Path.Combine(Application.StartupPath, "Resources");
+                    openFileDialog.InitialDirectory = resourcesPath;
+                    openFileDialog.Filter = "Image Files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
+                    openFileDialog.Title = "Select an Image";
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        // Get the full path of the selected file
+                        string selectedFilePath = openFileDialog.FileName;
+
+                        // Get the relative path starting from the "Resources" folder
+                        string relativePath = Path.GetRelativePath(Application.StartupPath, selectedFilePath);
+
+                        // Set the relative path to the txtFilePath TextBox (or store it in the database)
+                        txtFilePath.Text = relativePath;
+
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while selecting the image: " + ex.Message);
+            }
+        }
     }
 }

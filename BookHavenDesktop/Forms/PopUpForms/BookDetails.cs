@@ -22,6 +22,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
         {
             InitializeComponent();
             this.book = book;
+            _selectedBook = book;
             bookManager = new BookManager();
 
 
@@ -43,23 +44,25 @@ namespace BookHavenDesktop.Forms.PopUpForms
 
         private void btnDeleteBook_Click(object sender, EventArgs e)
         {
+            if (_selectedBook == null)
+            {
+                MessageBox.Show("No book selected. Please select a book to delete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             DialogResult result = MessageBox.Show("Are you sure you want to delete this book?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (result == DialogResult.Yes)
             {
                 try
                 {
-                    if (_selectedBook is PhysicalBook)
-                    {
-                        bookManager.DeleteBook(_selectedBook.Id);
-                    }
-                    else if (_selectedBook is AudioBook)
-                    {
-                        bookManager.DeleteBook(_selectedBook.Id);
-                    }
+                    // Delete the book based on type
+                    bookManager.DeleteBook(_selectedBook.Id);
 
+                    // Show success message and refresh the form
                     MessageBox.Show("Book deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                    // Optionally, refresh the book list or close the form
                     this.Close();
                 }
                 catch (Exception ex)

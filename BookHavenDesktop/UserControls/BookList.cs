@@ -22,23 +22,10 @@ namespace BookHavenDesktop.UserControls
         public BookList()
         {
             InitializeComponent();
-            this.Click += BookList_Click;
-            AttachClickEventToAllControls(this.Controls);
+            //this.Click += BookList_Click;
         }
 
-        private void AttachClickEventToAllControls(ControlCollection controls)
-        {
-            foreach (Control control in controls)
-            {
-                control.Click += BookList_Click;
-
-                // If the control has children, attach the event to them as well
-                if (control.HasChildren)
-                {
-                    AttachClickEventToAllControls(control.Controls);
-                }
-            }
-        }
+        
 
 
 
@@ -76,5 +63,7 @@ namespace BookHavenDesktop.UserControls
             BookDetails details = new BookDetails(bookData);
             details.ShowDialog();
         }
+
+       
     }
 }

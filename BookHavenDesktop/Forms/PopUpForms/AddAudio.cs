@@ -99,8 +99,16 @@ namespace BookHavenDesktop.Forms.PopUpForms
 
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        // Set the selected image file path to the txtFilePath TextBox
-                        txtFilePath.Text = openFileDialog.FileName;
+                        // Get the full path of the selected file
+                        string selectedFilePath = openFileDialog.FileName;
+
+                        // Get the relative path starting from the "Resources" folder
+                        string relativePath = Path.GetRelativePath(Application.StartupPath, selectedFilePath);
+
+                        // Set the relative path to the txtFilePath TextBox (or store it in the database)
+                        txtFilePath.Text = relativePath;
+
+                        
                     }
                 }
             }

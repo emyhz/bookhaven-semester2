@@ -10,17 +10,40 @@
 </head>
 <body>
     <!-- NAVIGATION BAR -->
-<header>
-    <nav class="py-2 bg-white border-bottom shadow-sm fixed-top">
-        <div class="container-fluid d-flex flex-wrap px-3 align-items-center justify-content-between">
-            <ul class="nav me-auto align-items-center">
-                <a class="navbar-brand highlight px-2 d-flex align-items-center" asp-area="" asp-page="/Index">
-                    <img src="/img/BookHaven Logo.png" alt="Logo" class="me-2" style="height: 40px; width: auto;">
+    <header>
+        <nav class="py-2 bg-white border-bottom shadow-sm fixed-top">
+            <div class="container-fluid d-flex flex-wrap px-3 align-items-center justify-content-between">
+                <ul class="nav me-auto align-items-center">
+                    <a class="navbar-brand highlight px-2 d-flex align-items-center" asp-area="" asp-page="/Index">
+                        <img src="/Resources/BookHaven Logo.png" alt="Logo" class="me-2" style="height: 40px; width: auto;">
                         <span style="color: #90AA86; font-size: 1.5rem;">BookHaven</span>
-                </a>
-                <li class="nav-item"><a class="nav-link link-dark px-3" asp-area="" asp-page="/Books">Books</a></li>
-                <li class="nav-item"><a class="nav-link link-dark px-3" asp-area="" asp-page="/AboutUs">About us</a></li>
-            </ul>
+                    </a>
+                    <li class="nav-item"><a class="nav-link link-dark px-3" asp-area="" asp-page="/Books">Books</a></li>
+                    <li class="nav-item"><a class="nav-link link-dark px-3" asp-area="" asp-page="/AboutUs">About us</a></li>
+
+                    <!-- Statistics Page Link -->
+                    <li class="nav-item">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("ADMIN"))
+                            {
+                                <!-- Admin users can access the statistics page -->
+                                <a class="nav-link link-dark px-3" asp-area="" asp-page="/Statistics">Statistics</a>
+                            }
+                            else
+                            {
+                                <!-- Non-admin users see the access denied page -->
+                                <a class="nav-link link-dark px-3" asp-page="/AccessDenied">Statistics</a>
+                            }
+                        }
+                        else
+                        {
+                            <!-- Non-logged in users are redirected to login -->
+                            <a class="nav-link link-dark px-3" asp-page="/Login">Statistics</a>
+                        }
+                    </li>
+                </ul>
+
                 @if (User.Identity.IsAuthenticated)
                 {
                     <!-- User is authenticated -->
@@ -38,11 +61,10 @@
                                 <li><a class="dropdown-item" asp-page="/Account">My Account</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" asp-page="/LogOut">Log Out</a></li>
-                                <li><a class="dropdown-item" asp-page="/Statistics">Statistics</a></li>
-
                             </ul>
                         </div>
                     </ul>
+
                 }
                 else
                 {
@@ -59,10 +81,9 @@
                         </div>
                     </ul>
                 }
-                </div>
-
-    </nav>
-</header>
+            </div>
+        </nav>
+    </header>
 
     <div class="container">
         <main role="main" class="pb-3">

@@ -57,6 +57,9 @@
             lblCovertype = new Label();
             lblPages = new Label();
             numPagesEdit = new NumericUpDown();
+            btnSelectImg = new Button();
+            txtFilePath = new TextBox();
+            lblImage = new Label();
             ((System.ComponentModel.ISupportInitialize)pbBookDetails).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPriceEdit).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numStockEdit).BeginInit();
@@ -187,9 +190,9 @@
             // 
             // pbBookDetails
             // 
-            pbBookDetails.Location = new Point(560, 51);
+            pbBookDetails.Location = new Point(573, 12);
             pbBookDetails.Name = "pbBookDetails";
-            pbBookDetails.Size = new Size(310, 397);
+            pbBookDetails.Size = new Size(310, 369);
             pbBookDetails.TabIndex = 59;
             pbBookDetails.TabStop = false;
             // 
@@ -391,12 +394,52 @@
             numPagesEdit.TabIndex = 103;
             numPagesEdit.ThousandsSeparator = true;
             // 
+            // btnSelectImg
+            // 
+            btnSelectImg.BackColor = Color.FromArgb(130, 76, 113);
+            btnSelectImg.FlatAppearance.BorderSize = 0;
+            btnSelectImg.FlatStyle = FlatStyle.Flat;
+            btnSelectImg.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnSelectImg.ForeColor = Color.White;
+            btnSelectImg.Location = new Point(743, 408);
+            btnSelectImg.Name = "btnSelectImg";
+            btnSelectImg.Size = new Size(140, 41);
+            btnSelectImg.TabIndex = 106;
+            btnSelectImg.Text = "Select image";
+            btnSelectImg.UseVisualStyleBackColor = false;
+            btnSelectImg.Click += btnSelectImg_Click;
+            // 
+            // txtFilePath
+            // 
+            txtFilePath.BackColor = Color.WhiteSmoke;
+            txtFilePath.BorderStyle = BorderStyle.None;
+            txtFilePath.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtFilePath.Location = new Point(585, 408);
+            txtFilePath.Multiline = true;
+            txtFilePath.Name = "txtFilePath";
+            txtFilePath.Size = new Size(152, 41);
+            txtFilePath.TabIndex = 105;
+            // 
+            // lblImage
+            // 
+            lblImage.AutoSize = true;
+            lblImage.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblImage.ForeColor = Color.Black;
+            lblImage.Location = new Point(499, 414);
+            lblImage.Name = "lblImage";
+            lblImage.Size = new Size(62, 23);
+            lblImage.TabIndex = 104;
+            lblImage.Text = "Image:";
+            // 
             // EditBook
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(915, 856);
+            Controls.Add(btnSelectImg);
+            Controls.Add(txtFilePath);
+            Controls.Add(lblImage);
             Controls.Add(numPagesEdit);
             Controls.Add(txtDimensionsEdit);
             Controls.Add(txtCovertypeEdit);
@@ -468,5 +511,8 @@
         private Label lblCovertype;
         private Label lblPages;
         private NumericUpDown numPagesEdit;
+        private Button btnSelectImg;
+        private TextBox txtFilePath;
+        private Label lblImage;
     }
 }
