@@ -22,8 +22,8 @@ namespace LogicLayer.EntityClasses
         }
 
         //properties
-        public TimeSpan AudioLength { get { return audioLength; } set { audioLength = value; } }
-        public string FileSize { get { return fileSize; } set { fileSize = value; } }
+        public TimeSpan AudioLength { get { return audioLength; } }
+        public string FileSize { get { return fileSize; } }
 
         public override void CheckOut() //no implementation yet
         {
