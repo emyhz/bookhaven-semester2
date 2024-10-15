@@ -42,13 +42,13 @@ namespace LogicLayer.EntityClasses
 
 
         //properties
-        public int Id { get { return id; } set { id = value; } }
-        public string FirstName { get { return firstName; } set { firstName = value; } }
-        public string LastName { get { return lastName; } set { lastName = value; } }
-        public string Email { get { return email; } set { email = value; } }
-        public string Password { get { return password; } set { password = value; } }
-        public UserType UserType { get { return userType; } set { userType = value; } }
-        public DateTime DateCreated { get { return dateCreated; } set { dateCreated = value; } }
+        public int Id { get { return id; } }
+        public string FirstName { get { return firstName; }  }
+        public string LastName { get { return lastName; } }
+        public string Email { get { return email; } }
+        public string Password { get { return password; } }
+        public UserType UserType { get { return userType; } }
+        public DateTime DateCreated { get { return dateCreated; } }
 
         public override string ToString() //override the ToString method to return the full name of the user
         {

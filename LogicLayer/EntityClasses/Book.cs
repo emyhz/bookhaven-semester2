@@ -39,17 +39,17 @@ namespace LogicLayer.EntityClasses
 
 
         //properties
-        public int Id { get { return id; } set { id = value; } }
+        public int Id { get { return id; } }
 
-        public string Title { get { return title; } set { title = value; } }
-        public string Author { get { return author; } set { author = value; } }
-        public long ISBN1 { get { return isbn; } set { isbn = value; } }
-        public DateTime PublishYear { get { return publishYear; } set { publishYear = value; } }
-        public decimal Price { get { return price; } set { price = value; } }
-        public Genre Genre { get { return genre; } set { genre = value; } }
-        public string Language { get { return language; } set { language = value; } }
-        public string ImagePath { get { return imagePath; } set { imagePath = value; } }
-        public int Stock { get { return stock; } set { stock = value; } }
+        public string Title { get { return title; } }
+        public string Author { get { return author; } }
+        public long ISBN1 { get { return isbn; } }
+        public DateTime PublishYear { get { return publishYear; } }
+        public decimal Price { get { return price; } }
+        public Genre Genre { get { return genre; } }
+        public string Language { get { return language; } }
+        public string ImagePath { get { return imagePath; } }
+        public int Stock { get { return stock; } }
 
 
         //methods

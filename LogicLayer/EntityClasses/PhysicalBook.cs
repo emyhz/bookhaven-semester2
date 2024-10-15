@@ -24,9 +24,9 @@ namespace LogicLayer.EntityClasses
         }
 
         //properties
-        public string Dimensions { get { return dimensions; } set { dimensions = value; } }
-        public int Pages { get { return pages; } set { pages = value; } }
-        public string CoverType { get { return coverType; } set { coverType = value; } }
+        public string Dimensions { get { return dimensions; } }
+        public int Pages { get { return pages; } }
+        public string CoverType { get { return coverType; } }
 
         //methods
         public override void CheckOut()//no implementation yet

@@ -36,14 +36,14 @@ namespace LogicLayer.EntityClasses
 
 
         //properties
-        public int Id { get { return id; } set { id = value; } }
-        public DateTime DateCreated { get { return dateCreated; } set { dateCreated = value; } }
-        public User User { get { return user; } set { user = value; } }
-        public string Address { get { return address; } set { address = value; } }
-        public string Country { get { return country; } set { country = value; } }
-        public string City { get { return city; } set { city = value; } }
-        public decimal ZipCode { get { return zipCode; } set { zipCode = value; } }
-        public decimal TotalPrice { get { return totalPrice; } set { totalPrice = value; } }
-        public List<OrderItem> OrderItems { get { return orderItems; } set { orderItems = value; } }
+        public int Id { get { return id; } }
+        public DateTime DateCreated { get { return dateCreated; } }
+        public User User { get { return user; } }
+        public string Address { get { return address; } }
+        public string Country { get { return country; } }
+        public string City { get { return city; } }
+        public decimal ZipCode { get { return zipCode; } }
+        public decimal TotalPrice { get { return totalPrice; } }
+        public List<OrderItem> OrderItems { get { return orderItems; } }
     }
 }
