@@ -40,7 +40,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 decimal price = numPrice.Value;
                 string genre = cmbGenre.SelectedItem.ToString(); // Get selected genre from combo box
                 string language = txtLanguage.Text;
-                string imagePath = txtFilePath.Text; // Assuming this is where the file path is stored
+                string imagePath = txtFilePath.Text; 
                 int stock = (int)numStock.Value;
                 int sales = 0; // Initial sales
 
@@ -107,8 +107,6 @@ namespace BookHavenDesktop.Forms.PopUpForms
 
                         // Set the relative path to the txtFilePath TextBox (or store it in the database)
                         txtFilePath.Text = relativePath;
-
-                        
                     }
                 }
             }

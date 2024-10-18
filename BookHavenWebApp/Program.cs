@@ -13,7 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-//authentication
+
+// Configure cookie-based authentication with custom paths for login, access denied, and logout.
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
     options.LoginPath = new PathString("/Login");
@@ -31,6 +32,7 @@ builder.Services.AddAuthorization(options =>
 
 // registering data access layer services
 builder.Services.AddScoped<IUserDb, DBUser>();
+builder.Services.AddScoped<IOrderDb, DBOrder>();
 
 
 
@@ -38,6 +40,7 @@ builder.Services.AddScoped<IUserDb, DBUser>();
 builder.Services.AddScoped<UserManager>();
 builder.Services.AddScoped<OrderManager>();
 builder.Services.AddScoped<BookManager>();
+builder.Services.AddScoped<OrderItemManager>();
 
 
 

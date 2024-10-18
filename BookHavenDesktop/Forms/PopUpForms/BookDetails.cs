@@ -32,6 +32,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
             lblPriceShow.Text = book.Price.ToString();
             lblStockShow.Text = book.Stock.ToString();
             pbBookDetails.ImageLocation = book.ImagePath;
+            lblGenreShow.Text = book.Genre.ToString();
 
         }
 

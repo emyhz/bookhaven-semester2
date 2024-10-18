@@ -71,41 +71,46 @@ namespace BookHavenDesktop.Forms.PopUpForms
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            try
+            string title = txtTitleEdit.Text;
+            string author = txtAuthorEdit.Text;
+            long isbn = long.Parse(txtISBNEdit.Text);
+            DateTime publishYear = dtpPublishEdit.Value;
+            decimal price = numPriceEdit.Value;
+            string genre = cmbGenreEdit.SelectedItem.ToString();
+            string language = lblLanguageEdit.Text;
+            string imagePath = pbBookDetails.ImageLocation;
+            int stock = (int)numStockEdit.Value;
+
+            // Additional fields for specific book types
+            TimeSpan? audioLength = null;
+            string fileSize = null;
+            string dimensions = null;
+            int? pages = null;
+            string coverType = null;
+
+            string bookType = book is AudioBook ? "AudioBook" : "PhysicalBook";
+
+            if (book is AudioBook)
             {
-                // Update the book object with the new values from the form controls
-                book.Title = txtTitleEdit.Text;
-                book.Author = txtAuthorEdit.Text;
-                book.ISBN1 = long.Parse(txtISBNEdit.Text);
-                book.PublishYear = dtpPublishEdit.Value;
-                book.Price = numPriceEdit.Value;
-                book.Stock = (int)numStockEdit.Value;
-                book.Language = lblLanguageEdit.Text;
-                book.Genre = (Genre)Enum.Parse(typeof(Genre), cmbGenreEdit.SelectedItem.ToString());
-                book.ImagePath = pbBookDetails.ImageLocation;
-
-                if (book is AudioBook audioBook)
-                {
-                    audioBook.AudioLength = TimeSpan.Parse(txtAudioLengthEdit.Text);
-                    audioBook.FileSize = txtFileSizeEdit.Text;
-                }
-                else if (book is PhysicalBook physicalBook)
-                {
-                    physicalBook.Dimensions = txtDimensionsEdit.Text;
-                    physicalBook.Pages = (int)numPagesEdit.Value;
-                    physicalBook.CoverType = txtCovertypeEdit.Text;
-                }
-
-                BookManager bookManager = new BookManager();
-                bookManager.UpdateBook(book);
-
-                MessageBox.Show("Book updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                this.Close();
+                audioLength = TimeSpan.Parse(txtAudioLengthEdit.Text);
+                fileSize = txtFileSizeEdit.Text;
             }
-            catch (Exception ex)
+            else if (book is PhysicalBook)
             {
-                MessageBox.Show("An error occurred while updating the book: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dimensions = txtDimensionsEdit.Text;
+                pages = (int)numPagesEdit.Value;
+                coverType = txtCovertypeEdit.Text;
+            }
+
+            DialogResult result = MessageBox.Show("Are you sure you would like to save these changes?", "Saving Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+            if (result == DialogResult.Yes)
+            {
+                // Use the BookManager to update the book
+                BookManager bookManager = new BookManager();
+                bookManager.UpdateBook(book.Id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, bookType, audioLength, fileSize, dimensions, pages, coverType);
+
+                MessageBox.Show("Book has been successfully updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
             }
         }
 

@@ -11,7 +11,7 @@
         <div class="row">
             <!-- Image Column -->
             <div class="col-12 col-md-10 col-lg-6 offset-lg-3 mb-4 d-flex justify-content-center">
-                <img src="/img/Login.Signup.png" alt="Sign Up Image" class="img-fluid rounded-start" style="max-width: 200px;">
+                <img src="/Resources/Login.Signup.png" alt="Sign Up Image" class="img-fluid rounded-start" style="max-width: 200px;">
             </div>
             <!-- Sign Up Form Column -->
             <div class="col-12 col-md-10 col-lg-6 offset-lg-3">
@@ -20,18 +20,18 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstName" name="FirstName" asp-for="FirstName" required>
+                            <input  class="form-control" id="firstName" name="FirstName" asp-for="FirstName" required>
                             <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
                         <div class="col">
                             <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" name="LastName" asp-for="LastName" required>
+                            <input  class="form-control" id="lastName" name="LastName" asp-for="LastName" required>
                             <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="Email" asp-for="Email" required>
+                        <input  class="form-control" id="email" name="Email" asp-for="Email" required>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
@@ -41,7 +41,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="confirmPassword" class="form-label">Retype Password</label>
-                        <input type="password" class="form-control" id="confirmPassword" name="ConfirmPassword" asp-for="ConfirmPassword" required>
+                        <input  class="form-control" id="confirmPassword" name="ConfirmPassword" asp-for="ConfirmPassword" required>
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Sign Up</button>

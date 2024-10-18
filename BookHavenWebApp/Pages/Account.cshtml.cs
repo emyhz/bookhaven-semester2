@@ -92,7 +92,7 @@ namespace BookHavenWebApp.Pages
 
                 // After account deletion, log the user out and redirect to the homepage or a confirmation page
                 HttpContext.SignOutAsync();
-                return RedirectToPage("/Login"); // Redirect to home or a "goodbye" confirmation page
+                return RedirectToPage("/Login");
             }
 
             TempData["ErrorMessage"] = "Account not found.";

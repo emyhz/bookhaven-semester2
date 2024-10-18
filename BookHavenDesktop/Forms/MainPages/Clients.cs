@@ -22,7 +22,6 @@ namespace BookHavenDesktop.Forms.MainPages
         {
             InitializeComponent();
             this.userManager = userManager;
-            //userManager = new UserManager();
             customers = userManager.GetCustomers();
             GenerateEmployees(customers);
         }

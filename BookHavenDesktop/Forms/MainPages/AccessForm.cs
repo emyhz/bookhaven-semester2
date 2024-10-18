@@ -21,7 +21,6 @@ namespace BookHavenDesktop.Forms.MainPages
         {
             InitializeComponent();
             this.userManager = userManager;
-            //userManager = new UserManager();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)

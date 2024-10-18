@@ -12,11 +12,9 @@ namespace BookHavenWebApp.Pages
     public class LoginModel : PageModel
     {
         public readonly UserManager userManager;
-        private List<Claim> claims;
         public LoginModel(UserManager userManager)
         {
             this.userManager = userManager;
-            claims = new List<Claim>();
         }
         //properties
         [BindProperty]
@@ -34,12 +32,20 @@ namespace BookHavenWebApp.Pages
         {
             if(userManager.AuthenticateUser(Email, Password))
             {
-                User user = userManager.GetUserByEmail(Email);
-                claims.Add(new Claim(ClaimTypes.Name, Email));
-                claims.Add(new Claim(ClaimTypes.Role, user.UserType.ToString()));
 
+                User user = userManager.GetUserByEmail(Email);
+
+
+                var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, Email),
+                new Claim(ClaimTypes.Role, user.UserType.ToString())
+            };
+
+                // Set up the user's claims identity and sign in
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                // Sign the user in with the established claims
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
                 Response.Redirect("/Index");
             }

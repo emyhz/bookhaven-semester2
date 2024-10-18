@@ -225,25 +225,25 @@ namespace LogicLayer.Managers
         }
 
 
-        public List<User> SortUsers(UserCombobox usersort, List<User> usersToSort)
-        {
-            List<User> sortedUsers = new List<User>(usersToSort);
+        //public List<User> SortUsers(UserCombobox usersort, List<User> usersToSort)
+        //{
+        //    List<User> sortedUsers = new List<User>(usersToSort);
 
-            switch (usersort)
-            {
-                case UserCombobox.NAME_ASCENDING:
-                    sortedUsers.Sort((x, y) => string.Compare(x.FirstName, y.FirstName, StringComparison.OrdinalIgnoreCase));
-                    break;
-                case UserCombobox.START_DATE_ASCENDING:
-                    sortedUsers.Sort((x, y) => DateTime.Compare(x.DateCreated, y.DateCreated));
-                    break;
-                case UserCombobox.START_DATE_DESCENDING:
-                    sortedUsers.Sort((x, y) => DateTime.Compare(y.DateCreated, x.DateCreated));
-                    break;
-            }
+        //    switch (usersort)
+        //    {
+        //        case UserCombobox.NAME_ASCENDING:
+        //            sortedUsers.Sort((x, y) => string.Compare(x.FirstName, y.FirstName, StringComparison.OrdinalIgnoreCase));
+        //            break;
+        //        case UserCombobox.START_DATE_ASCENDING:
+        //            sortedUsers.Sort((x, y) => DateTime.Compare(x.DateCreated, y.DateCreated));
+        //            break;
+        //        case UserCombobox.START_DATE_DESCENDING:
+        //            sortedUsers.Sort((x, y) => DateTime.Compare(y.DateCreated, x.DateCreated));
+        //            break;
+        //    }
 
-            return sortedUsers;
-        }
+        //    return sortedUsers;
+        //}
 
 
         public void DeleteEmployee(string email)

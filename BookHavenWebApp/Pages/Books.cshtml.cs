@@ -48,9 +48,11 @@ namespace BookHavenWebApp.Pages
 
             // Pagination logic
             CurrentPage = currentPage;
+
+            //all books displayed even if last page has fewer books
             TotalPages = (int)Math.Ceiling(books.Count / (double)pageSize);
 
-            // Get the current page's books and assign them to the Books property
+            // Get books for the current page by skipping previous pages and taking 'pageSize' items.
             Books = books.Skip((CurrentPage - 1) * pageSize).Take(pageSize).ToList();
         }
     }

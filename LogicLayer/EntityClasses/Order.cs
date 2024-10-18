@@ -15,13 +15,13 @@ namespace LogicLayer.EntityClasses
         private string address;
         private string country;
         private string city;
-        private decimal zipCode;
+        private string zipCode;
         private decimal totalPrice;
         private List<OrderItem> orderItems;
 
 
         //constructors
-        public Order(int id, DateTime dateCreated, User user, string address, string country, string city, decimal zipCode, decimal totalPrice, List<OrderItem> orderItems)
+        public Order(int id, DateTime dateCreated, User user, string address, string country, string city, string zipCode, decimal totalPrice, List<OrderItem> orderItems)
         {
             this.id = id;
             this.dateCreated = dateCreated;
@@ -42,7 +42,7 @@ namespace LogicLayer.EntityClasses
         public string Address { get { return address; } }
         public string Country { get { return country; } }
         public string City { get { return city; } }
-        public decimal ZipCode { get { return zipCode; } }
+        public string ZipCode { get { return zipCode; } }
         public decimal TotalPrice { get { return totalPrice; } }
         public List<OrderItem> OrderItems { get { return orderItems; } }
     }

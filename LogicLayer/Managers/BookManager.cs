@@ -128,36 +128,41 @@ namespace LogicLayer.Managers
             return searchResult;
 
         }
-        public void UpdateBook(Book book)
+        //public void UpdateBook(Book book)
+        //{
+        //    if (book == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(book), "Book cannot be null");
+        //    }
+
+        //    string bookType = book is AudioBook ? "AudioBook" : book is PhysicalBook ? "PhysicalBook" : "Book";
+
+        //    // Default parameters for book type-specific fields
+        //    TimeSpan? length = null;
+        //    string fileSize = null;
+        //    string dimensions = null;
+        //    int? pages = null;
+        //    string coverType = null;
+
+        //    // Set specific parameters based on the book type
+        //    if (book is AudioBook audioBook)
+        //    {
+        //        length = audioBook.AudioLength;
+        //        fileSize = audioBook.FileSize;
+        //    }
+        //    else if (book is PhysicalBook physicalBook)
+        //    {
+        //        dimensions = physicalBook.Dimensions;
+        //        pages = physicalBook.Pages;
+        //        coverType = physicalBook.CoverType;
+        //    }
+
+        //    dbBook.UpdateBook(book.Id, book.Title, book.Author, book.ISBN1.ToString(), book.PublishYear, book.Price, book.Genre.ToString(), book.Language, book.ImagePath, book.Stock, 0, bookType, length, fileSize, dimensions, pages, coverType);
+        //}
+
+        public void UpdateBook(int id, string title, string author, long isbn, DateTime publishYear, decimal price, string genre, string language, string imagePath, int stock, string bookType, TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
         {
-            if (book == null)
-            {
-                throw new ArgumentNullException(nameof(book), "Book cannot be null");
-            }
-
-            string bookType = book is AudioBook ? "AudioBook" : book is PhysicalBook ? "PhysicalBook" : "Book";
-
-            // Default parameters for book type-specific fields
-            TimeSpan? length = null;
-            string fileSize = null;
-            string dimensions = null;
-            int? pages = null;
-            string coverType = null;
-
-            // Set specific parameters based on the book type
-            if (book is AudioBook audioBook)
-            {
-                length = audioBook.AudioLength;
-                fileSize = audioBook.FileSize;
-            }
-            else if (book is PhysicalBook physicalBook)
-            {
-                dimensions = physicalBook.Dimensions;
-                pages = physicalBook.Pages;
-                coverType = physicalBook.CoverType;
-            }
-
-            dbBook.UpdateBook(book.Id, book.Title, book.Author, book.ISBN1.ToString(), book.PublishYear, book.Price, book.Genre.ToString(), book.Language, book.ImagePath, book.Stock, 0, bookType, length, fileSize, dimensions, pages, coverType);
+            dbBook.UpdateBook(id, title, author, isbn.ToString(), publishYear, price, genre, language, imagePath, stock, 0, bookType, length, fileSize, dimensions, pages, coverType);
         }
 
         public void DeleteBook(int bookId)
