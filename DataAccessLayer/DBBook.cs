@@ -153,7 +153,73 @@ namespace DataAccessLayer
 
             return physicalBooksTable;
         }
+        public DataTable GetBooks()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
 
+                // SQL query to fetch both AudioBook and PhysicalBook details
+                string query = @"
+            SELECT 
+                b.Id,
+                b.Title,
+                b.Author,
+                b.ISBN,
+                b.PublishDate,
+                b.Price,
+                b.Genre,
+                b.Language,
+                b.ImagePath,
+                b.Stock,
+                'AudioBook' AS BookType,
+                ab.Length AS AudioLength,
+                ab.FileSize,
+                NULL AS Dimensions,
+                NULL AS Pages,
+                NULL AS CoverType
+            FROM [Book] b
+            INNER JOIN [AudioBook] ab ON b.Id = ab.Id
+
+            UNION ALL
+
+            SELECT 
+                b.Id,
+                b.Title,
+                b.Author,
+                b.ISBN,
+                b.PublishDate,
+                b.Price,
+                b.Genre,
+                b.Language,
+                b.ImagePath,
+                b.Stock,
+                'PhysicalBook' AS BookType,
+                NULL AS AudioLength,
+                NULL AS FileSize,
+                pb.Dimensions,
+                pb.Pages,
+                pb.CoverType
+            FROM [Book] b
+            INNER JOIN [PhysicalBook] pb ON b.Id = pb.Id;";
+
+                SqlCommand cmd = new SqlCommand(query, connection);
+
+                try
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        sda.Fill(dt);
+                        return dt;
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+        }
         public void UpdateBook(int id, string title, string author, string isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales, string bookType, TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -267,6 +333,76 @@ namespace DataAccessLayer
                 }
             }
 
+        }
+        public DataTable GetBooksSummary()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Select basic details of books for summary display, include the book type.
+                string query = @"
+            SELECT b.Id, b.Title, b.Author, b.Price, b.Stock, b.Sales, b.ImagePath, 
+                   CASE 
+                       WHEN pb.Id IS NOT NULL THEN 'PhysicalBook' 
+                       WHEN ab.Id IS NOT NULL THEN 'AudioBook' 
+                       ELSE 'UnknownBookType' 
+                   END AS BookType
+            FROM [Book] b
+            LEFT JOIN [PhysicalBook] pb ON b.Id = pb.Id
+            LEFT JOIN [AudioBook] ab ON b.Id = ab.Id";
+
+                SqlCommand cmd = new SqlCommand(query, connection);
+
+                try
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        sda.Fill(dt);
+                        return dt;
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+        }
+        
+        public DataTable GetBookDetails(int id)
+        {
+            DataTable dataTable = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // SQL query to fetch all details of a specific book, including the book type and its specific attributes.
+                string query = @"
+            SELECT b.*, 
+                   pb.Dimensions, pb.Pages, pb.CoverType, 
+                   ab.Length AS AudioLength, ab.FileSize,
+                   CASE 
+                       WHEN pb.Id IS NOT NULL THEN 'PhysicalBook' 
+                       WHEN ab.Id IS NOT NULL THEN 'AudioBook' 
+                       ELSE 'UnknownBookType' 
+                   END AS BookType
+            FROM [Book] b
+            LEFT JOIN [PhysicalBook] pb ON b.Id = pb.Id
+            LEFT JOIN [AudioBook] ab ON b.Id = ab.Id
+            WHERE b.Id = @Id";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+                    connection.Open();
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    {
+                        adapter.Fill(dataTable);
+                    }
+                }
+            }
+
+            return dataTable;
         }
     }
 }

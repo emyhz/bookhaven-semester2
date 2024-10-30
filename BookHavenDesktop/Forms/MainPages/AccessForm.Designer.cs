@@ -52,13 +52,15 @@
             lblEmail = new Label();
             lblPassword = new Label();
             txtEmailLogin = new TextBox();
-            txtPassLogin = new TextBox();
             btnLogin = new Button();
+            pbPasswordShow = new PictureBox();
+            txtPassLogin = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbPasswordShow).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -323,18 +325,6 @@
             txtEmailLogin.Size = new Size(298, 41);
             txtEmailLogin.TabIndex = 9;
             // 
-            // txtPassLogin
-            // 
-            txtPassLogin.BackColor = Color.WhiteSmoke;
-            txtPassLogin.BorderStyle = BorderStyle.None;
-            txtPassLogin.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtPassLogin.Location = new Point(72, 453);
-            txtPassLogin.Multiline = true;
-            txtPassLogin.Name = "txtPassLogin";
-            txtPassLogin.Size = new Size(298, 41);
-            txtPassLogin.TabIndex = 10;
-            txtPassLogin.WordWrap = false;
-            // 
             // btnLogin
             // 
             btnLogin.BackColor = Color.FromArgb(130, 76, 113);
@@ -350,14 +340,40 @@
             btnLogin.UseVisualStyleBackColor = false;
             btnLogin.Click += btnLogin_Click;
             // 
+            // pbPasswordShow
+            // 
+            pbPasswordShow.BackColor = Color.WhiteSmoke;
+            pbPasswordShow.Image = (Image)resources.GetObject("pbPasswordShow.Image");
+            pbPasswordShow.Location = new Point(321, 453);
+            pbPasswordShow.Name = "pbPasswordShow";
+            pbPasswordShow.Size = new Size(49, 41);
+            pbPasswordShow.SizeMode = PictureBoxSizeMode.StretchImage;
+            pbPasswordShow.TabIndex = 12;
+            pbPasswordShow.TabStop = false;
+            pbPasswordShow.Click += pbPasswordShow_Click;
+            // 
+            // txtPassLogin
+            // 
+            txtPassLogin.BackColor = Color.WhiteSmoke;
+            txtPassLogin.BorderStyle = BorderStyle.None;
+            txtPassLogin.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtPassLogin.Location = new Point(72, 453);
+            txtPassLogin.Multiline = true;
+            txtPassLogin.Name = "txtPassLogin";
+            txtPassLogin.PasswordChar = '●';
+            txtPassLogin.Size = new Size(298, 41);
+            txtPassLogin.TabIndex = 13;
+            txtPassLogin.UseSystemPasswordChar = true;
+            // 
             // AccessForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(976, 661);
-            Controls.Add(btnLogin);
+            Controls.Add(pbPasswordShow);
             Controls.Add(txtPassLogin);
+            Controls.Add(btnLogin);
             Controls.Add(txtEmailLogin);
             Controls.Add(lblPassword);
             Controls.Add(lblEmail);
@@ -377,6 +393,7 @@
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbPasswordShow).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -394,7 +411,6 @@
         private Label lblEmail;
         private Label lblPassword;
         private TextBox txtEmailLogin;
-        private TextBox txtPassLogin;
         private Button btnLogin;
         private TextBox txtPasswordSignUp2;
         private TextBox txtPasswordSignUp;
@@ -408,5 +424,7 @@
         private TextBox txtFirstName;
         private Button btnSignUp;
         private PictureBox pictureBox4;
+        private PictureBox pbPasswordShow;
+        private TextBox txtPassLogin;
     }
 }

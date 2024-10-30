@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using LogicLayer.Managers;
 using LogicLayer.EntityClasses;
 using LogicLayer.Enums;
+using BookHavenDesktop.Properties;
 
 
 namespace BookHavenDesktop.Forms.MainPages
@@ -21,6 +22,8 @@ namespace BookHavenDesktop.Forms.MainPages
         {
             InitializeComponent();
             this.userManager = userManager;
+            txtPassLogin.UseSystemPasswordChar = true; // Ensure dots are shown by default
+
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -57,7 +60,8 @@ namespace BookHavenDesktop.Forms.MainPages
                 MainForm mainForm = new MainForm(user.Email, userManager);
                 mainForm.Show();
                 this.Hide();
-            }else if (user.UserType == LogicLayer.Enums.UserType.PENDING_EMPLOYEE)
+            }
+            else if (user.UserType == LogicLayer.Enums.UserType.PENDING_EMPLOYEE)
             {
                 MessageBox.Show("An admin needs to approve you first to login");
             }
@@ -73,6 +77,19 @@ namespace BookHavenDesktop.Forms.MainPages
             else
             {
                 MessageBox.Show("Passwords do not match");
+            }
+        }
+
+        private void pbPasswordShow_Click(object sender, EventArgs e)
+        {
+            if (txtPassLogin.UseSystemPasswordChar)
+            {
+                txtPassLogin.UseSystemPasswordChar = false; // Show the password text
+                return;
+            }
+            else
+            {
+                txtPassLogin.UseSystemPasswordChar = true; // Hide the password with dots
             }
         }
     }

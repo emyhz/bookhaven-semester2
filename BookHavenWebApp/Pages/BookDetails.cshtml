@@ -1,4 +1,46 @@
-﻿@page
+﻿@page "{id}"
 @model BookHavenWebApp.Pages.BookDetailsModel
 @{
 }
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Book Image -->
+        <div class="col-md-4">
+            <img src="/Resources/@Model.ImagePath" class="img-fluid" alt="Book Cover">
+        </div>
+
+        <!-- Book Details -->
+        <div class="col-md-8">
+            <h2>@Model.Title</h2>
+            <p><strong>Author:</strong> @Model.Author</p>
+            <p><strong>ISBN:</strong> @Model.ISBN</p>
+            <p><strong>Published on:</strong> @Model.PublishDate.ToString("dd MMMM yyyy")</p>
+            <p><strong>Genre:</strong> @Model.Genre</p>
+            <p><strong>Language:</strong> @Model.Language</p>
+            <p><strong>Price:</strong> €@Model.Price</p>
+
+            <!-- Show physical book details if applicable -->
+            @if (Model.dimensions != null)
+            {
+                <p><strong>Dimensions:</strong> @Model.dimensions</p>
+                <p><strong>Pages:</strong> @Model.pages</p>
+                <p><strong>Cover Type:</strong> @Model.coverType</p>
+            }
+
+            <!-- Show audiobook details if applicable -->
+            @if (Model.FileSize != null)
+            {
+                <p><strong>Audio Length:</strong> @Model.AudioLength.Hours hours @Model.AudioLength.Minutes minutes</p>
+                <p><strong>File Size:</strong> @Model.FileSize</p>
+            }
+
+            <!-- Add to cart button -->
+            <form method="post" asp-page-handler="AddToCart">
+                <input type="hidden" name="ProductId" value="@Model.Id" />
+                <button type="submit" class="btn btn-success fw-bold px-4 py-2 rounded-pill" style="font-size: 1.2rem;">
+                    <i class="bi bi-cart-fill me-2"></i> Add to cart
+                </button>
+            </form>
+        </div>
+    </div>

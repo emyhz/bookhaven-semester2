@@ -50,8 +50,6 @@ namespace BookHavenDesktop.Forms.PopUpForms
 
                         // Set the relative path to the txtFilePath TextBox (or store it in the database)
                         txtFilePath.Text = relativePath;
-
-                        
                     }
                 }
             }
