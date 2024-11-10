@@ -4,14 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LogicLayer.Enums
+namespace LogicLayer.Interfaces
 {
-    public enum OrderStatus
+    internal class IRecommendationSystem
     {
-        IN_CART,
-        PENDING,
-        SHIPPED,
-        DELIVERED,
-
     }
 }

@@ -56,7 +56,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 // BookType is AudioBook
                 string bookType = "AudioBook";
 
-                // Call the logic layer method to add the book
+
                 int bookId = bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, bookType, audioLength, fileSize);
 
                 MessageBox.Show($"AudioBook added successfully!");
@@ -81,7 +81,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
             txtFileSize.Clear();
             numStock.Value = 0;
             numPrice.Value = 0;
-            cmbGenre.SelectedIndex = 0; // Reset genre to the first option
+            cmbGenre.SelectedIndex = 0; // Reset genre
         }
 
         private void btnSelectImg_Click(object sender, EventArgs e)

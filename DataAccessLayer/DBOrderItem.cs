@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -9,17 +10,16 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
-    public class DBOrderItem : DatabaseConnection
+    public class DBOrderItem : DatabaseConnection, IOrderItemDb
     {
+        // Adds a book to the cart
         public void AddToCart(int bookId, int orderId, int quantity = 1)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                // Directly add or update the book in the OrderItem table using the provided OrderId
                 string insertItemQuery = "INSERT INTO OrderItem (OrderId, BookId, Quantity) VALUES (@OrderId, @BookId, @Quantity)";
-
                 using (SqlCommand command = new SqlCommand(insertItemQuery, connection))
                 {
                     command.Parameters.AddWithValue("@OrderId", orderId);
@@ -29,7 +29,9 @@ namespace DataAccessLayer
                 }
             }
         }
-        public DataTable GetCartFromUserID(int userId)
+
+        // Retrieves cart items for a specific user based on the user ID
+        public DataTable GetCartFromUserID(int userID)
         {
             DataTable dt = new DataTable();
 
@@ -38,13 +40,13 @@ namespace DataAccessLayer
                 string query = @"
             SELECT oi.*, b.Title, b.Price
             FROM OrderItem oi
-            JOIN [Order] o ON oi.OrderId = o.Id
             JOIN Book b ON oi.BookId = b.Id
+            JOIN [Order] o ON oi.OrderId = o.Id
             WHERE o.UserId = @UserId AND o.Status IS NULL";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@UserId", userId);
+                    command.Parameters.AddWithValue("@UserId", userID);
                     connection.Open();
                     using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                     {
@@ -55,6 +57,34 @@ namespace DataAccessLayer
 
             return dt;
         }
+        public DataTable GetOrderItems(int orderID)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = @"
+            SELECT oi.*, b.Title, b.Price
+            FROM OrderItem oi
+            JOIN Book b ON oi.BookId = b.Id
+            WHERE oi.OrderId = @OrderId";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@OrderId", orderID);
+                    connection.Open();
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    {
+                        adapter.Fill(dt);
+                    }
+                }
+            }
+
+            return dt;
+        }
+
+
+        // Increases the quantity of an item in the cart
         public void IncreaseQuantity(int orderItemId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -69,6 +99,8 @@ namespace DataAccessLayer
                 }
             }
         }
+
+        // Decreases the quantity or removes the item if quantity drops below 1
         public void DecreaseQuantity(int orderItemId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -83,7 +115,6 @@ namespace DataAccessLayer
 
                     if (quantity > 1)
                     {
-                        // Decrease quantity by 1
                         string updateQuery = "UPDATE OrderItem SET Quantity = Quantity - 1 WHERE Id = @OrderItemId";
                         using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
                         {
@@ -93,7 +124,6 @@ namespace DataAccessLayer
                     }
                     else
                     {
-                        // Remove item from cart if quantity would drop below 1
                         string deleteQuery = "DELETE FROM OrderItem WHERE Id = @OrderItemId";
                         using (SqlCommand deleteCommand = new SqlCommand(deleteQuery, connection))
                         {
@@ -104,32 +134,29 @@ namespace DataAccessLayer
                 }
             }
         }
-        public void CheckoutCartItem(int userId, int orderId)
+
+        // Checkout method that updates status in Order and OrderItem tables
+        public void Checkout(int orderId, string orderStatus)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                // Update all cart items for the user (OrderItem entries) with the OrderID upon checkout
-                string updateQuery = @"
-            UPDATE OrderItem
-            SET OrderId = @OrderId
-            WHERE OrderId IN (
-                SELECT o.Id
-                FROM [Order] o
-                WHERE o.UserId = @UserId AND o.Status IS NULL
-            )";
+                // Update the Order's status to mark it as checked out
+                string updateOrderStatusQuery = @"
+                UPDATE [Order]
+                SET Status = @Status
+                WHERE Id = @OrderId";
 
-                using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+                using (SqlCommand updateOrderStatusCommand = new SqlCommand(updateOrderStatusQuery, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@OrderId", orderId);
-                    updateCommand.Parameters.AddWithValue("@UserId", userId);
-                    updateCommand.ExecuteNonQuery();
+                    updateOrderStatusCommand.Parameters.AddWithValue("@OrderId", orderId);
+                    updateOrderStatusCommand.Parameters.AddWithValue("@Status", orderStatus);
+                    updateOrderStatusCommand.ExecuteNonQuery();
                 }
-
-                
             }
         }
+
 
 
     }

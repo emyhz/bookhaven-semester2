@@ -22,8 +22,6 @@ namespace BookHavenDesktop.Forms.MainPages
         {
             InitializeComponent();
             this.userManager = userManager;
-            txtPassLogin.UseSystemPasswordChar = true; // Ensure dots are shown by default
-
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -92,5 +90,7 @@ namespace BookHavenDesktop.Forms.MainPages
                 txtPassLogin.UseSystemPasswordChar = true; // Hide the password with dots
             }
         }
+
+        
     }
 }

@@ -14,12 +14,17 @@ namespace DataAccessLayer
 {
     public class DBOrder : DatabaseConnection, IOrderDb
     {
+        // Adds a new order and returns the generated order ID
         public int AddOrder(int userId, string address, string country, string city, decimal zipCode, decimal totalPrice)
         {
             using SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
-            string query = "INSERT INTO [Order] (UserID, Address, Country, City, ZipCode, TotalPrice) VALUES (@UserID, @Address, @Country, @City, @ZipCode, @TotalPrice); " +
-                           "SELECT SCOPE_IDENTITY()";
+
+            string query = @"
+            INSERT INTO [Order] (UserID, Address, Country, City, ZipCode, TotalPrice) 
+            VALUES (@UserID, @Address, @Country, @City, @ZipCode, @TotalPrice); 
+            SELECT SCOPE_IDENTITY()";
+
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@UserID", userId);
@@ -31,18 +36,59 @@ namespace DataAccessLayer
 
                 int orderId = Convert.ToInt32(command.ExecuteScalar());
                 return orderId;
-
             }
         }
+
+        // Retrieves all orders
         public DataTable GetOrders()
         {
             using SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
 
             string query = "SELECT Id, Date, UserId, TotalPrice, Status FROM [Order]";
-            SqlCommand cmd = new SqlCommand(query, connection);
-            try
+            using (SqlCommand cmd = new SqlCommand(query, connection))
+            using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
             {
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                return dt;
+            }
+        }
+
+        // Retrieves orders for a specific user
+        public DataTable GetOrdersByUser(int userId)
+        {
+            using SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+
+            string query = "SELECT Id, Date, UserId, TotalPrice, Status FROM [Order] WHERE UserId = @UserId";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@UserId", userId);
+                using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                {
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    return dt;
+                }
+            }
+        }
+
+        // Retrieves orders containing a specific book
+        public DataTable GetOrdersForBook(int bookId)
+        {
+            using SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+
+            string query = @"
+            SELECT o.Id, o.Date, o.UserId, o.TotalPrice, o.Status 
+            FROM [Order] o
+            INNER JOIN OrderItem oi ON o.Id = oi.OrderId
+            WHERE oi.BookId = @BookId";
+
+            using (SqlCommand cmd = new SqlCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@BookId", bookId);
                 using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                 {
                     DataTable dt = new DataTable();
@@ -50,84 +96,41 @@ namespace DataAccessLayer
                     return dt;
                 }
             }
-            catch
-            {
-                throw;
-            }
         }
-        public DataTable GetOrdersByUser(int userId)
+
+        // Retrieves details for a specific order by its ID
+        public DataTable GetOrderDetails(int orderId)
         {
-            DataTable dt = new DataTable();
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+
+            string query = "SELECT * FROM [Order] WHERE Id = @Id";
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
-                string query = "SELECT Id, Date, UserId, TotalPrice, Status FROM [Order] WHERE UserId = @UserId";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                command.Parameters.AddWithValue("@Id", orderId);
+                using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                 {
-                    command.Parameters.AddWithValue("@UserId", userId);
-                    connection.Open();
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-                    {
-                        adapter.Fill(dt);
-                    }
-                }
-            }
-
-            return dt;
-        }
-        public DataTable GetOrdersForBook(int bookId)
-        {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                string query = @"
-                               SELECT o.Id, o.Date, o.UserId, o.TotalPrice, o.Status 
-                               FROM [Order] o
-                               INNER JOIN OrderItem oi ON o.Id = oi.OrderId
-                               WHERE oi.BookId = @BookId";
-
-                using (SqlCommand cmd = new SqlCommand(query, connection))
-                {
-                    cmd.Parameters.AddWithValue("@BookId", bookId);
-
-                    try
-                    {
-                        using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            sda.Fill(dt);
-                            return dt;
-                        }
-                    }
-                    catch
-                    {
-                        throw;
-                    }
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    return dt;
                 }
             }
         }
-        public DataTable GetOrderDetails(int id)
+
+        // Finalizes an order by setting its status
+        public void FinalizeOrder(int orderId, string orderStatus)
         {
-            DataTable dt = new DataTable();
+            using SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            string updateStatusQuery = "UPDATE [Order] SET Status = @Status WHERE Id = @OrderId";
+            using (SqlCommand command = new SqlCommand(updateStatusQuery, connection))
             {
-                string query = "SELECT * FROM [Order] WHERE Id = @Id";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Id", id);
-                    connection.Open();
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-                    {
-                        adapter.Fill(dt);
-                    }
-                }
+                command.Parameters.AddWithValue("@OrderId", orderId);
+                command.Parameters.AddWithValue("@Status", orderStatus);
+                command.ExecuteNonQuery();
             }
-
-            return dt;
         }
-
-
 
     }
 

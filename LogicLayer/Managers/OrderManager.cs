@@ -23,70 +23,63 @@ namespace LogicLayer.Managers
             _orderItemManager = orderItemManager;
         }
 
-        //        public int AddOrder(int userId, string address, string country, string city, decimal zipCode, decimal totalPrice)
-        //        {
-        //            return _orderDb.AddOrder(userId, address, country, city, zipCode, totalPrice);
-        //        }
+        public int CreateOrder(int userId, string address, string country, string city, decimal zipCode, decimal totalPrice)
+        {
+            return _orderDb.AddOrder(userId, address, country, city, zipCode, totalPrice);
+        }
 
-        //        public List<Order> GetOrdersByUser(int userId)
-        //        {
-        //            DataTable dt = _orderDb.GetOrdersByUser(userId);
-        //            List<Order> orders = new List<Order>();
+        public List<Order> GetOrdersSummary()
+        {
+            DataTable dt = _orderDb.GetOrders();
+            List<Order> orders = new List<Order>();
 
-        //            if (dt != null && dt.Rows.Count > 0)
-        //            {
-        //                foreach (DataRow row in dt.Rows)
-        //                {
-        //                    int orderId = Convert.ToInt32(row["Id"]);
-        //                    User user = _userManager.GetUserById(userId);
-        //                    //List<OrderItem> orderItems = Order.GetOrderItems(orderId);
+            foreach (DataRow row in dt.Rows)
+            {
+                int orderId = Convert.ToInt32(row["Id"]);
+                DateTime date = Convert.ToDateTime(row["Date"]);
+                decimal totalPrice = Convert.ToDecimal(row["TotalPrice"]);
+                OrderStatus status = Enum.Parse<OrderStatus>(row["Status"].ToString());
 
-        //                    Order order = new Order(
-        //                        orderId,
-        //                        Convert.ToDateTime(row["Date"]),
-        //                        user,
-        //                        Convert.ToDecimal(row["TotalPrice"]),
-        //                        (OrderStatus)Convert.ToInt32(row["Status"]),
-        //                        orderItems
-        //                    );
+                // Fetch user and items
+                User user = _userManager.GetUserById(Convert.ToInt32(row["UserId"]));
+                List<OrderItem> items = _orderItemManager.GetOrderItems(orderId);
 
-        //                    orders.Add(order);
-        //                }
-        //            }
+                Order order = new Order(orderId, date, user, totalPrice, status, items);
+                orders.Add(order);
+            }
 
-        //            return orders;
-        //        }
+            return orders;
+        }
+        public List<Order> GetOrderByUser(int userId)
+        {
+            DataTable dt = _orderDb.GetOrders();
+            List<Order> orders = new List<Order>();
 
-        //        public List<Order> GetOrdersForBook(int bookId)
-        //        {
-        //            DataTable dt = _orderDb.GetOrdersForBook(bookId);
-        //            List<Order> orders = new List<Order>();
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    int orderId = Convert.ToInt32(row["Id"]);
+                    User user = _userManager.GetUserById(userId);
+                    List<OrderItem> items = _orderItemManager.GetOrderItems(orderId);
 
-        //            if (dt != null && dt.Rows.Count > 0)
-        //            {
-        //                foreach (DataRow row in dt.Rows)
-        //                {
-        //                    int orderId = Convert.ToInt32(row["Id"]);
-        //                    int userId = Convert.ToInt32(row["UserId"]);
-        //                    User user = _userManager.GetUserById(userId);
-        //                    //List<OrderItem> orderItems = orderItemManager.GetOrderItems(orderId);
+                    Order order = new Order(
+                    orderId,
+                    Convert.ToDateTime(row["Date"]),
+                    user,
+                    Convert.ToDecimal(row["TotalPrice"]),
+                    (OrderStatus)Convert.ToInt32(row["Status"]),
+                    items
+                );
 
-        //                    Order order = new Order(
-        //                        orderId,
-        //                        Convert.ToDateTime(row["Date"]),
-        //                        user,
-        //                        Convert.ToDecimal(row["TotalPrice"]),
-        //                        (OrderStatus)Convert.ToInt32(row["Status"]),
-        //                        orderItems
-        //                    );
+                    orders.Add(order);
+                }
+            }
+            return orders;
 
-        //                    orders.Add(order);
-        //                }
-        //            }
+        }
 
-        //            return orders;
-        //        }
-        //    }
-        //}
     }
+
+
 }

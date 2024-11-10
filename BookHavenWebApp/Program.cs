@@ -33,7 +33,7 @@ builder.Services.AddAuthorization(options =>
 // registering data access layer services
 builder.Services.AddScoped<IUserDb, DBUser>();
 builder.Services.AddScoped<IOrderDb, DBOrder>();
-
+builder.Services.AddScoped<IOrderItemDb, DBOrderItem>();
 
 
 // Add logic layer services to the container
