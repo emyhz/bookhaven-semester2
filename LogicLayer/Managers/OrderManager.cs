@@ -23,10 +23,31 @@ namespace LogicLayer.Managers
             _orderItemManager = orderItemManager;
         }
 
-        public int CreateOrder(int userId, string address, string country, string city, decimal zipCode, decimal totalPrice)
+        public int CreateOrder(int userId, string address, string country, string city, decimal zipCode, decimal totalPrice, int orderStatus)
         {
-            return _orderDb.AddOrder(userId, address, country, city, zipCode, totalPrice);
+            return _orderDb.AddOrder(userId, address, country, city, zipCode, totalPrice, (int)OrderStatus.PENDING);
         }
+
+        // Checks if there's an existing cart order (IN_CART) for the user
+        public int GetOrCreateCartOrderId(int userId)
+        {
+            DataTable orders = _orderDb.GetOrdersByUser(userId);
+
+            foreach (DataRow row in orders.Rows)
+            {
+                int orderId = Convert.ToInt32(row["Id"]);
+                int status = Convert.ToInt32(row["Status"]);
+                if (status == (int)OrderStatus.IN_CART)
+                {
+                    return orderId; // Return the existing cart order
+                }
+            }
+
+            // If no cart order exists, create a new one with IN_CART status
+            return _orderDb.AddOrder(userId, "", "", "", 0, 0, (int)OrderStatus.IN_CART);
+        }
+ 
+
 
         public List<Order> GetOrdersSummary()
         {
@@ -77,6 +98,11 @@ namespace LogicLayer.Managers
             }
             return orders;
 
+        }
+        // Finalize the order after checkout by updating its status
+        public void FinalizeOrder(int orderId)
+        {
+            _orderDb.FinalizeOrder(orderId, (int)OrderStatus.PENDING);
         }
 
     }

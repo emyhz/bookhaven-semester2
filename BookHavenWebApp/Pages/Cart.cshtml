@@ -1,4 +1,60 @@
 ﻿@page
 @model BookHavenWebApp.Pages.CartModel
 @{
+    ViewData["Title"] = "Your Cart";
 }
+
+
+<div class="container mt-5 p-5">
+    <h2>@ViewData["Title"]</h2>
+
+    @if (Model.OrderItems.Count > 0)
+    {
+        <div class="row mt-4">
+            <div class="col-md-8">
+                @foreach (var orderItem in Model.OrderItems)
+                {
+                    <div class="card mb-3">
+                        <a href="/ProductDetails/@orderItem.Book.Id" class="card-link">
+                            <div class="row g-0 d-flex align-items-center">
+                                <div class="col-3 col-md-4">
+                                    <img src="@orderItem.Book.ImagePath" class="img-fluid p-lg-3" alt="Product Image">
+                                </div>
+                                <div class="col-9 col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@orderItem.Book.Title</h5>
+                                        <p class="card-text">Price: €@orderItem.Price</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="input-group">
+                            <form method="post" asp-page-handler="DecreaseQuantity">
+                                <input type="hidden" name="orderItemId" value="@orderItem.Id" />
+                                <button class="btn btn-outline-secondary" type="submit">-</button>
+                            </form>
+                            <input type="text" class="form-control text-center" value="@orderItem.Quantity" readonly>
+                            <form method="post" asp-page-handler="IncreaseQuantity">
+                                <input type="hidden" name="orderItemId" value="@orderItem.Id" />
+                                <button class="btn btn-outline-secondary" type="submit">+</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-4">
+                <div class="border rounded p-3">
+                    <h5 class="fw-bold">Cart Summary</h5>
+                    <p>Total Items: @Model.TotalOrderItems</p>
+                    <p>Total Price: €@Model.TotalPrice</p>
+                    <a asp-page="/Checkout" class="btn btn-primary btn-custom">Checkout</a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p id="emptyCartMessage" class="text-muted mt-5">Your cart is empty.</p>
+    }
+</div>
+

@@ -44,6 +44,7 @@ builder.Services.AddScoped<OrderItemManager>();
 
 
 
+
 //Add algorithm services to the container
 builder.Services.AddScoped<RecommendationSystem>();
 

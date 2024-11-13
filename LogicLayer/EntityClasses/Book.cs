@@ -1,4 +1,5 @@
 ﻿using LogicLayer.Enums;
+using LogicLayer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace LogicLayer.EntityClasses
         private string language;
         private string imagePath;
         private int stock;
+        private IDiscountStrategy discountStrategy;
 
 
         //constructors

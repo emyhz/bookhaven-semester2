@@ -10,7 +10,7 @@ namespace DataAccessLayer.Interfaces
     public interface IOrderItemDb
     {
         public void AddToCart(int bookId, int orderId, int quantity = 1);
-        public DataTable GetCartFromUserID(int userID);
+        public DataTable GetCartFromUserID(int userID, int orderStatus);
         public DataTable GetOrderItems(int orderID);
 
         public void IncreaseQuantity(int orderItemId);

@@ -31,7 +31,7 @@ namespace DataAccessLayer
         }
 
         // Retrieves cart items for a specific user based on the user ID
-        public DataTable GetCartFromUserID(int userID)
+        public DataTable GetCartFromUserID(int userID, int orderStatus)
         {
             DataTable dt = new DataTable();
 
@@ -42,11 +42,13 @@ namespace DataAccessLayer
             FROM OrderItem oi
             JOIN Book b ON oi.BookId = b.Id
             JOIN [Order] o ON oi.OrderId = o.Id
-            WHERE o.UserId = @UserId AND o.Status IS NULL";
+            WHERE o.UserId = @UserId AND o.Status IS @Status";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@UserId", userID);
+                    command.Parameters.AddWithValue("@Status", orderStatus);
+
                     connection.Open();
                     using (SqlDataAdapter adapter = new SqlDataAdapter(command))
                     {

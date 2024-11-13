@@ -3,24 +3,45 @@
 @{
 }
 
-<div class="container mt-5">
-    <div class="row">
+<div class="container align-items-stretch mt-5 p-5 px-sm-3 px-md-2 px-lg-5">
+    <!-- Success Message -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <div class="row flex-grow-1 justify-content-between align-items-center pt-3 pt-lg-5">
         <!-- Book Image -->
-        <div class="col-md-4">
-            <img src="/Resources/@Model.ImagePath" class="img-fluid" alt="Book Cover">
+        <div class="col-md-4 d-flex flex-column">
+            <img src="/Resources/@Model.ImagePath" class="img-fluid mb-5" alt="Book Cover">
         </div>
 
         <!-- Book Details -->
-        <div class="col-md-8">
-            <h2>@Model.Title</h2>
+        <div class="col-md-8 d-flex flex-column">
+            <h2 class="mt-0 pt-0 mb-0" style="text-transform: uppercase; font-weight: bold;">@Model.Title</h2>
             <p><strong>Author:</strong> @Model.Author</p>
             <p><strong>ISBN:</strong> @Model.ISBN</p>
             <p><strong>Published on:</strong> @Model.PublishDate.ToString("dd MMMM yyyy")</p>
             <p><strong>Genre:</strong> @Model.Genre</p>
             <p><strong>Language:</strong> @Model.Language</p>
-            <p><strong>Price:</strong> €@Model.Price</p>
+            <h2 class="mb-0">€@Model.Price</h2>
 
-            <!-- Show physical book details if applicable -->
+            <!-- Add to Cart Button -->
+            <div class="row align-items-center">
+                <div class="col-10">
+                    
+                        <form method="post" asp-page-handler="ToCart">
+                            <input type="hidden" name="bookId" value="@Model.Id" />
+                            <button type="submit" class="btn btn-primary btn-custom my-4 btn-block" style="width: 100%">Add to Cart</button>
+                        </form>
+                   
+                </div>
+                
+            </div>
+
+            <!-- Additional Book Details for Physical and Audio Books -->
             @if (Model.dimensions != null)
             {
                 <p><strong>Dimensions:</strong> @Model.dimensions</p>
@@ -28,19 +49,11 @@
                 <p><strong>Cover Type:</strong> @Model.coverType</p>
             }
 
-            <!-- Show audiobook details if applicable -->
             @if (Model.FileSize != null)
             {
                 <p><strong>Audio Length:</strong> @Model.AudioLength.Hours hours @Model.AudioLength.Minutes minutes</p>
                 <p><strong>File Size:</strong> @Model.FileSize</p>
             }
-
-            <!-- Add to cart button -->
-            <form method="post" asp-page-handler="AddToCart">
-                <input type="hidden" name="ProductId" value="@Model.Id" />
-                <button type="submit" class="btn btn-success fw-bold px-4 py-2 rounded-pill" style="font-size: 1.2rem;">
-                    <i class="bi bi-cart-fill me-2"></i> Add to cart
-                </button>
-            </form>
         </div>
     </div>
+</div>

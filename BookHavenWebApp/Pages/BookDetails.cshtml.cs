@@ -9,9 +9,13 @@ namespace BookHavenWebApp.Pages
     public class BookDetailsModel : PageModel
     {
         private readonly BookManager _bookManager;
-        public BookDetailsModel(BookManager bookManager)
+        private readonly UserManager _userManager;
+        private readonly OrderItemManager _orderItemManager;
+        public BookDetailsModel(BookManager bookManager, UserManager userManager, OrderItemManager orderItemManager)
         {
             _bookManager = bookManager;
+            _userManager = userManager;
+            _orderItemManager = orderItemManager;
         }
         //properties to hold book details
         public int Id { get; set; }
@@ -79,6 +83,21 @@ namespace BookHavenWebApp.Pages
             }
 
             return Page();
+        }
+        public IActionResult OnPostToCart(int bookId)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                // Redirect to the login page if the user is not authenticated
+                return RedirectToPage("/Login", new { area = "Identity" });
+            }
+            User user = _userManager.GetUserByEmail(User.Identity.Name);
+
+            _orderItemManager.AddItemToCart(bookId, user.Id);
+
+            TempData["SuccessMessage"] = "Product added to cart successfully.";
+
+            return RedirectToPage();
         }
     }
 }

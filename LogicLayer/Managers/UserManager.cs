@@ -9,6 +9,7 @@ using LogicLayer.EntityClasses;
 using System.Data;
 using static System.Reflection.Metadata.BlobBuilder;
 using DataAccessLayer.Interfaces;
+using LogicLayer.StringManipulation;
 
 namespace LogicLayer.Managers
 {
@@ -28,7 +29,7 @@ namespace LogicLayer.Managers
             string userTypeString = userType.ToString();
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
 
-            _dbuser.AddUser(firstName, lastName, email, hashedPassword, userTypeString);
+            _dbuser.AddUser(UserFormatter.CapitalizeFirstLetter(firstName), UserFormatter.CapitalizeFirstLetter(lastName), email.ToLower(), hashedPassword, userTypeString);
         }
 
         public User GetUserByEmail(string email)
