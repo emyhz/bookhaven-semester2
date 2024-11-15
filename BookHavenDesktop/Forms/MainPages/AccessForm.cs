@@ -67,14 +67,28 @@ namespace BookHavenDesktop.Forms.MainPages
 
         private void UserTypeSignUp(string firstName, string lastName, string email, string password, string repeatPassword)
         {
-            if (password == repeatPassword)
+            UserCreation userCreation = User.ValidateUser(userManager, firstName, lastName, email, password, repeatPassword);
+            switch (userCreation)
             {
-                userManager.AddUser(firstName, lastName, email, password, UserType.PENDING_EMPLOYEE);
-                MessageBox.Show("You have successfully signed up. An admin needs to approve you first to login");
-            }
-            else
-            {
-                MessageBox.Show("Passwords do not match");
+                case UserCreation.SUCCESS:
+                    userManager.AddUser(firstName, lastName, email, password, UserType.PENDING_EMPLOYEE);
+                    MessageBox.Show("You have successfully signed up. An admin needs to approve you first to login");
+                    break;
+                case UserCreation.PASSWORDS_DONT_MATCH:
+                    MessageBox.Show("Passwords do not match", "Invalid Password Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case UserCreation.INVALID_EMAIL:
+                    MessageBox.Show("Invalid email", "Invalid Email Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case UserCreation.EMPTY_FIELDS:
+                    MessageBox.Show("Please fill in all fields and try again." , "Missing Fields Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case UserCreation.EMAIL_ALREADY_EXISTS:
+                    MessageBox.Show("This email is already in use.", "Email is Taken", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                default:
+                    MessageBox.Show("An error occurred while signing up");
+                    break;
             }
         }
 

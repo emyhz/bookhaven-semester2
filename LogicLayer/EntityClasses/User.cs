@@ -1,8 +1,10 @@
 ﻿using LogicLayer.Enums;
+using LogicLayer.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LogicLayer.EntityClasses
@@ -43,7 +45,7 @@ namespace LogicLayer.EntityClasses
 
         //properties
         public int Id { get { return id; } }
-        public string FirstName { get { return firstName; }  }
+        public string FirstName { get { return firstName; } }
         public string LastName { get { return lastName; } }
         public string Email { get { return email; } }
         public string Password { get { return password; } }
@@ -52,9 +54,31 @@ namespace LogicLayer.EntityClasses
 
         public override string ToString() //override the ToString method to return the full name of the user
         {
-            return $"{FirstName} {LastName}";                  
+            return $"{FirstName} {LastName}";
+        }
+
+        public static UserCreation ValidateUser(UserManager userManager, string firstName, string lastName, string email, string password, string repeatPassword)
+        {
+            if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(repeatPassword))
+            {
+                return UserCreation.EMPTY_FIELDS;
+            }
+
+            if (!password.Equals(repeatPassword))
+            {
+                return UserCreation.PASSWORDS_DONT_MATCH;
+            }
+
+            if (userManager.EmailExists(email))
+            {
+                return UserCreation.EMAIL_ALREADY_EXISTS;
+            }
+
+            if (Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+            {
+                return UserCreation.INVALID_EMAIL;
+            }
+            return UserCreation.SUCCESS;
         }
     }
-
-
 }

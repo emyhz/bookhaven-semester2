@@ -13,16 +13,16 @@ namespace DataAccessLayer
     public class DBOrderItem : DatabaseConnection, IOrderItemDb
     {
         // Adds a book to the cart
-        public void AddToCart(int bookId, int orderId, int quantity = 1)
+        public void AddItemToCart(int userId, int bookId, int quantity = 1)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                string insertItemQuery = "INSERT INTO OrderItem (OrderId, BookId, Quantity) VALUES (@OrderId, @BookId, @Quantity)";
+                string insertItemQuery = "INSERT INTO OrderItem (UserId, BookId, Quantity) VALUES (@UserId, @BookId, @Quantity)";
                 using (SqlCommand command = new SqlCommand(insertItemQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@OrderId", orderId);
+                    command.Parameters.AddWithValue("@OrderId", userId);
                     command.Parameters.AddWithValue("@BookId", bookId);
                     command.Parameters.AddWithValue("@Quantity", quantity);
                     command.ExecuteNonQuery();
@@ -31,23 +31,17 @@ namespace DataAccessLayer
         }
 
         // Retrieves cart items for a specific user based on the user ID
-        public DataTable GetCartFromUserID(int userID, int orderStatus)
+        public DataTable GetCartFromUsersID(int userID)
         {
             DataTable dt = new DataTable();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = @"
-            SELECT oi.*, b.Title, b.Price
-            FROM OrderItem oi
-            JOIN Book b ON oi.BookId = b.Id
-            JOIN [Order] o ON oi.OrderId = o.Id
-            WHERE o.UserId = @UserId AND o.Status IS @Status";
+                string query = "SELECT * FROM OrderItem WHERE UserId = @UserId AND OrderId IS NULL";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@UserId", userID);
-                    command.Parameters.AddWithValue("@Status", orderStatus);
 
                     connection.Open();
                     using (SqlDataAdapter adapter = new SqlDataAdapter(command))
@@ -65,11 +59,7 @@ namespace DataAccessLayer
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = @"
-            SELECT oi.*, b.Title, b.Price
-            FROM OrderItem oi
-            JOIN Book b ON oi.BookId = b.Id
-            WHERE oi.OrderId = @OrderId";
+                string query = "SELECT * FROM OrderItem WHERE OrderId = @OrderId";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -138,22 +128,18 @@ namespace DataAccessLayer
         }
 
         // Checkout method that updates status in Order and OrderItem tables
-        public void Checkout(int orderId, string orderStatus)
+        public void Checkout(int orderId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
                 // Update the Order's status to mark it as checked out
-                string updateOrderStatusQuery = @"
-                UPDATE [Order]
-                SET Status = @Status
-                WHERE Id = @OrderId";
+                string updateOrderStatusQuery = "UPDATE OrderItem SET OrderId = @OrderId WHERE Id = @Id";
 
                 using (SqlCommand updateOrderStatusCommand = new SqlCommand(updateOrderStatusQuery, connection))
                 {
                     updateOrderStatusCommand.Parameters.AddWithValue("@OrderId", orderId);
-                    updateOrderStatusCommand.Parameters.AddWithValue("@Status", orderStatus);
                     updateOrderStatusCommand.ExecuteNonQuery();
                 }
             }

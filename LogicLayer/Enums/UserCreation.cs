@@ -8,10 +8,10 @@ namespace LogicLayer.Enums
 {
     public enum UserCreation
     {
+        EMPTY_FIELDS,
         SUCCESS,
         INVALID_EMAIL,
-        INVALID_PASSWORD,
-        MISSING_FIELDS,
+        PASSWORDS_DONT_MATCH,
         EMAIL_ALREADY_EXISTS
 
     }

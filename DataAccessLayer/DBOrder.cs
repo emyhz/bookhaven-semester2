@@ -39,32 +39,7 @@ namespace DataAccessLayer
                 return orderId;
             }
         }
-        //    public int AddOrder(int userId, string address = null, string country = null, string city = null, decimal zipCode = 0, decimal totalPrice = 0, int orderStatus= 0)
-        //    {
-        //        using SqlConnection connection = new SqlConnection(connectionString);
-        //        connection.Open();
-
-        //        string query = @"
-        //INSERT INTO [Order] (UserID, Address, Country, City, Zip, TotalPrice, Status) 
-        //VALUES (@UserID, @Address, @Country, @City, @Zip, @TotalPrice, @Status); 
-        //SELECT SCOPE_IDENTITY()";
-
-        //        using (SqlCommand command = new SqlCommand(query, connection))
-        //        {
-        //            command.Parameters.AddWithValue("@UserID", userId);
-        //            command.Parameters.AddWithValue("@Address", (object)address ?? DBNull.Value);
-        //            command.Parameters.AddWithValue("@Country", (object)country ?? DBNull.Value);
-        //            command.Parameters.AddWithValue("@City", (object)city ?? DBNull.Value);
-        //            command.Parameters.AddWithValue("@Zip", zipCode);
-        //            command.Parameters.AddWithValue("@TotalPrice", totalPrice);
-        //            command.Parameters.AddWithValue("@Status", orderStatus);
-
-        //            int orderId = Convert.ToInt32(command.ExecuteScalar());
-        //            return orderId;
-        //        }
-        //    }
-
-
+       
 
         // Retrieves all orders
         public DataTable GetOrders()
@@ -145,19 +120,19 @@ namespace DataAccessLayer
         }
 
         // Finalizes an order by setting its status
-        public void FinalizeOrder(int orderId, int orderStatus)
-        {
-            using SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
+        //public void FinalizeOrder(int orderId, int orderStatus)
+        //{
+        //    using SqlConnection connection = new SqlConnection(connectionString);
+        //    connection.Open();
 
-            string updateStatusQuery = "UPDATE [Order] SET Status = @Status WHERE Id = @OrderId";
-            using (SqlCommand command = new SqlCommand(updateStatusQuery, connection))
-            {
-                command.Parameters.AddWithValue("@OrderId", orderId);
-                command.Parameters.AddWithValue("@Status", orderStatus);
-                command.ExecuteNonQuery();
-            }
-        }
+        //    string updateStatusQuery = "UPDATE [Order] SET Status = @Status WHERE Id = @OrderId";
+        //    using (SqlCommand command = new SqlCommand(updateStatusQuery, connection))
+        //    {
+        //        command.Parameters.AddWithValue("@OrderId", orderId);
+        //        command.Parameters.AddWithValue("@Status", orderStatus);
+        //        command.ExecuteNonQuery();
+        //    }
+        //}
 
     }
 

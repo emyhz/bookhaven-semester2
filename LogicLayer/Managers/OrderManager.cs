@@ -99,12 +99,6 @@ namespace LogicLayer.Managers
             return orders;
 
         }
-        // Finalize the order after checkout by updating its status
-        public void FinalizeOrder(int orderId)
-        {
-            _orderDb.FinalizeOrder(orderId, (int)OrderStatus.PENDING);
-        }
-
     }
 
 
