@@ -17,6 +17,7 @@ namespace LogicLayer.EntityClasses
         private long isbn;
         private DateTime publishYear;
         private decimal price;
+        private decimal discountPrice;
         private Genre genre;
         private string language;
         private string imagePath;
@@ -48,6 +49,7 @@ namespace LogicLayer.EntityClasses
         public long ISBN1 { get { return isbn; } }
         public DateTime PublishYear { get { return publishYear; } }
         public decimal Price { get { return price; } }
+        public decimal DiscountPrice { get { return discountPrice; } }
         public Genre Genre { get { return genre; } }
         public string Language { get { return language; } }
         public string ImagePath { get { return imagePath; } }
@@ -56,6 +58,18 @@ namespace LogicLayer.EntityClasses
 
         //methods
         public abstract void CheckOut();
+
+        //discount strategy
+        public void SetDiscountStrategy(IDiscountStrategy strategy)
+        {
+            this.discountStrategy = strategy;
+            RecalculateDiscountedPrice();
+        }
+
+        private void RecalculateDiscountedPrice()
+        {
+            this.discountPrice = discountStrategy.ApplyDiscount(price);
+        }
 
     }
 }

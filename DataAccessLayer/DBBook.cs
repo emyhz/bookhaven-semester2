@@ -8,10 +8,11 @@ using System.Runtime.InteropServices.Marshalling;
 using System.Collections;
 using System.Diagnostics;
 using System.Data;
+using DataAccessLayer.Interfaces;
 
 namespace DataAccessLayer
 {
-    public class DBBook : DatabaseConnection
+    public class DBBook : DatabaseConnection , IBookDb
     {
         public int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales, string bookType,
                    TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
