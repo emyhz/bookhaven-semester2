@@ -44,7 +44,8 @@ namespace BookHavenWebApp.Pages
             int pageSize = 16;
 
             // Fetch all books (both AudioBooks and PhysicalBooks)
-            var books = _bookManager.GetAllPhysicalBooks().Cast<Book>().Concat(_bookManager.GetAllAudioBooks().Cast<Book>()).ToList();
+            var books = _bookManager.GetAllBooks();
+
 
             // Pagination logic
             CurrentPage = currentPage;

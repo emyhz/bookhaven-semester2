@@ -57,7 +57,7 @@ namespace LogicLayer.EntityClasses
             return $"{FirstName} {LastName}";
         }
 
-        public static UserCreation ValidateUser(UserManager userManager, string firstName, string lastName, string email, string password, string repeatPassword)
+        public static UserCreation ValidateSignUp(UserManager userManager, string firstName, string lastName, string email, string password, string repeatPassword)
         {
             if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(repeatPassword))
             {
@@ -74,7 +74,7 @@ namespace LogicLayer.EntityClasses
                 return UserCreation.EMAIL_ALREADY_EXISTS;
             }
 
-            if (Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+            if (!Regex.IsMatch(email, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
             {
                 return UserCreation.INVALID_EMAIL;
             }

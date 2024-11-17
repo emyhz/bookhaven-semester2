@@ -57,66 +57,9 @@ namespace LogicLayer.Managers
         }
 
         
-        public List<AudioBook> GetAllAudioBooks()
-        {
-            DataTable audioBooksTable = _dbBook.GetAllAudioBooks();
-
-            List<AudioBook> audioBooks = new List<AudioBook>();
-
-            foreach (DataRow row in audioBooksTable.Rows)
-            {
-                AudioBook audioBook = new AudioBook(
-                    id: Convert.ToInt32(row["Id"]),
-                    title: row["Title"].ToString(),
-                    author: row["Author"].ToString(),
-                    isbn: Convert.ToInt64(row["ISBN"]), 
-                    publishYear: Convert.ToDateTime(row["PublishDate"]),
-                    price: Convert.ToDecimal(row["Price"]),
-                    genre: (Genre)Enum.Parse(typeof(Genre), row["Genre"].ToString()),
-                    language: row["Language"].ToString(),
-                    imagePath: row["ImagePath"].ToString(),
-                    stock: Convert.ToInt32(row["Stock"]),
-                    audioLength: (TimeSpan)row["AudioLength"],
-                    fileSize: row["FileSize"].ToString()
-                );
-
-                audioBooks.Add(audioBook);
-            }
-
-            return audioBooks;
-        }
-        public List<PhysicalBook> GetAllPhysicalBooks()
-        {
-            DataTable physicalBooksTable = _dbBook.GetAllPhysicalBooks();
-
-            List<PhysicalBook> physicalBooks = new List<PhysicalBook>();
-
-            foreach (DataRow row in physicalBooksTable.Rows)
-            {
-                PhysicalBook physicalBook = new PhysicalBook(
-                    id: Convert.ToInt32(row["Id"]),
-                    title: row["Title"].ToString(),
-                    author: row["Author"].ToString(),
-                    isbn: Convert.ToInt64(row["ISBN"]),
-                    publishYear: Convert.ToDateTime(row["PublishDate"]),
-                    price: Convert.ToDecimal(row["Price"]),
-                    genre: (Genre)Enum.Parse(typeof(Genre), row["Genre"].ToString()),
-                    language: row["Language"].ToString(),
-                    imagePath: row["ImagePath"].ToString(),
-                    stock: Convert.ToInt32(row["Stock"]),
-                    dimensions: row["Dimensions"].ToString(),
-                    pages: Convert.ToInt32(row["Pages"]),
-                    coverType: row["CoverType"].ToString()
-                );
-
-                physicalBooks.Add(physicalBook);
-            }
-
-            return physicalBooks;
-        }
+        
         public List<Book> GetAllBooks()
         {
-            // Fetch books summary from the database
             DataTable dt = _dbBook.GetBooks();
             List<Book> allBooks = new List<Book>();
 
@@ -127,7 +70,7 @@ namespace LogicLayer.Managers
                     Book book;
 
                     // Determine if the book is an AudioBook or PhysicalBook
-                    string bookType = row["BookType"].ToString(); // This comes from the SQL CASE statement
+                    string bookType = row["BookType"].ToString();
                     if (bookType == "AudioBook")
                     {
                         book = new AudioBook(

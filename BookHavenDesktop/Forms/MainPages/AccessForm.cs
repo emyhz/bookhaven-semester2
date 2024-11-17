@@ -67,7 +67,7 @@ namespace BookHavenDesktop.Forms.MainPages
 
         private void UserTypeSignUp(string firstName, string lastName, string email, string password, string repeatPassword)
         {
-            UserCreation userCreation = User.ValidateUser(userManager, firstName, lastName, email, password, repeatPassword);
+            UserCreation userCreation = User.ValidateSignUp(userManager, firstName, lastName, email, password, repeatPassword);
             switch (userCreation)
             {
                 case UserCreation.SUCCESS:

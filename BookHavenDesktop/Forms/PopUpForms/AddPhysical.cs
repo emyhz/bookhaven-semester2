@@ -29,33 +29,35 @@ namespace BookHavenDesktop.Forms.PopUpForms
 
         private void btnSelectImg_Click(object sender, EventArgs e)
         {
-            try
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                // Open file dialog to select an image from the Resources folder
-                using (OpenFileDialog openFileDialog = new OpenFileDialog())
-                {
-                    // Set the initial directory to the Resources folder
-                    string resourcesPath = Path.Combine(Application.StartupPath, "Resources");
-                    openFileDialog.InitialDirectory = resourcesPath;
-                    openFileDialog.Filter = "Image Files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
-                    openFileDialog.Title = "Select an Image";
+                // Set the file filter for images
+                openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 1;
+                openFileDialog.RestoreDirectory = true;
 
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
                     {
-                        // Get the full path of the selected file
                         string selectedFilePath = openFileDialog.FileName;
 
-                        // Get the relative path starting from the "Resources" folder
-                        string relativePath = Path.GetRelativePath(Application.StartupPath, selectedFilePath);
+                        string projectDirectory = Directory.GetParent(Application.StartupPath).Parent.Parent.Parent.FullName;
+                        string destinationFolder = Path.Combine(projectDirectory, "Resources");
 
-                        // Set the relative path to the txtFilePath TextBox (or store it in the database)
+                        string fileName = Path.GetFileName(selectedFilePath);
+                        string destinationFilePath = Path.Combine(destinationFolder, fileName);
+
+                        File.Copy(selectedFilePath, destinationFilePath, true);
+
+                        string relativePath = Path.Combine("Resources", fileName);
                         txtFilePath.Text = relativePath;
                     }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("An error occurred while selecting the image: " + ex.Message);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred while selecting the image: " + ex.Message);
             }
         }
 
