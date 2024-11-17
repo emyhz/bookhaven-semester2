@@ -44,10 +44,8 @@ namespace BookHavenWebApp.Pages
 
         public IActionResult OnGet(int id)
         {
-            //get all books
             Books = _bookManager.GetAllBooks();
 
-            //get book by id
             Book book = _bookManager.GetBookById(id);
 
             //get similar bought books
@@ -93,7 +91,7 @@ namespace BookHavenWebApp.Pages
             }
             User user = _userManager.GetUserByEmail(User.Identity.Name);
 
-            _orderItemManager.AddItemToCart(bookId, user.Id);
+            _orderItemManager.AddItemToCart(user.Id, bookId);
 
             TempData["SuccessMessage"] = "Product added to cart successfully.";
 

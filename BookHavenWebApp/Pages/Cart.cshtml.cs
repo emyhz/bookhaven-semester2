@@ -27,7 +27,7 @@ namespace BookHavenWebApp.Pages
             if(User.Identity.IsAuthenticated)
             {
                 User user = _userManager.GetUserByEmail(User.Identity.Name);
-                OrderItems = _orderItemManager.GetCartFromUserID(user.Id);
+                OrderItems = _orderItemManager.GetUserCart(user.Id);
                 TotalPrice = CartCalculation.CalculateTotal(OrderItems);
                 TotalOrderItems = _orderItemManager.GetItemQuantityFromUser(user.Id);
 

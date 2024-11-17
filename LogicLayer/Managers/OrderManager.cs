@@ -23,7 +23,7 @@ namespace LogicLayer.Managers
             _orderItemManager = orderItemManager;
         }
 
-        public int CreateOrder(int userId, string address, string country, string city, decimal zipCode, decimal totalPrice, int orderStatus)
+        public int CreateOrder(int userId, string address, string country, string city, string zipCode, decimal totalPrice, int orderStatus)
         {
             return _orderDb.AddOrder(userId, address, country, city, zipCode, totalPrice, (int)OrderStatus.PENDING);
         }

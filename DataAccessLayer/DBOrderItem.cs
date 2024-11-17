@@ -22,7 +22,7 @@ namespace DataAccessLayer
                 string insertItemQuery = "INSERT INTO OrderItem (UserId, BookId, Quantity) VALUES (@UserId, @BookId, @Quantity)";
                 using (SqlCommand command = new SqlCommand(insertItemQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@OrderId", userId);
+                    command.Parameters.AddWithValue("@UserId", userId);
                     command.Parameters.AddWithValue("@BookId", bookId);
                     command.Parameters.AddWithValue("@Quantity", quantity);
                     command.ExecuteNonQuery();
@@ -31,7 +31,7 @@ namespace DataAccessLayer
         }
 
         // Retrieves cart items for a specific user based on the user ID
-        public DataTable GetCartFromUsersID(int userID)
+        public DataTable GetUserCart(int userID)
         {
             DataTable dt = new DataTable();
 

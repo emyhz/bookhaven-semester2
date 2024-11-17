@@ -45,7 +45,7 @@
             pbBook.Location = new Point(37, 0);
             pbBook.Name = "pbBook";
             pbBook.Size = new Size(218, 282);
-            pbBook.SizeMode = PictureBoxSizeMode.CenterImage;
+            pbBook.SizeMode = PictureBoxSizeMode.StretchImage;
             pbBook.TabIndex = 0;
             pbBook.TabStop = false;
             // 

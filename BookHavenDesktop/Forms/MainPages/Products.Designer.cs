@@ -53,6 +53,7 @@
             // 
             // flpProducts
             // 
+            flpProducts.AutoScroll = true;
             flpProducts.BackColor = Color.White;
             flpProducts.Controls.Add(label3);
             flpProducts.Controls.Add(cmbGenre);

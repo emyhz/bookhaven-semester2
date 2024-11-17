@@ -9,7 +9,7 @@ namespace DataAccessLayer.Interfaces
 {
     public interface IOrderDb 
     {
-        public int AddOrder(int userId, string address, string country, string city, decimal zipCode, decimal totalPrice, int orderStatus);
+        public int AddOrder(int userId, string address, string country, string city, string zipCode, decimal totalPrice, int orderStatus);
         DataTable GetOrders();
         DataTable GetOrdersByUser(int userId);
         DataTable GetOrdersForBook(int bookId);

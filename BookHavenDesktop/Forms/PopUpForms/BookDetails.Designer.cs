@@ -55,6 +55,7 @@
             pbBookDetails.Location = new Point(23, 12);
             pbBookDetails.Name = "pbBookDetails";
             pbBookDetails.Size = new Size(273, 340);
+            pbBookDetails.SizeMode = PictureBoxSizeMode.StretchImage;
             pbBookDetails.TabIndex = 0;
             pbBookDetails.TabStop = false;
             // 

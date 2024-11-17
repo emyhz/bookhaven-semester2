@@ -49,28 +49,33 @@ namespace LogicLayer.Managers
 
             return items;
         }
-        public List<OrderItem> GetCartFromUserID(int userID)
+        public List<OrderItem> GetUserCart(int userID)
         {
-            List<OrderItem> items = new List<OrderItem>();
-            DataTable dt = _orderItemDb.GetCartFromUsersID(userID);
+            List<OrderItem> cart = new List<OrderItem>();
 
-            foreach (DataRow row in dt.Rows)
+            DataTable dt = _orderItemDb.GetUserCart(userID);
+
+            if (dt != null && dt.Rows.Count > 0)
             {
-                int itemId = Convert.ToInt32(row["Id"]);
-                int quantity = Convert.ToInt32(row["Quantity"]);
-                decimal price = Convert.ToDecimal(row["Price"]);
-                int bookId = Convert.ToInt32(row["BookId"]);
-                string title = Convert.ToString(row["Title"]);
+                foreach (DataRow row in dt.Rows)
+                {
+                    int id = Convert.ToInt32(row["Id"]);
+                    int quantity = Convert.ToInt32(row["Quantity"]);
+                    int bookId = Convert.ToInt32(row["BookId"]);
 
-                // Get the Book object using BookManager
-                Book book = _bookManager.GetBookById(bookId);
+                    Book book = _bookManager.GetBookById(bookId);
 
-                OrderItem orderItem = new OrderItem(itemId, quantity, price, 0, book);
-                items.Add(orderItem);
+                    decimal price = book != null ? book.Price * quantity : 0;
+
+                    OrderItem orderItem = new OrderItem(id, quantity, price, 0, book);
+
+                    cart.Add(orderItem);
+                }
             }
 
-            return items;
+            return cart;
         }
+
 
         public void IncreaseQuantity(int orderItemId)
         {
@@ -83,7 +88,7 @@ namespace LogicLayer.Managers
         }
         public int GetItemQuantityFromUser(int userId)
         {
-            List<OrderItem> order = this.GetCartFromUserID(userId);
+            List<OrderItem> order = this.GetUserCart(userId);
             int quantityItems = 0;
 
             foreach (OrderItem orderItem in order)

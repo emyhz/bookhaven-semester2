@@ -15,7 +15,7 @@ namespace DataAccessLayer
     public class DBOrder : DatabaseConnection, IOrderDb
     {
         // Adds a new order and returns the generated order ID
-        public int AddOrder(int userId, string address, string country, string city, decimal zipCode, decimal totalPrice, int orderStatus)
+        public int AddOrder(int userId, string address, string country, string city, string zipCode, decimal totalPrice, int orderStatus)
         {
             using SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
