@@ -8,10 +8,8 @@ namespace LogicLayer.Enums
 {
     public enum OrderStatus
     {
-        IN_CART,
         PENDING,
         SHIPPED,
         DELIVERED,
-
     }
 }

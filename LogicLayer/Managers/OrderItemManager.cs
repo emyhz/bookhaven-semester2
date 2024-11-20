@@ -98,9 +98,9 @@ namespace LogicLayer.Managers
 
             return quantityItems;
         }
-        public void Checkout(int orderId )
+        public void Checkout(int orderId, int orderItemId )
         {
-            _orderItemDb.Checkout(orderId);
+            _orderItemDb.Checkout(orderId, orderItemId);
         }
     }
 }

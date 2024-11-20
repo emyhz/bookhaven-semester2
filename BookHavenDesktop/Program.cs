@@ -18,11 +18,17 @@ namespace BookHavenDesktop
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
 
-            IUserDb dbUser = new DBUser();  // Data access layer stays in the background
+            IUserDb dbUser = new DBUser();              // Data access layer for user
+            IOrderDb dbOrder = new DBOrder();           // Data access layer for orders
+            IOrderItemDb dbOrderItem = new DBOrderItem(); // Data access layer for order items
+
             UserManager userManager = new UserManager(dbUser);
+            OrderItemManager orderItemManager = new OrderItemManager(dbOrderItem, userManager, new BookManager());
+            OrderManager orderManager = new OrderManager(dbOrder, userManager, orderItemManager);
+
 
             ApplicationConfiguration.Initialize();
-            Application.Run(new AccessForm(userManager));
+            Application.Run(new AccessForm(userManager, orderManager));
         }
     }
 }

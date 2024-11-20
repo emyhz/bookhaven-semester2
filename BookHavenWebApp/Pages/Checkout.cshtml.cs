@@ -23,39 +23,39 @@ namespace BookHavenWebApp.Pages
 
         public User user { get; set; }
         public List<OrderItem> OrderItems { get; set; }
-        public int TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
         public int TotalCartQuantity { get; set; }
 
         [BindProperty]
-        [Required]
+        [Required(ErrorMessage ="Address is required.")]
         public string Address { get; set; }
 
         [BindProperty]
-        [Required]
+        [Required(ErrorMessage ="Country is required.")]
         public string Country { get; set; }
 
         [BindProperty]
-        [Required]
+        [Required(ErrorMessage ="City is required.")]
         public string City { get; set; }
 
         [BindProperty]
-        [Required]
+        [Required(ErrorMessage = "Zipcode is required.")]
         public string ZipCode { get; set; }
 
         [BindProperty]
-        [Required]
+        [Required(ErrorMessage = "Card number is required.")]
         public string CardNumber { get; set; }
 
         [BindProperty]
-        [Required]
+        [Required(ErrorMessage = "Card holder is required.")]
         public string CardHolderName { get; set; }
 
         [BindProperty]
-        [Required]
+        [Required(ErrorMessage = "Expiry date number is required.")]
         public string ExpiryDate { get; set; }
 
         [BindProperty]
-        [Required]
+        [Required(ErrorMessage = "CVV is required.")]
         public string CVV { get; set; }
 
 
@@ -65,7 +65,7 @@ namespace BookHavenWebApp.Pages
             {
                 user = _userManager.GetUserByEmail(User.Identity.Name);
                 OrderItems = _orderItemManager.GetUserCart(user.Id);
-                //TotalPrice = CartCalculation.CalculateTotal(OrderItems);
+                TotalPrice = CartCalculation.CalculateTotal(OrderItems);
                 TotalCartQuantity = _orderItemManager.GetItemQuantityFromUser(user.Id);
 
                 return Page();
@@ -82,7 +82,7 @@ namespace BookHavenWebApp.Pages
             {
                 user = _userManager.GetUserByEmail(User.Identity.Name);
                 OrderItems = _orderItemManager.GetUserCart(user.Id);
-                //TotalPrice = CartCalculation.CalculateTotal(OrderItems);
+                TotalPrice = CartCalculation.CalculateTotal(OrderItems);
                 TotalCartQuantity = _orderItemManager.GetItemQuantityFromUser(user.Id);
 
             }
@@ -96,13 +96,14 @@ namespace BookHavenWebApp.Pages
                 return Page();
             }
 
-            int orderId = _orderManager.CreateOrder(user.Id, Address, Country, City, ZipCode, TotalPrice, 0);
+            int orderId = _orderManager.CreateOrder(user.Id, Address, Country, City, ZipCode, TotalPrice);
 
             foreach (OrderItem item in OrderItems)
             {
+                _orderItemManager.Checkout(item.Id, orderId);
 
             }
-            return RedirectToPage("/CheckoutSuccess", new { orderId = orderId });
+            return RedirectToPage("/OrderComplete", new { orderId = orderId });
 
         }
     }

@@ -47,8 +47,6 @@ namespace BookHavenDesktop.Forms.MainPages
                 books = new List<Book>();
 
                 books.AddRange(bookManager.GetAllBooks());
-                //books.AddRange(bookManager.GetAllAudioBooks());
-                //books.AddRange(bookManager.GetAllPhysicalBooks());
             }
 
             flpProducts.Controls.Clear();

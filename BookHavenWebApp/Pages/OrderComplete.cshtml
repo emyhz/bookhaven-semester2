@@ -1,0 +1,38 @@
+﻿@page
+@model BookHavenWebApp.Pages.OrderCompleteModel
+@{
+}
+
+
+<div class="container mt-5 p-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Thank You for Your Order!</h3>
+                </div>
+                <div class="card-body text-center">
+                    <p>Your order was successfully placed.</p>
+                    <h5>Order #@Model.OrderId Summary:</h5>
+                    <ul class="list-group">
+                        @foreach (LogicLayer.EntityClasses.OrderItem orderItem in Model.OrderItems)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>@orderItem.Book.Title</strong>
+                                    <small class="text-muted d-block">Quantity: @orderItem.Quantity</small>
+                                </span>
+                                <span class="badge bg-primary">€@orderItem.Price</span>
+                            </li>
+                        }
+                    </ul>
+                    <hr>
+                    <p>Total: <strong>€@Model.TotalPrice</strong></p>
+                    <a asp-page="/Books" class="btn btn-primary btn-lg">Continue Shopping</a>
+                    <a asp-page="/Account" class="btn btn-secondary btn-lg">My Orders</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -23,11 +23,12 @@ namespace LogicLayer.Managers
             _orderItemManager = orderItemManager;
         }
 
-        public int CreateOrder(int userId, string address, string country, string city, string zipCode, decimal totalPrice, int orderStatus)
+        public int CreateOrder(int userId, string address, string country, string city, string zipCode, decimal totalPrice)
         {
-            return _orderDb.AddOrder(userId, address, country, city, zipCode, totalPrice, (int)OrderStatus.PENDING);
+            int pendingStatus = (int)OrderStatus.PENDING;
+            return _orderDb.AddOrder(userId, address, country, city, zipCode, totalPrice, pendingStatus);
         }
- 
+
         public List<Order> GetOrdersSummary()
         {
             DataTable dt = _orderDb.GetOrders();
@@ -78,7 +79,34 @@ namespace LogicLayer.Managers
             return orders;
 
         }
+        public Order GetOrderDetailsForUser(int id)
+        {
+            DataTable orderData = _orderDb.GetOrderDetails(id);
+
+            if (orderData.Rows.Count == 0)
+            {
+                return null;
+            }
+
+            DataRow orderRow = orderData.Rows[0];
+            int orderId = Convert.ToInt32(orderRow["Id"]);
+            DateTime orderDate = Convert.ToDateTime(orderRow["Date"]);
+            int userId = Convert.ToInt32(orderRow["UserId"]);
+
+            User user = _userManager.GetUserById(userId);
+
+            string address = Convert.ToString(orderRow["Address"]);
+            string country = Convert.ToString(orderRow["Country"]);
+            string city = Convert.ToString(orderRow["City"]);
+            string zipCode = Convert.ToString(orderRow["Zip"]);
+            decimal totalPrice = Convert.ToDecimal(orderRow["TotalPrice"]);
+            OrderStatus status = (OrderStatus)Convert.ToInt32(orderRow["Status"]);
+
+            List<OrderItem> orderItems = _orderItemManager.GetOrderItems(orderId);
+
+            Order order = new Order(orderId, orderDate, user, address, country, city, zipCode, totalPrice, orderItems, status);
+
+            return order;
+        }
     }
-
-
 }

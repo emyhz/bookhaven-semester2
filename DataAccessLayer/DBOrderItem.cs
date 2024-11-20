@@ -128,7 +128,7 @@ namespace DataAccessLayer
         }
 
         // Checkout method that updates status in Order and OrderItem tables
-        public void Checkout(int orderId)
+        public void Checkout(int id,int orderId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -140,6 +140,8 @@ namespace DataAccessLayer
                 using (SqlCommand updateOrderStatusCommand = new SqlCommand(updateOrderStatusQuery, connection))
                 {
                     updateOrderStatusCommand.Parameters.AddWithValue("@OrderId", orderId);
+                    updateOrderStatusCommand.Parameters.AddWithValue("@Id", id);
+
                     updateOrderStatusCommand.ExecuteNonQuery();
                 }
             }

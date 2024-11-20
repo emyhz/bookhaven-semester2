@@ -21,8 +21,8 @@ namespace DataAccessLayer
             connection.Open();
 
             string query = @"
-            INSERT INTO [Order] (UserID, Address, Country, City, ZipCode, TotalPrice, Status) 
-            VALUES (@UserID, @Address, @Country, @City, @ZipCode, @TotalPrice, @Status); 
+            INSERT INTO [Order] (UserID, Address, Country, City, Zip, TotalPrice, Status, Date) 
+            VALUES (@UserID, @Address, @Country, @City, @Zip, @TotalPrice, @Status, @Date); 
             SELECT SCOPE_IDENTITY()";
 
             using (SqlCommand command = new SqlCommand(query, connection))
@@ -31,9 +31,10 @@ namespace DataAccessLayer
                 command.Parameters.AddWithValue("@Address", address);
                 command.Parameters.AddWithValue("@Country", country);
                 command.Parameters.AddWithValue("@City", city);
-                command.Parameters.AddWithValue("@ZipCode", zipCode);
+                command.Parameters.AddWithValue("@Zip", zipCode);
                 command.Parameters.AddWithValue("@TotalPrice", totalPrice);
                 command.Parameters.AddWithValue("@Status", orderStatus);
+                command.Parameters.AddWithValue("@Date", DateTime.Now);
 
                 int orderId = Convert.ToInt32(command.ExecuteScalar());
                 return orderId;

@@ -16,11 +16,13 @@ namespace BookHavenDesktop.Forms.MainPages
         private Form _activeForm;
         private string _userEmail;
         private UserManager _userManager;
-        public MainForm(string userEmail, UserManager userManager)
+        private OrderManager _orderManager;
+        public MainForm(string userEmail, UserManager userManager, OrderManager orderManager)
         {
             InitializeComponent();
             _userEmail = userEmail;
             _userManager = userManager;
+            _orderManager = orderManager;
         }
 
         private void OpenChildForms(Form childForm, object btnSender)
@@ -46,7 +48,7 @@ namespace BookHavenDesktop.Forms.MainPages
 
         private void btnOrders_Click(object sender, EventArgs e)
         {
-            OpenChildForms(new Orders(), sender);
+            OpenChildForms(new Orders(_orderManager), sender);
         }
 
         private void btnEmployees_Click(object sender, EventArgs e)
@@ -70,7 +72,7 @@ namespace BookHavenDesktop.Forms.MainPages
             DialogResult result = MessageBox.Show("Are you sure you would like to log out?", "Log Out Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                AccessForm accessForm = new AccessForm(_userManager);
+                AccessForm accessForm = new AccessForm(_userManager, _orderManager);
                 accessForm.Show();
                 this.Hide();
             }
