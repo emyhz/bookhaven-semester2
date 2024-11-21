@@ -42,8 +42,6 @@ namespace BookHavenWebApp.Pages
         public async Task OnGetAsync(int currentPage = 1)
         {
             int pageSize = 16;
-
-            // Fetch all books (both AudioBooks and PhysicalBooks)
             var books = _bookManager.GetAllBooks();
 
 

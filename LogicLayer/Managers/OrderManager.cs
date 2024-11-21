@@ -108,5 +108,30 @@ namespace LogicLayer.Managers
 
             return order;
         }
+        //public List<Order> GetAllOrders()
+        //{
+        //    DataTable dt = _orderDb.GetOrders();
+        //    List<Order> orders = new List<Order>();
+
+        //    foreach (DataRow row in dt.Rows)
+        //    {
+        //        Order order = new Order(
+        //            id: Convert.ToInt32(row["Id"]),
+        //            date: Convert.ToDateTime(row["Date"]),
+        //            user: _userManager.GetUserById(Convert.ToInt32(row["UserId"])),
+        //            address: row["Address"].ToString(),
+        //            country: row["Country"].ToString(),
+        //            city: row["City"].ToString(),
+        //            zipCode: row["ZipCode"].ToString(),
+        //            totalPrice: Convert.ToDecimal(row["TotalPrice"]),
+        //            orderItems: _orderItemManager.GetOrderItems(Convert.ToInt32(row["Id"])),
+        //            status: (OrderStatus)Convert.ToInt32(row["Status"])
+        //        );
+        //        orders.Add(order);
+        //    }
+
+        //    return orders;
+        //}
+
     }
 }
