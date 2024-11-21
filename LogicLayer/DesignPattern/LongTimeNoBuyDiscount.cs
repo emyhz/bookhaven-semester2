@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogicLayer.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LogicLayer.DesignPattern
 {
-    public class LongTimeNoBuyDiscount
+    public class LongTimeNoBuyDiscount : IDiscountStrategy
     {
         private DateTime lastPurcashedDate;
         private decimal discountRate;

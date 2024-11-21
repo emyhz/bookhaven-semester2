@@ -14,11 +14,11 @@ namespace BookHavenDesktop.Forms.PopUpForms
 {
     public partial class AddPhysical : Form
     {
-        private BookManager bookManager;
-        public AddPhysical()
+        private BookManager _bookManager;
+        public AddPhysical(BookManager bookManager)
         {
             InitializeComponent();
-            bookManager = new BookManager();
+            _bookManager = bookManager;
             cmbGenre.DataSource = Enum.GetValues(typeof(Genre));
         }
 
@@ -63,7 +63,6 @@ namespace BookHavenDesktop.Forms.PopUpForms
         {
             try
             {
-                BookManager bookManager = new BookManager();
 
                 // Get the values from the form fields
                 string title = txtTitle.Text;
@@ -87,7 +86,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 string bookType = "PhysicalBook";
 
                 // Call the logic layer method to add the book
-                int bookId = bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, bookType, null, null, dimensions, pages, coverType);
+                int bookId = _bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, bookType, null, null, dimensions, pages, coverType);
 
 
                 MessageBox.Show($"Book added successfully!");

@@ -14,10 +14,12 @@ namespace BookHavenDesktop.Forms.PopUpForms
 {
     public partial class AddAudio : Form
     {
-        public AddAudio()
+        private BookManager _bookManager;
+        public AddAudio(BookManager bookManager)
         {
             InitializeComponent();
             cmbGenre.DataSource = Enum.GetValues(typeof(Genre));
+            _bookManager = bookManager;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -29,8 +31,6 @@ namespace BookHavenDesktop.Forms.PopUpForms
         {
             try
             {
-                // Create an instance of BookManager
-                BookManager bookManager = new BookManager();
 
                 // Get the values from the form fields
                 string title = txtTitle.Text;
@@ -57,7 +57,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 string bookType = "AudioBook";
 
 
-                int bookId = bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, bookType, audioLength, fileSize);
+                int bookId = _bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, bookType, audioLength, fileSize);
 
                 MessageBox.Show($"AudioBook added successfully!");
 

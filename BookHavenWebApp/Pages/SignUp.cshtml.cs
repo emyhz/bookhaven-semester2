@@ -33,7 +33,7 @@ namespace BookHavenWebApp.Pages
         public string Email { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage = "Password  is required."), MinLength(length: 7, ErrorMessage = "Provide a password with at least 7 characters. ")]
+        [Required(ErrorMessage = "Password  is required."), MinLength(length: 5, ErrorMessage = "Provide a password with at least 7 characters. ")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

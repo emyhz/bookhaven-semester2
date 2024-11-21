@@ -17,13 +17,13 @@ namespace BookHavenDesktop.Forms.PopUpForms
         private Book book;
         private Book _selectedBook;
         private int _bookId;
-        private BookManager bookManager;
-        public BookDetails(Book book)
+        private BookManager _bookManager;
+        public BookDetails(Book book, BookManager bookManager)
         {
             InitializeComponent();
             this.book = book;
             _selectedBook = book;
-            bookManager = new BookManager();
+            _bookManager = bookManager;
 
 
             lblPublishDateShow.Text = book.PublishYear.ToString("dd/MM/yyyy");
@@ -38,7 +38,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
 
         private void btnEditBook_Click(object sender, EventArgs e)
         {
-            EditBook editBook = new EditBook(book);
+            EditBook editBook = new EditBook(book, _bookManager);
             editBook.ShowDialog();
             this.Close();
         }
@@ -58,7 +58,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 try
                 {
                     // Delete the book based on type
-                    bookManager.DeleteBook(_selectedBook.Id);
+                    _bookManager.DeleteBook(_selectedBook.Id);
 
                     // Show success message and refresh the form
                     MessageBox.Show("Book deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

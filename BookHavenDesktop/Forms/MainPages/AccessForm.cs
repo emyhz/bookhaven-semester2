@@ -17,21 +17,23 @@ namespace BookHavenDesktop.Forms.MainPages
 {
     public partial class AccessForm : Form
     {
-        private readonly UserManager userManager;
-        private readonly OrderManager orderManager;
-        public AccessForm(UserManager userManager, OrderManager orderManager)
+        private readonly UserManager _userManager;
+        private readonly OrderManager _orderManager;
+        private readonly BookManager _bookManager;
+        public AccessForm(UserManager userManager, OrderManager orderManager, BookManager bookManager)
         {
             InitializeComponent();
-            this.userManager = userManager;
-            this.orderManager = orderManager;
+            _userManager = userManager;
+            _orderManager = orderManager;
+            _bookManager = bookManager;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string email = txtEmailLogin.Text;
             string password = txtPassLogin.Text;
-            User user = userManager.GetUserByEmail(email);
-            if (userManager.AuthenticateUser(email, password))
+            User user = _userManager.GetUserByEmail(email);
+            if (_userManager.AuthenticateUser(email, password))
             {
                 UserTypeLogin(user);
             }
@@ -57,7 +59,7 @@ namespace BookHavenDesktop.Forms.MainPages
         {
             if (user.UserType == LogicLayer.Enums.UserType.EMPLOYEE || user.UserType == LogicLayer.Enums.UserType.ADMIN)
             {
-                MainForm mainForm = new MainForm(user.Email, userManager, orderManager);
+                MainForm mainForm = new MainForm(user.Email, _userManager, _orderManager, _bookManager);
                 mainForm.Show();
                 this.Hide();
             }
@@ -69,11 +71,11 @@ namespace BookHavenDesktop.Forms.MainPages
 
         private void UserTypeSignUp(string firstName, string lastName, string email, string password, string repeatPassword)
         {
-            UserCreation userCreation = User.ValidateSignUp(userManager, firstName, lastName, email, password, repeatPassword);
+            UserCreation userCreation = User.ValidateSignUp(_userManager, firstName, lastName, email, password, repeatPassword);
             switch (userCreation)
             {
                 case UserCreation.SUCCESS:
-                    userManager.AddUser(firstName, lastName, email, password, UserType.PENDING_EMPLOYEE);
+                    _userManager.AddUser(firstName, lastName, email, password, UserType.PENDING_EMPLOYEE);
                     MessageBox.Show("You have successfully signed up. An admin needs to approve you first to login");
                     break;
                 case UserCreation.PASSWORDS_DONT_MATCH:

@@ -13,18 +13,19 @@
             <form method="post">
                 <div class="mb-3">
                     <label for="FirstName" class="form-label">First Name</label>
-                    <input type="text" id="FirstName" name="NewFirstName" class="form-control" asp-for="NewfirstName">
-                    <span asp-validation-for="NewfirstName" class="text-danger"></span>
+                    <input type="text" id="FirstName" name="NewFirstName" class="form-control" asp-for="NewFirstName">
+                    <span asp-validation-for="NewFirstName" class="text-danger"></span>
                 </div>
+
                 <div class="mb-3">
                     <label for="LastName" class="form-label">Last Name</label>
-                    <input type="text" id="LastName" name="NewLastName" class="form-control" asp-for="NewlastName">
-                    <span asp-validation-for="NewlastName" class="text-danger"></span>
+                    <input type="text" id="LastName" name="NewLastName" class="form-control" asp-for="NewLastName">
+                    <span asp-validation-for="NewLastName" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label for="Email" class="form-label">Email</label>
-                    <input type="email" id="Email" name="Email" class="form-control" asp-for="Email">
+                    <input type="email" id="Email" name="Email" class="form-control" asp-for="Email" readonly>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 

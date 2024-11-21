@@ -15,12 +15,15 @@ namespace BookHavenDesktop.Forms.PopUpForms
 {
     public partial class EditBook : Form
     {
+        private BookManager _bookManager;
         private Book book;
-        public EditBook(Book book)
+        public EditBook(Book book, BookManager bookManager)
         {
             InitializeComponent();
             PopulateGenreComboBox();
             this.book = book;
+            _bookManager = bookManager;
+
 
             txtTitleEdit.Text = book.Title;
             txtAuthorEdit.Text = book.Author;
@@ -58,6 +61,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 lblFileSize.Visible = false;
                 txtFileSizeEdit.Visible = false;
             }
+
         }
         private void PopulateGenreComboBox()
         {
@@ -105,9 +109,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
             DialogResult result = MessageBox.Show("Are you sure you would like to save these changes?", "Saving Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
             if (result == DialogResult.Yes)
             {
-                // Use the BookManager to update the book
-                BookManager bookManager = new BookManager();
-                bookManager.UpdateBook(book.Id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, bookType, audioLength, fileSize, dimensions, pages, coverType);
+                _bookManager.UpdateBook(book.Id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, bookType, audioLength, fileSize, dimensions, pages, coverType);
 
                 MessageBox.Show("Book has been successfully updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();

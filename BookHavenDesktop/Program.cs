@@ -21,14 +21,16 @@ namespace BookHavenDesktop
             IUserDb dbUser = new DBUser();              // Data access layer for user
             IOrderDb dbOrder = new DBOrder();           // Data access layer for orders
             IOrderItemDb dbOrderItem = new DBOrderItem(); // Data access layer for order items
+            IBookDb bookDb = new DBBook();              // Data access layer for books
 
             UserManager userManager = new UserManager(dbUser);
-            OrderItemManager orderItemManager = new OrderItemManager(dbOrderItem, userManager, new BookManager());
+            OrderItemManager orderItemManager = new OrderItemManager(dbOrderItem, userManager, new BookManager(bookDb));
             OrderManager orderManager = new OrderManager(dbOrder, userManager, orderItemManager);
+            BookManager bookManager = new BookManager(bookDb);
 
 
             ApplicationConfiguration.Initialize();
-            Application.Run(new AccessForm(userManager, orderManager));
+            Application.Run(new AccessForm(userManager, orderManager, bookManager));
         }
     }
 }

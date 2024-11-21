@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer;
+using DataAccessLayer.Interfaces;
 using LogicLayer.EntityClasses;
 using LogicLayer.Enums;
 
@@ -13,13 +14,12 @@ namespace LogicLayer.Managers
 
     public class BookManager
     {
-        private DBBook _dbBook;
+        private IBookDb _bookDb;
         private List<Book> _books;
 
-        public BookManager()
+        public BookManager(IBookDb bookDb)
         {
-            _dbBook = new DBBook();
-
+            _bookDb = bookDb;
         }
 
         public int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales, string bookType,
@@ -51,7 +51,7 @@ namespace LogicLayer.Managers
                 // If it's a general book, no additional validation is needed
             }
 
-            int bookId = _dbBook.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, bookType, length, fileSize, dimensions, pages, coverType);
+            int bookId = _bookDb.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, bookType, length, fileSize, dimensions, pages, coverType);
 
             return bookId;
         }
@@ -60,7 +60,7 @@ namespace LogicLayer.Managers
         
         public List<Book> GetAllBooks()
         {
-            DataTable dt = _dbBook.GetBooks();
+            DataTable dt = _bookDb.GetBooks();
             List<Book> allBooks = new List<Book>();
 
             if (dt != null && dt.Rows.Count > 0)
@@ -167,19 +167,19 @@ namespace LogicLayer.Managers
 
         public void UpdateBook(int id, string title, string author, long isbn, DateTime publishYear, decimal price, string genre, string language, string imagePath, int stock, string bookType, TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
         {
-            _dbBook.UpdateBook(id, title, author, isbn.ToString(), publishYear, price, genre, language, imagePath, stock, 0, bookType, length, fileSize, dimensions, pages, coverType);
+            _bookDb.UpdateBook(id, title, author, isbn.ToString(), publishYear, price, genre, language, imagePath, stock, 0, bookType, length, fileSize, dimensions, pages, coverType);
         }
 
         public void DeleteBook(int bookId)
         {
-            _dbBook.DeleteBook(bookId);
+            _bookDb.DeleteBook(bookId);
 
         }
 
         // Get summary of all books
         public List<Book> GetBooksSummary()
         {
-            DataTable dt = _dbBook.GetBooksSummary();
+            DataTable dt = _bookDb.GetBooksSummary();
 
             _books = new List<Book>();
 
@@ -237,7 +237,7 @@ namespace LogicLayer.Managers
         // Get a book by its ID (could be AudioBook or PhysicalBook)
         public Book GetBookById(int id)
         {
-            DataTable dt = _dbBook.GetBookDetails(id);
+            DataTable dt = _bookDb.GetBookDetails(id);
             Book book = null; // Initialize book to null
 
             if (dt != null && dt.Rows.Count > 0)

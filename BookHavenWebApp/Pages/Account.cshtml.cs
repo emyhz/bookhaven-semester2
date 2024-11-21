@@ -54,30 +54,9 @@ namespace BookHavenWebApp.Pages
                 return Page();
             }
 
-            string result = _userManager.UpdatePassword(user.Email, CurrentPassword, NewPassword, ConfirmPassword);
+            _userManager.UpdatePassword(user.Email, CurrentPassword, NewPassword, ConfirmPassword);
 
-            // Check the result of the password update operation
-            if (result != "Password updated successfully.")
-            {
-                // Depending on the result, add the appropriate ModelState error
-                if (result == "Please fill in all fields.")
-                {
-                    ModelState.AddModelError("ConfirmNewPassword", "Missing required fields.");
-                }
-                else if (result == "The new passwords do not match.")
-                {
-                    ModelState.AddModelError("ConfirmNewPassword", "Your new password does not match. Please try again.");
-                }
-                else if (result == "The old password is incorrect.")
-                {
-                    ModelState.AddModelError("CurrentPassword", "Password is incorrect. Please try again.");
-                }
 
-                // If there's an error, return the same page with validation messages
-                return Page();
-            }
-
-            // If the password update was successful, show a success message
             TempData["SuccessMessage"] = "Password changed successfully!";
             return RedirectToPage();
 
@@ -87,7 +66,7 @@ namespace BookHavenWebApp.Pages
             user = _userManager.GetUserByEmail(User.Identity.Name);
             if (user != null)
             {
-                _userManager.DeleteEmployee(user.Email);  // Calls the logic layer to delete the user
+                _userManager.DeleteEmployee(user.Email);
                 TempData["SuccessMessage"] = "Your account has been deleted.";
 
                 // After account deletion, log the user out and redirect to the homepage or a confirmation page

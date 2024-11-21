@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BookHavenDesktop.Forms.PopUpForms;
 using LogicLayer.EntityClasses;
+using LogicLayer.Managers;
 
 namespace BookHavenDesktop.UserControls
 {
@@ -19,9 +20,11 @@ namespace BookHavenDesktop.UserControls
         private string author;
         private double price;
         private Book bookData;
-        public BookList()
+        private BookManager _bookManager;
+        public BookList(BookManager bookManager)
         {
             InitializeComponent();
+            _bookManager = bookManager;
             //this.Click += BookList_Click;
         }
 
@@ -60,7 +63,7 @@ namespace BookHavenDesktop.UserControls
 
         private void BookList_Click(object sender, EventArgs e)
         {
-            BookDetails details = new BookDetails(bookData);
+            BookDetails details = new BookDetails(bookData, _bookManager);
             details.ShowDialog();
         }
 

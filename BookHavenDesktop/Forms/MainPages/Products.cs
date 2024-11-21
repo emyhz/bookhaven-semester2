@@ -16,44 +16,43 @@ namespace BookHavenDesktop.Forms.MainPages
 {
     public partial class Products : Form
     {
-        private BookManager bookManager;
+        private BookManager _bookManager;
         private List<Book> searchBooks;
         private List<Book> books;
-        public Products()
+        public Products(BookManager bookManager)
         {
             InitializeComponent();
-            bookManager = new BookManager();
+            _bookManager = bookManager;
             DisplayBooks(books);
         }
 
         private void btnAddPhysical_Click(object sender, EventArgs e)
         {
-            AddPhysical addPhysical = new AddPhysical();
+            AddPhysical addPhysical = new AddPhysical(_bookManager);
             addPhysical.ShowDialog();
         }
 
         private void btnAddNewAudio_Click(object sender, EventArgs e)
         {
-            AddAudio addAudio = new AddAudio();
+            AddAudio addAudio = new AddAudio(_bookManager);
             addAudio.ShowDialog();
         }
         private void DisplayBooks(List<Book> books)
         {
-            BookManager bookManager = new BookManager();
 
             // If no books list is provided, get all books
             if (books == null)
             {
                 books = new List<Book>();
 
-                books.AddRange(bookManager.GetAllBooks());
+                books.AddRange(_bookManager.GetAllBooks());
             }
 
             flpProducts.Controls.Clear();
 
             foreach (Book book in books)
             {
-                BookList bookControl = new BookList
+                BookList bookControl = new BookList(_bookManager)
                 {
                     Title = book.Title,
                     Author = book.Author,
@@ -79,7 +78,7 @@ namespace BookHavenDesktop.Forms.MainPages
                 MessageBox.Show("Invalid ISBN. Please enter a valid numeric ISBN.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            searchBooks = bookManager.SearchBook(title, author, isbn);
+            searchBooks = _bookManager.SearchBook(title, author, isbn);
             DisplayBooks(searchBooks);
         }
     }

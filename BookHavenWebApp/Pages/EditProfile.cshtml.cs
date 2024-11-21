@@ -9,16 +9,16 @@ namespace BookHavenWebApp.Pages
 {
     public class EditProfileModel : PageModel
     {
-        private readonly UserManager userManager;
+        private readonly UserManager _userManager;
         public EditProfileModel(UserManager userManager)
         {
-            this.userManager = userManager;
+            _userManager = userManager;
         }
         public User user { get; set; }
         [BindProperty]
-        public string NewfirstName { get; set; }
+        public string NewFirstName { get; set; }
         [BindProperty]
-        public string NewlastName { get; set; }
+        public string NewLastName { get; set; }
         [BindProperty]
         [EmailAddress]
         public string Email { get; set; }
@@ -26,7 +26,12 @@ namespace BookHavenWebApp.Pages
         {
             if (User.Identity.IsAuthenticated)
             {
-                user = userManager.GetUserByEmail(User.Identity.Name);
+                user = _userManager.GetUserByEmail(User.Identity.Name);
+
+                NewFirstName = user.FirstName;
+                NewLastName = user.LastName;
+                Email = user.Email;
+
                 return Page();
             }
             else
@@ -40,7 +45,7 @@ namespace BookHavenWebApp.Pages
             {
                 return Page();
             }
-            userManager.UpdateCustomerInfo(user.Email, NewfirstName, NewlastName);
+             _userManager.UpdateCustomerInfo(user.Email, NewFirstName, NewLastName);
             TempData["SuccessMessage"] = "Profile updated successfully!";
 
             return RedirectToPage("/Account");
