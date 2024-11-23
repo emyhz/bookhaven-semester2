@@ -15,6 +15,7 @@ namespace BookHavenDesktop.Forms.MainPages
     {
         private Form _activeForm;
         private string _userEmail;
+        private Button _currentButton;
         private UserManager _userManager;
         private OrderManager _orderManager;
         private BookManager _bookManager;
@@ -33,6 +34,7 @@ namespace BookHavenDesktop.Forms.MainPages
             {
                 _activeForm.Close();
             }
+            EnableButton(btnSender);
             _activeForm = childForm;
             childForm.TopLevel = false;
             childForm.FormBorderStyle = FormBorderStyle.None;
@@ -70,7 +72,6 @@ namespace BookHavenDesktop.Forms.MainPages
 
         private void btnLogOut_Click(object sender, EventArgs e)
         {
-            // confirmation message
             DialogResult result = MessageBox.Show("Are you sure you would like to log out?", "Log Out Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
@@ -82,7 +83,35 @@ namespace BookHavenDesktop.Forms.MainPages
 
         private void btnHome_Click(object sender, EventArgs e)
         {
-            OpenChildForms(new HomePage(), sender);
+            EnableButton(sender);
+            if (_activeForm != null)
+            {
+                _activeForm.Close();
+            }
+        }
+        private void EnableButton(object btnSender)
+        {
+            if (btnSender != null)
+            {
+                if (_currentButton != (Button)btnSender)
+                {
+                    DisableButtons();
+                    _currentButton = (Button)btnSender;
+                    _currentButton.BackColor = Color.Thistle;
+                    _currentButton.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point, 0);
+                }
+            }
+        }
+        private void DisableButtons()
+        {
+            foreach (Control previousBtn in flpMainPage.Controls)
+            {
+                if (previousBtn.GetType() == typeof(Button))
+                {
+                    previousBtn.BackColor = Color.FromArgb(130, 76, 113);
+                    previousBtn.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+                }
+            }
         }
     }
 }

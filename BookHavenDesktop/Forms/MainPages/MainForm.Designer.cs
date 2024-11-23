@@ -41,9 +41,14 @@
             btnClients = new Button();
             btnMyAccount = new Button();
             pnlMainForm = new Panel();
+            lblHomePage = new Label();
+            pnlHome = new Panel();
+            lblHome = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             flpMainPage.SuspendLayout();
+            pnlMainForm.SuspendLayout();
+            pnlHome.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -110,6 +115,7 @@
             // 
             // btnHome
             // 
+            btnHome.BackColor = Color.FromArgb(130, 76, 113);
             btnHome.FlatAppearance.BorderSize = 0;
             btnHome.FlatStyle = FlatStyle.Flat;
             btnHome.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -124,7 +130,7 @@
             btnHome.Text = "Home";
             btnHome.TextAlign = ContentAlignment.MiddleLeft;
             btnHome.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnHome.UseVisualStyleBackColor = true;
+            btnHome.UseVisualStyleBackColor = false;
             btnHome.Click += btnHome_Click;
             // 
             // btnProducts
@@ -225,10 +231,43 @@
             // pnlMainForm
             // 
             pnlMainForm.BackColor = Color.FromArgb(233, 210, 224);
+            pnlMainForm.Controls.Add(lblHomePage);
+            pnlMainForm.Controls.Add(pnlHome);
             pnlMainForm.Location = new Point(290, 110);
             pnlMainForm.Name = "pnlMainForm";
             pnlMainForm.Size = new Size(1640, 954);
             pnlMainForm.TabIndex = 2;
+            // 
+            // lblHomePage
+            // 
+            lblHomePage.AutoSize = true;
+            lblHomePage.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblHomePage.ForeColor = Color.FromArgb(130, 76, 113);
+            lblHomePage.Location = new Point(58, 24);
+            lblHomePage.Name = "lblHomePage";
+            lblHomePage.Size = new Size(116, 46);
+            lblHomePage.TabIndex = 3;
+            lblHomePage.Text = "Home";
+            // 
+            // pnlHome
+            // 
+            pnlHome.BackColor = Color.White;
+            pnlHome.Controls.Add(lblHome);
+            pnlHome.Location = new Point(58, 99);
+            pnlHome.Name = "pnlHome";
+            pnlHome.Size = new Size(990, 534);
+            pnlHome.TabIndex = 2;
+            // 
+            // lblHome
+            // 
+            lblHome.AutoSize = true;
+            lblHome.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblHome.ForeColor = Color.FromArgb(130, 76, 113);
+            lblHome.Location = new Point(20, 45);
+            lblHome.Name = "lblHome";
+            lblHome.Size = new Size(455, 46);
+            lblHome.TabIndex = 2;
+            lblHome.Text = "BookHaven Welcomes you!";
             // 
             // MainForm
             // 
@@ -246,6 +285,10 @@
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             flpMainPage.ResumeLayout(false);
+            pnlMainForm.ResumeLayout(false);
+            pnlMainForm.PerformLayout();
+            pnlHome.ResumeLayout(false);
+            pnlHome.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -263,5 +306,8 @@
         private Button btnClients;
         private Button btnMyAccount;
         private Button btnLogOut;
+        private Panel pnlHome;
+        private Label lblHome;
+        private Label lblHomePage;
     }
 }

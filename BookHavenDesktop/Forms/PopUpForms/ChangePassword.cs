@@ -29,10 +29,9 @@ namespace BookHavenDesktop.Forms.PopUpForms
             string confirmPassword = txtConfirmPass.Text;
 
 
-            // Call the UpdatePassword method from your manager class
+
             string result = userManager.UpdatePassword(userEmail, oldPassword, newPassword, confirmPassword);
 
-            // Handle the result based on the return message from UpdatePassword
             if (result == "Password updated successfully.")
             {
                 MessageBox.Show("Password changed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
