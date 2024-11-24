@@ -17,5 +17,7 @@ namespace DataAccessLayer.Interfaces
         void DeleteBook(int id);
         DataTable GetBooksSummary();
         DataTable GetBookDetails(int id);
+        public void BuyBook(int bookId, int quantity);
+
     }
 }

@@ -1,5 +1,7 @@
 ﻿using LogicLayer.Enums;
+using LogicLayer.Managers;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,9 +31,11 @@ namespace LogicLayer.EntityClasses
         public string CoverType { get { return coverType; } }
 
         //methods
-        public override void CheckOut()//no implementation yet
+        public override decimal CalculateFinalPrice()
         {
-            throw new NotImplementedException();
+            const decimal shippingRate = 0.10m; // 10% shipping
+            decimal shippingCost = Math.Round(Price * shippingRate, 2); // Round to 2 decimal places
+            return Math.Round(Price + shippingCost, 2); // Return rounded final price
         }
     }
 }

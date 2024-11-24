@@ -1,5 +1,6 @@
 ﻿using LogicLayer.Enums;
 using LogicLayer.Interfaces;
+using LogicLayer.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +58,7 @@ namespace LogicLayer.EntityClasses
 
 
         //methods
-        public abstract void CheckOut();
+        public abstract decimal CalculateFinalPrice();
 
         //discount strategy
         public void SetDiscountStrategy(IDiscountStrategy strategy)

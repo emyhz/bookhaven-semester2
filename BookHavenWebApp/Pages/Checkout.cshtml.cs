@@ -25,6 +25,7 @@ namespace BookHavenWebApp.Pages
         public List<OrderItem> OrderItems { get; set; }
         public decimal TotalPrice { get; set; }
         public int TotalCartQuantity { get; set; }
+        //public decimal Shipping { get; set; }
 
         [BindProperty]
         [Required(ErrorMessage ="Address is required.")]
@@ -61,11 +62,13 @@ namespace BookHavenWebApp.Pages
 
         public IActionResult OnGet()
         {
+            //Shipping = 0.50m;
+
             if (User.Identity.IsAuthenticated)
             {
                 user = _userManager.GetUserByEmail(User.Identity.Name);
                 OrderItems = _orderItemManager.GetUserCart(user.Id);
-                TotalPrice = CartCalculation.CalculateTotal(OrderItems);
+                TotalPrice = CartCalculation.CalculateOrderShipping(OrderItems);
                 TotalCartQuantity = _orderItemManager.GetItemQuantityFromUser(user.Id);
 
                 return Page();
@@ -82,7 +85,7 @@ namespace BookHavenWebApp.Pages
             {
                 user = _userManager.GetUserByEmail(User.Identity.Name);
                 OrderItems = _orderItemManager.GetUserCart(user.Id);
-                TotalPrice = CartCalculation.CalculateTotal(OrderItems);
+                TotalPrice = CartCalculation.CalculateOrderShipping(OrderItems);
                 TotalCartQuantity = _orderItemManager.GetItemQuantityFromUser(user.Id);
 
             }
@@ -100,7 +103,9 @@ namespace BookHavenWebApp.Pages
 
             foreach (OrderItem item in OrderItems)
             {
+
                 _orderItemManager.Checkout(item.Id, orderId);
+                _bookManager.BuyBook(item.Book.Id, item.Quantity);
 
             }
             return RedirectToPage("/OrderComplete", new { orderId = orderId });

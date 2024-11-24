@@ -57,8 +57,8 @@ namespace LogicLayer.Managers
             return bookId;
         }
 
-        
-        
+
+
         public List<Book> GetAllBooks()
         {
             DataTable dt = _bookDb.GetBooks();
@@ -289,6 +289,13 @@ namespace LogicLayer.Managers
             }
 
             return book; // Return null if no book was found or type doesn't match
+        }
+        public void BuyBook(int bookId, int quantity)
+        {
+            if(GetBookById(bookId).Stock > quantity)
+            {
+                _bookDb.BuyBook(bookId, quantity);
+            }
         }
     }
 }

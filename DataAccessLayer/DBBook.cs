@@ -405,6 +405,64 @@ namespace DataAccessLayer
 
             return dataTable;
         }
+        public void BuyBook(int bookId, int quantity)
+        {
+            if (quantity <= 0)
+            {
+                throw new ArgumentException("Quantity must be greater than zero.");
+            }
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlTransaction transaction = connection.BeginTransaction();
+
+                try
+                {
+                    // Decrease the stock for physical books
+                    string updateStockQuery = @"
+            UPDATE [Book] 
+            SET Stock = Stock - @Quantity 
+            WHERE Id = @Id AND Stock >= @Quantity 
+            AND Id IN (SELECT Id FROM [PhysicalBook])";
+
+                    SqlCommand updateStockCommand = new SqlCommand(updateStockQuery, connection, transaction);
+                    updateStockCommand.Parameters.AddWithValue("@Id", bookId);
+                    updateStockCommand.Parameters.AddWithValue("@Quantity", quantity);
+
+                    int rowsAffected = updateStockCommand.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new Exception("Insufficient stock available or the book is not a PhysicalBook.");
+                    }
+
+                    // Increment the sales count
+                    string updateSalesQuery = @"
+            UPDATE [Book] 
+            SET Sales = Sales + @Quantity 
+            WHERE Id = @Id";
+
+                    SqlCommand updateSalesCommand = new SqlCommand(updateSalesQuery, connection, transaction);
+                    updateSalesCommand.Parameters.AddWithValue("@Id", bookId);
+                    updateSalesCommand.Parameters.AddWithValue("@Quantity", quantity);
+                    updateSalesCommand.ExecuteNonQuery();
+
+                    // Commit the transaction
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    // Rollback the transaction if there is any error
+                    transaction.Rollback();
+                    throw new Exception($"An error occurred while buying the book: {ex.Message}");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
     }
 }
 

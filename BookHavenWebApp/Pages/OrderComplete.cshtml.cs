@@ -15,15 +15,24 @@ namespace BookHavenWebApp.Pages
         }
 
         [BindProperty(SupportsGet = true)]
+        public int OrderId { get; set; }
+
         public List<OrderItem> OrderItems { get; set; }
         public decimal TotalPrice { get; set; }
-        public int OrderId { get; set; }
 
         public void OnGet()
         {
             Order order = _orderManager.GetOrderDetailsForUser(OrderId);
             TotalPrice = order.TotalPrice;
             OrderItems = order.OrderItems;
+
+            foreach (var item in OrderItems)
+            {
+                if (item.Book is AudioBook audioBook)
+                {
+
+                }
+            }
         }
 
     }

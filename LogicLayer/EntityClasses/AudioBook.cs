@@ -1,4 +1,5 @@
 ﻿using LogicLayer.Enums;
+using LogicLayer.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +26,9 @@ namespace LogicLayer.EntityClasses
         public TimeSpan AudioLength { get { return audioLength; } }
         public string FileSize { get { return fileSize; } }
 
-        public override void CheckOut() //no implementation yet
+        public override decimal CalculateFinalPrice()
         {
-            throw new NotImplementedException();
+            return Price;
         }
     }
 }
