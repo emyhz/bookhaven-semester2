@@ -14,5 +14,9 @@ namespace DataAccessLayer.Interfaces
         DataTable GetOrdersByUser(int userId);
         DataTable GetOrdersForBook(int bookId);
         DataTable GetOrderDetails(int id);
+        public DataTable GetStatisticOrders(DateTime startDate);
+        public DataTable GetCompletedOrders();
+
+
     }
 }

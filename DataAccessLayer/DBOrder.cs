@@ -40,7 +40,7 @@ namespace DataAccessLayer
                 return orderId;
             }
         }
-       
+
 
         // Retrieves all orders
         public DataTable GetOrders()
@@ -119,22 +119,61 @@ namespace DataAccessLayer
                 }
             }
         }
+        public DataTable GetStatisticOrders(DateTime startDate)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
 
-        // Finalizes an order by setting its status
-        //public void FinalizeOrder(int orderId, int orderStatus)
-        //{
-        //    using SqlConnection connection = new SqlConnection(connectionString);
-        //    connection.Open();
+                // Adjust the query based on whether endDate is provided
+                string query = @"
+                SELECT ID, Date, UserID, TotalPrice, Status 
+                FROM [Order] 
+                WHERE Date >= @StartDate";
 
-        //    string updateStatusQuery = "UPDATE [Order] SET Status = @Status WHERE Id = @OrderId";
-        //    using (SqlCommand command = new SqlCommand(updateStatusQuery, connection))
-        //    {
-        //        command.Parameters.AddWithValue("@OrderId", orderId);
-        //        command.Parameters.AddWithValue("@Status", orderStatus);
-        //        command.ExecuteNonQuery();
-        //    }
-        //}
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@StartDate", startDate);
+                    try
+                    {
+                        using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            sda.Fill(dt);
+                            return dt;
+                        }
+                    }
+                    catch
+                    {
+                        throw;
+                    }
+                }
+            }
+
+        }
+        public DataTable GetCompletedOrders()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = @"
+        SELECT * 
+        FROM [OrderItem] 
+        WHERE OrderId IS NOT NULL";
+
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+                        return dt;
+                    }
+                }
+            }
+        }
+
 
     }
-
 }

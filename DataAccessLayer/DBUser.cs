@@ -35,19 +35,27 @@ namespace DataAccessLayer
 
         public DataTable GetUsersTable()
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "SELECT * FROM [User]";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    connection.Open();
+                    string query = "SELECT * FROM [User]";
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        DataTable table = new DataTable();
-                        adapter.Fill(table);
-                        return table;
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                        {
+                            DataTable table = new DataTable();
+                            adapter.Fill(table);
+                            return table;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                HandleDatabaseException(ex);
+                return null; // Return null or empty DataTable
             }
         }
 

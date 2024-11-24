@@ -30,23 +30,36 @@ namespace LogicLayer.Managers
 
 
 
-        public List<OrderItem> GetOrderItems(int orderId)
+        public List<OrderItem> GetOrderItems(int orderID)
         {
             List<OrderItem> items = new List<OrderItem>();
-            DataTable dt = _orderItemDb.GetOrderItems(orderId);
+            DataTable dt = _orderItemDb.GetOrderItems(orderID);
 
             foreach (DataRow row in dt.Rows)
             {
-                int itemId = Convert.ToInt32(row["Id"]);
+                int Id = Convert.ToInt32(row["Id"]);
+                int clientId = Convert.ToInt32(row["UserId"]);
+                Book book = _bookManager.GetBookById(Convert.ToInt32(row["BookId"]));
                 int quantity = Convert.ToInt32(row["Quantity"]);
-                decimal price = Convert.ToDecimal(row["Price"]);
-                int bookId = Convert.ToInt32(row["BookId"]);
-                Book book = _bookManager.GetBookById(bookId);
+                int orderId = Convert.ToInt32(row["OrderId"]);
 
-                OrderItem orderItem = new OrderItem(itemId, quantity, price, orderId, book);
-                items.Add(orderItem);
+                decimal price = book.Price * quantity;
+
+                OrderItem orderitem = new OrderItem(
+                    Id,
+                    quantity,
+                    price,
+                    orderId,
+                    book
+
+                );
+
+                if (orderId == orderID)
+                {
+                    items.Add(orderitem);
+                }
+
             }
-
             return items;
         }
         public List<OrderItem> GetUserCart(int userID)

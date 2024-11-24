@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -62,13 +63,25 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 MessageBox.Show($"AudioBook added successfully!");
 
                 this.Close();
-                // Clear form fields after adding the book
                 ClearFormFields();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("An error occurred while adding the audiobook: " + ex.Message);
             }
+        }
+        private bool ValidateTimeInput(string timeInput)
+        {
+            // Regex for valid time format (HH:mm:ss )
+            string timePattern = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.\d{1,7})?$";
+
+            if (!Regex.IsMatch(timeInput, timePattern))
+            {
+                MessageBox.Show("Invalid time format. Please enter in HH:mm:ss or HH:mm:ss.fffffff format.");
+                return false;
+            }
+
+            return true;
         }
         private void ClearFormFields()
         {

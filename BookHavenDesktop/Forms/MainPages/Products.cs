@@ -40,7 +40,6 @@ namespace BookHavenDesktop.Forms.MainPages
         private void DisplayBooks(List<Book> books)
         {
 
-            // If no books list is provided, get all books
             if (books == null)
             {
                 books = new List<Book>();
@@ -71,14 +70,8 @@ namespace BookHavenDesktop.Forms.MainPages
             string title = txtTitleSearch.Text.Trim();
             string author = txtAuthorSearch.Text.Trim();
 
-            // Validate and parse the ISBN number
-            long isbn = 0;
-            if (!long.TryParse(txtISBNSearch.Text.Trim(), out isbn))
-            {
-                MessageBox.Show("Invalid ISBN. Please enter a valid numeric ISBN.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            searchBooks = _bookManager.SearchBook(title, author, isbn);
+           
+            searchBooks = _bookManager.SearchBook(title, author);
             DisplayBooks(searchBooks);
         }
     }

@@ -34,19 +34,26 @@ namespace LogicLayer.Managers
             DataTable dt = _orderDb.GetOrders();
             List<Order> orders = new List<Order>();
 
-            foreach (DataRow row in dt.Rows)
+            if (dt != null && dt.Rows.Count > 0)
             {
-                int orderId = Convert.ToInt32(row["Id"]);
-                DateTime date = Convert.ToDateTime(row["Date"]);
-                decimal totalPrice = Convert.ToDecimal(row["TotalPrice"]);
-                OrderStatus status = Enum.Parse<OrderStatus>(row["Status"].ToString());
+                foreach (DataRow row in dt.Rows)
+                {
+                    int orderId = Convert.ToInt32(row["Id"]);
+                    int userId = Convert.ToInt32(row["UserId"]);
+                    User user = _userManager.GetUserById(userId);
+                    List<OrderItem> orderItems = _orderItemManager.GetOrderItems(orderId);
 
-                // Fetch user and items
-                User user = _userManager.GetUserById(Convert.ToInt32(row["UserId"]));
-                List<OrderItem> items = _orderItemManager.GetOrderItems(orderId);
+                    Order order = new Order(
+                    orderId,
+                    Convert.ToDateTime(row["Date"]),
+                    user,
+                    Convert.ToDecimal(row["TotalPrice"]),
+                    (OrderStatus)Convert.ToInt32(row["Status"]),
+                    orderItems
+                );
 
-                Order order = new Order(orderId, date, user, totalPrice, status, items);
-                orders.Add(order);
+                    orders.Add(order);
+                }
             }
 
             return orders;
@@ -108,6 +115,160 @@ namespace LogicLayer.Managers
 
             return order;
         }
+        public List<Order> GetOrdersLast24Hours()
+        {
+            DateTime startDate = DateTime.Now.AddDays(-1);
+            DataTable dt = _orderDb.GetStatisticOrders(startDate);
+            List<Order> orders = new List<Order>();
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    int orderId = Convert.ToInt32(row["ID"]);
+                    int userId = Convert.ToInt32(row["UserID"]);
+                    User user = _userManager.GetUserById(userId);
+                    List<OrderItem> orderItems = _orderItemManager.GetOrderItems(orderId);
+
+                    Order order = new Order(
+                        orderId,
+                        Convert.ToDateTime(row["Date"]),
+                        user,
+                        Convert.ToDecimal(row["TotalPrice"]),
+                        Enum.Parse<OrderStatus>(row["Status"].ToString()),
+                        orderItems
+                    );
+
+                    orders.Add(order);
+                }
+            }
+
+            return orders;
+        }
+
+        public List<Order> GetOrdersLast7Days()
+        {
+            DateTime startDate = DateTime.Now.AddDays(-7);
+            DataTable dt = _orderDb.GetStatisticOrders(startDate);
+            List<Order> orders = new List<Order>();
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    int orderId = Convert.ToInt32(row["ID"]);
+                    int userId = Convert.ToInt32(row["UserID"]);
+                    User user = _userManager.GetUserById(userId);
+                    List<OrderItem> orderItems = _orderItemManager.GetOrderItems(orderId);
+
+                    Order order = new Order(
+                        orderId,
+                        Convert.ToDateTime(row["Date"]),
+                        user,
+                        Convert.ToDecimal(row["TotalPrice"]),
+                        Enum.Parse<OrderStatus>(row["Status"].ToString()),
+                        orderItems
+                    );
+
+                    orders.Add(order);
+                }
+            }
+
+            return orders;
+        }
+
+        public List<Order> GetOrdersLastMonth()
+        {
+            DateTime startDate = DateTime.Now.AddMonths(-1);
+            DataTable dt = _orderDb.GetStatisticOrders(startDate);
+            List<Order> orders = new List<Order>();
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    int orderId = Convert.ToInt32(row["ID"]);
+                    int userId = Convert.ToInt32(row["UserID"]);
+                    User user = _userManager.GetUserById(userId);
+                    List<OrderItem> orderItems = _orderItemManager.GetOrderItems(orderId);
+
+                    Order order = new Order(
+                        orderId,
+                        Convert.ToDateTime(row["Date"]),
+                        user,
+                        Convert.ToDecimal(row["TotalPrice"]),
+                        Enum.Parse<OrderStatus>(row["Status"].ToString()),
+                        orderItems
+                    );
+
+                    orders.Add(order);
+                }
+            }
+
+            return orders;
+        }
+
+        public List<Order> GetOrdersLastYear()
+        {
+            DateTime startDate = DateTime.Now.AddYears(-1);
+            DataTable dt = _orderDb.GetStatisticOrders(startDate);
+            List<Order> orders = new List<Order>();
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    int orderId = Convert.ToInt32(row["ID"]);
+                    int userId = Convert.ToInt32(row["UserID"]);
+                    User user = _userManager.GetUserById(userId);
+                    List<OrderItem> orderItems = _orderItemManager.GetOrderItems(orderId);
+
+                    Order order = new Order(
+                        orderId,
+                        Convert.ToDateTime(row["Date"]),
+                        user,
+                        Convert.ToDecimal(row["TotalPrice"]),
+                        Enum.Parse<OrderStatus>(row["Status"].ToString()),
+                        orderItems
+                    );
+
+                    orders.Add(order);
+                }
+            }
+
+            return orders;
+        }
+
+        //public List<Order> GetCompletedOrders()
+        //{
+        //    DataTable dt = _orderDb.GetCompletedOrders();
+        //    List<Order> orders = new List<Order>();
+
+        //    foreach (DataRow row in dt.Rows)
+        //    {
+        //        int orderId = Convert.ToInt32(row["OrderId"]);
+        //        int userId = Convert.ToInt32(row["UserId"]);
+        //        User user = _userManager.GetUserById(userId);
+        //        List<OrderItem> items = _orderItemManager.GetOrderItems(orderId);
+
+        //        Order order = new Order(
+        //            orderId,
+        //                Convert.ToDateTime(row["Date"]),
+        //                user,
+        //                Convert.ToDecimal(row["TotalPrice"]),
+        //                Enum.Parse<OrderStatus>(row["Status"].ToString()),
+        //                items
+        //        );
+
+        //        orders.Add(order);
+        //    }
+
+        //    return orders;
+        //}
+
+
+
+
         //public List<Order> GetAllOrders()
         //{
         //    DataTable dt = _orderDb.GetOrders();

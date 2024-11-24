@@ -20,6 +20,7 @@ namespace LogicLayer.Managers
         public BookManager(IBookDb bookDb)
         {
             _bookDb = bookDb;
+            _books = GetAllBooks();
         }
 
         public int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales, string bookType,
@@ -120,18 +121,23 @@ namespace LogicLayer.Managers
             return allBooks;
         }
 
-        public List<Book> SearchBook(string title, string author, long isbn)
+        public List<Book> SearchBook(string title, string author)
         {
             List<Book> searchResult = new List<Book>();
+
             foreach (Book book in _books)
             {
-                if (book.Title.Contains(title) && book.Author.Contains(author) && book.ISBN1 == isbn)
+                bool matchesTitle = string.IsNullOrEmpty(title) || book.Title.Contains(title, StringComparison.OrdinalIgnoreCase);
+                bool matchesAuthor = string.IsNullOrEmpty(author) || book.Author.Contains(author, StringComparison.OrdinalIgnoreCase);
+
+
+                if (matchesTitle && matchesAuthor)
                 {
                     searchResult.Add(book);
                 }
             }
-            return searchResult;
 
+            return searchResult;
         }
         //public void UpdateBook(Book book)
         //{

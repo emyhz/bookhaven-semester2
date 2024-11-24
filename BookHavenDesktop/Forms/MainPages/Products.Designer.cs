@@ -34,10 +34,8 @@
             lblProducts = new Label();
             pnlClient = new Panel();
             btnSearchProduct = new Button();
-            txtISBNSearch = new TextBox();
             txtAuthorSearch = new TextBox();
             txtTitleSearch = new TextBox();
-            lblISBNSearch = new Label();
             lblAuthorSearch = new Label();
             lblTitleSearch = new Label();
             lbl1 = new Label();
@@ -99,16 +97,14 @@
             // 
             pnlClient.BackColor = Color.White;
             pnlClient.Controls.Add(btnSearchProduct);
-            pnlClient.Controls.Add(txtISBNSearch);
             pnlClient.Controls.Add(txtAuthorSearch);
             pnlClient.Controls.Add(txtTitleSearch);
-            pnlClient.Controls.Add(lblISBNSearch);
             pnlClient.Controls.Add(lblAuthorSearch);
             pnlClient.Controls.Add(lblTitleSearch);
             pnlClient.Controls.Add(lbl1);
             pnlClient.Location = new Point(26, 85);
             pnlClient.Name = "pnlClient";
-            pnlClient.Size = new Size(355, 512);
+            pnlClient.Size = new Size(355, 383);
             pnlClient.TabIndex = 5;
             // 
             // btnSearchProduct
@@ -118,24 +114,13 @@
             btnSearchProduct.FlatStyle = FlatStyle.Flat;
             btnSearchProduct.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnSearchProduct.ForeColor = Color.White;
-            btnSearchProduct.Location = new Point(22, 407);
+            btnSearchProduct.Location = new Point(21, 288);
             btnSearchProduct.Name = "btnSearchProduct";
             btnSearchProduct.Size = new Size(298, 50);
             btnSearchProduct.TabIndex = 20;
             btnSearchProduct.Text = "Search book";
             btnSearchProduct.UseVisualStyleBackColor = false;
             btnSearchProduct.Click += btnSearchProduct_Click;
-            // 
-            // txtISBNSearch
-            // 
-            txtISBNSearch.BackColor = Color.WhiteSmoke;
-            txtISBNSearch.BorderStyle = BorderStyle.None;
-            txtISBNSearch.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtISBNSearch.Location = new Point(22, 318);
-            txtISBNSearch.Multiline = true;
-            txtISBNSearch.Name = "txtISBNSearch";
-            txtISBNSearch.Size = new Size(298, 41);
-            txtISBNSearch.TabIndex = 19;
             // 
             // txtAuthorSearch
             // 
@@ -158,17 +143,6 @@
             txtTitleSearch.Name = "txtTitleSearch";
             txtTitleSearch.Size = new Size(298, 41);
             txtTitleSearch.TabIndex = 17;
-            // 
-            // lblISBNSearch
-            // 
-            lblISBNSearch.AutoSize = true;
-            lblISBNSearch.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblISBNSearch.ForeColor = Color.Black;
-            lblISBNSearch.Location = new Point(22, 287);
-            lblISBNSearch.Name = "lblISBNSearch";
-            lblISBNSearch.Size = new Size(58, 28);
-            lblISBNSearch.TabIndex = 16;
-            lblISBNSearch.Text = "ISBN:";
             // 
             // lblAuthorSearch
             // 
@@ -224,7 +198,7 @@
             panel1.Controls.Add(btnAddPhysical);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(btnAddNewAudio);
-            panel1.Location = new Point(26, 627);
+            panel1.Location = new Point(26, 589);
             panel1.Name = "panel1";
             panel1.Size = new Size(355, 258);
             panel1.TabIndex = 22;
@@ -291,10 +265,8 @@
         private Label lblProducts;
         private Panel pnlClient;
         private Button btnSearchProduct;
-        private TextBox txtISBNSearch;
         private TextBox txtAuthorSearch;
         private TextBox txtTitleSearch;
-        private Label lblISBNSearch;
         private Label lblAuthorSearch;
         private Label lblTitleSearch;
         private Label lbl1;
