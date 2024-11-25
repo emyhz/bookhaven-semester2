@@ -58,9 +58,9 @@ namespace LogicLayer.Managers
 
             return orders;
         }
-        public List<Order> GetOrderByUser(int userId)
+        public List<Order> GetUserOrders(int userId)
         {
-            DataTable dt = _orderDb.GetOrders();
+            DataTable dt = _orderDb.GetUserOrders(userId);
             List<Order> orders = new List<Order>();
 
             if (dt != null && dt.Rows.Count > 0)

@@ -71,6 +71,32 @@
         </form>
     </div>
         </div>
+<!-- Reviews and Orders Section -->
+<div class="col-md-6">
+    <div class="mb-4">
+        <!-- Orders -->
+        @if (Model.orders.Count > 0)
+        {
+
+            <h5>My Orders</h5>
+            @foreach (LogicLayer.EntityClasses.Order order in Model.orders)
+            {
+                <div class="order border p-3 mb-3">
+                    <h6>Order #@order.Id</h6>
+                    <p>Placed on: @order.DateCreated.ToString("dd MMMM yyyy")</p>
+                    @foreach (LogicLayer.EntityClasses.OrderItem item in order.OrderItems)
+                    {
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="/Resources/@item.Book.ImagePath" class="me-3 img-fluid" style="width: 70px" alt="Product A">
+                            <span>@item.Book.Title - €@item.Book.Price</span>
+                        </div>
+                    }
+                    <small class="text-muted">Total: €@order.TotalPrice</small>
+                </div>
+            }
+        }
+      </div>
+</div>
 
 
 

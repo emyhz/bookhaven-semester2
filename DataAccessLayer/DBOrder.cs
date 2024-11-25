@@ -48,8 +48,10 @@ namespace DataAccessLayer
             using SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
 
-            string query = "SELECT Id, Date, UserId, TotalPrice, Status FROM [Order]";
+            string query = "SELECT Id, Date, UserId, TotalPrice, Status FROM [Order] WHERE UserId = @UserId";
             using (SqlCommand cmd = new SqlCommand(query, connection))
+
+            
             using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
             {
                 DataTable dt = new DataTable();
@@ -59,7 +61,7 @@ namespace DataAccessLayer
         }
 
         // Retrieves orders for a specific user
-        public DataTable GetOrdersByUser(int userId)
+        public DataTable GetUserOrders(int userId)
         {
             using SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();

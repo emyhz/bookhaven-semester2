@@ -39,6 +39,7 @@ namespace BookHavenWebApp.Pages
             if (User.Identity.IsAuthenticated)
             {
                 user = _userManager.GetUserByEmail(User.Identity.Name);
+                orders = _orderManager.GetUserOrders(user.Id);
                 return Page();
             }
             else

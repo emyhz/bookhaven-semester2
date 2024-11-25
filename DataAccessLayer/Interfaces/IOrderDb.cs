@@ -11,7 +11,7 @@ namespace DataAccessLayer.Interfaces
     {
         public int AddOrder(int userId, string address, string country, string city, string zipCode, decimal totalPrice, int orderStatus);
         DataTable GetOrders();
-        DataTable GetOrdersByUser(int userId);
+        public DataTable GetUserOrders(int userId);
         DataTable GetOrdersForBook(int bookId);
         DataTable GetOrderDetails(int id);
         public DataTable GetStatisticOrders(DateTime startDate);
