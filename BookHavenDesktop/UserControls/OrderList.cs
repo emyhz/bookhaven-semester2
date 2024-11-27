@@ -1,4 +1,7 @@
-﻿using LogicLayer.Managers;
+﻿using BookHavenDesktop.Forms.PopUpForms;
+using LogicLayer.EntityClasses;
+using LogicLayer.Enums;
+using LogicLayer.Managers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +22,8 @@ namespace BookHavenDesktop.UserControls
         private decimal totalPrice;
         private DateTime date;
         private OrderManager _orderManager;
+        private Order orderData;
+        private OrderStatus orderStatus;
         public OrderList(OrderManager orderManager)
         {
             InitializeComponent();
@@ -44,6 +49,25 @@ namespace BookHavenDesktop.UserControls
         {
             get { return date; }
             set { date = value; lblOrderDate.Text = "Placed on: " + value.ToString("dd/MM/yyyy"); }
+        }
+
+        public Order OrderData
+        {
+            get { return orderData; }
+            set { orderData = value; }
+        }
+        public OrderStatus OrderStatus
+        {
+            get { return orderStatus; }
+            set { orderStatus = value; }
+        }
+
+
+
+        private void OrderList_Click(object sender, EventArgs e)
+        {
+            UpdateOrderStatus updateOrderStatus = new UpdateOrderStatus(orderData, _orderManager);
+            updateOrderStatus.ShowDialog();
         }
     }
 }

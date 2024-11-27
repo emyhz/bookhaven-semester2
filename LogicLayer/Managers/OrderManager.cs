@@ -4,6 +4,7 @@ using LogicLayer.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,14 +44,17 @@ namespace LogicLayer.Managers
                     User user = _userManager.GetUserById(userId);
                     List<OrderItem> orderItems = _orderItemManager.GetOrderItems(orderId);
 
+                    // Convert integer status to the enum
+                    OrderStatus status = (OrderStatus)Convert.ToInt32(row["Status"]);
+
                     Order order = new Order(
-                    orderId,
-                    Convert.ToDateTime(row["Date"]),
-                    user,
-                    Convert.ToDecimal(row["TotalPrice"]),
-                    (OrderStatus)Convert.ToInt32(row["Status"]),
-                    orderItems
-                );
+                        orderId,
+                        Convert.ToDateTime(row["Date"]),
+                        user,
+                        Convert.ToDecimal(row["TotalPrice"]),
+                        status,
+                        orderItems
+                    );
 
                     orders.Add(order);
                 }
@@ -58,6 +62,7 @@ namespace LogicLayer.Managers
 
             return orders;
         }
+
         public List<Order> GetUserOrders(int userId)
         {
             DataTable dt = _orderDb.GetUserOrders(userId);
@@ -238,6 +243,42 @@ namespace LogicLayer.Managers
 
             return orders;
         }
+
+        public Order GetLastUsedAddress(int userId)
+        {
+            DataTable dt = _orderDb.GetLastUsedAddress(userId);
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                DataRow row = dt.Rows[0];
+
+                // Create an Order object with only address-related data
+                return new Order(
+                    id: 0, 
+                    dateCreated: DateTime.Now, // Placeholder
+                    user: null,
+                    address: row["Address"].ToString(),
+                    country: row["Country"].ToString(),
+                    city: row["City"].ToString(),
+                    zipCode: row["Zip"].ToString(),
+                    totalPrice: 0, // Placeholder
+                    orderItems: null, 
+                    orderStatus: OrderStatus.PENDING // Placeholder
+                );
+            }
+
+            return null;
+        }
+        public void UpdateOrderStatus(int orderId, OrderStatus status)
+        {
+            int statusValue = (int)status;
+            _orderDb.UpdateOrderStatus(orderId, statusValue);
+        }
+
+        
+
+
+
 
         //public List<Order> GetBookOrders(int bookId)
         //{

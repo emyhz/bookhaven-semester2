@@ -29,10 +29,11 @@
         private void InitializeComponent()
         {
             lblOrderNo = new Label();
-            flowLayoutPanel1 = new FlowLayoutPanel();
             lblOrderDate = new Label();
             lblCustomer = new Label();
             lblTotalPrice = new Label();
+            panel1 = new Panel();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // lblOrderNo
@@ -45,14 +46,6 @@
             lblOrderNo.Size = new Size(111, 32);
             lblOrderNo.TabIndex = 17;
             lblOrderNo.Text = "Order #0";
-            // 
-            // flowLayoutPanel1
-            // 
-            flowLayoutPanel1.BackColor = Color.White;
-            flowLayoutPanel1.Location = new Point(0, 74);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(514, 245);
-            flowLayoutPanel1.TabIndex = 18;
             // 
             // lblOrderDate
             // 
@@ -70,7 +63,7 @@
             // 
             lblCustomer.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblCustomer.ForeColor = Color.Gray;
-            lblCustomer.Location = new Point(3, 329);
+            lblCustomer.Location = new Point(3, 19);
             lblCustomer.Name = "lblCustomer";
             lblCustomer.Size = new Size(285, 56);
             lblCustomer.TabIndex = 20;
@@ -81,7 +74,7 @@
             lblTotalPrice.AutoSize = true;
             lblTotalPrice.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTotalPrice.ForeColor = Color.ForestGreen;
-            lblTotalPrice.Location = new Point(294, 327);
+            lblTotalPrice.Location = new Point(294, 19);
             lblTotalPrice.MaximumSize = new Size(286, 0);
             lblTotalPrice.MinimumSize = new Size(171, 0);
             lblTotalPrice.Name = "lblTotalPrice";
@@ -90,18 +83,29 @@
             lblTotalPrice.TabIndex = 21;
             lblTotalPrice.Text = "€0.00";
             // 
+            // panel1
+            // 
+            panel1.BackColor = Color.White;
+            panel1.Controls.Add(lblCustomer);
+            panel1.Controls.Add(lblTotalPrice);
+            panel1.Location = new Point(0, 71);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(514, 87);
+            panel1.TabIndex = 22;
+            // 
             // OrderList
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            Controls.Add(lblTotalPrice);
-            Controls.Add(lblCustomer);
+            Controls.Add(panel1);
             Controls.Add(lblOrderDate);
-            Controls.Add(flowLayoutPanel1);
             Controls.Add(lblOrderNo);
             Name = "OrderList";
-            Size = new Size(514, 397);
+            Size = new Size(514, 159);
+            Click += OrderList_Click;
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -109,9 +113,9 @@
         #endregion
 
         private Label lblOrderNo;
-        private FlowLayoutPanel flowLayoutPanel1;
         private Label lblOrderDate;
         private Label lblCustomer;
         private Label lblTotalPrice;
+        private Panel panel1;
     }
 }

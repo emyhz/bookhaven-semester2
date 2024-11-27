@@ -54,7 +54,7 @@ namespace BookHavenUnitTests
             _userDbMock.AddUser("Jane", "Smith", "jane.smith@example.com", "password123", UserType.EMPLOYEE.ToString());
 
             // Act
-            _userManager.DeleteEmployee("jane.smith@example.com");
+            _userManager.DeleteUser("jane.smith@example.com");
 
             // Assert
             Assert.IsFalse(_userDbMock.EmailExists("jane.smith@example.com"), "The user should be removed from the mock database.");

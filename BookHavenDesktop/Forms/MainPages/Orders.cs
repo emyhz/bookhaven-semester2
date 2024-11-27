@@ -48,6 +48,7 @@ namespace BookHavenDesktop.Forms.MainPages
                         Customer = order.User.Email,
                         TotalPrice = order.TotalPrice,
                         Date = order.DateCreated,
+                        OrderData = order
                     };
 
                     flpOrders.Controls.Add(listItems[i]);

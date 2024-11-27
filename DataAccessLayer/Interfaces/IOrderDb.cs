@@ -9,12 +9,14 @@ namespace DataAccessLayer.Interfaces
 {
     public interface IOrderDb 
     {
-        public int AddOrder(int userId, string address, string country, string city, string zipCode, decimal totalPrice, int orderStatus);
+        int AddOrder(int userId, string address, string country, string city, string zipCode, decimal totalPrice, int orderStatus);
         DataTable GetOrders();
-        public DataTable GetUserOrders(int userId);
+        DataTable GetUserOrders(int userId);
         DataTable GetOrdersForBook(int bookId);
         DataTable GetOrderDetails(int id);
-        public DataTable GetStatisticOrders(DateTime startDate);
-        public DataTable GetCompletedOrders();
+        DataTable GetStatisticOrders(DateTime startDate);
+        DataTable GetCompletedOrders();
+        DataTable GetLastUsedAddress(int userId);
+        void UpdateOrderStatus(int orderId, int status);
     }
 }

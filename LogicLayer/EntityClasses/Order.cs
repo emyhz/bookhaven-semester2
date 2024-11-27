@@ -57,5 +57,6 @@ namespace LogicLayer.EntityClasses
         public string ZipCode { get { return zipCode; } }
         public decimal TotalPrice { get { return totalPrice; } }
         public List<OrderItem> OrderItems { get { return orderItems; } }
+        public OrderStatus OrderStatus { get { return orderStatus; } }
     }
 }

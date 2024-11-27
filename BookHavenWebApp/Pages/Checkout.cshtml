@@ -44,10 +44,16 @@
 
             <!-- Shipping and Payment Form -->
             <div class="col-md-7">
-                <h4 class="mb-3">Shipping address</h4>
+                <h4 class="mb-3">Shipping Address</h4>
                 <form method="post" class="needs-validation" novalidate>
-                    <div class="row g-3">
-                        <!-- Address Field -->
+                    <!-- Checkbox to Use Old Address -->
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="useOldAddress" name="UseOldAddress" asp-for="UseOldAddress" onchange="toggleAddressInputs(this)">
+                        <label class="form-check-label" for="useOldAddress">Use previously saved address</label>
+                    </div>
+
+                    <!-- Address Input Fields -->
+                    <div class="row g-3" id="addressInputs">
                         <div class="col-12">
                             <label for="address" class="form-label">Address</label>
                             <input type="text" class="form-control" id="address" name="Address" asp-for="Address" placeholder="1234 Main St" required>
@@ -56,7 +62,6 @@
                             </div>
                         </div>
 
-                        <!-- Country Dropdown -->
                         <div class="col-md-5">
                             <label for="country" class="form-label">Country</label>
                             <select class="form-select" id="country" name="Country" asp-for="Country" required>
@@ -71,7 +76,6 @@
                             </div>
                         </div>
 
-                        <!-- City Input -->
                         <div class="col-md-4">
                             <label for="city" class="form-label">City</label>
                             <input type="text" class="form-control" id="city" name="City" asp-for="City" placeholder="City Name" required>
@@ -80,7 +84,6 @@
                             </div>
                         </div>
 
-                        <!-- Zip Code -->
                         <div class="col-md-3">
                             <label for="zip" class="form-label">Zip Code</label>
                             <input type="text" class="form-control" id="zip" name="ZipCode" asp-for="ZipCode" placeholder="12345" required>
@@ -95,7 +98,6 @@
                     <!-- Payment Details -->
                     <h4 class="mb-3">Payment</h4>
                     <div class="row gy-3">
-                        <!-- Card Holder Name -->
                         <div class="col-md-6">
                             <label for="cc-name" class="form-label">Name on Card</label>
                             <input type="text" class="form-control" id="cc-name" name="CardHolderName" asp-for="CardHolderName" placeholder="John Doe" required>
@@ -105,7 +107,6 @@
                             </div>
                         </div>
 
-                        <!-- Credit Card Number -->
                         <div class="col-md-6">
                             <label for="cc-number" class="form-label">Credit Card Number</label>
                             <input type="text" class="form-control" id="cc-number" name="CardNumber" asp-for="CardNumber" placeholder="1234-5678-9012-3456" required>
@@ -114,7 +115,6 @@
                             </div>
                         </div>
 
-                        <!-- Expiration Date -->
                         <div class="col-md-3">
                             <label for="cc-expiration" class="form-label">Expiration</label>
                             <input type="text" class="form-control" id="cc-expiration" name="ExpiryDate" asp-for="ExpiryDate" placeholder="MM/YY" required>
@@ -123,7 +123,6 @@
                             </div>
                         </div>
 
-                        <!-- CVV -->
                         <div class="col-md-3">
                             <label for="cc-cvv" class="form-label">CVV</label>
                             <input type="text" class="form-control" id="cc-cvv" name="CVV" asp-for="CVV" placeholder="123" required>
@@ -142,6 +141,17 @@
         </div>
     </main>
 </div>
+
+<script>
+    function toggleAddressInputs(checkbox) {
+        const addressInputs = document.getElementById("addressInputs");
+        const inputs = addressInputs.querySelectorAll("input, select");
+
+        inputs.forEach(input => {
+            input.disabled = checkbox.checked;
+        });
+    }
+</script>
 
 <style>
     /* Minimal CSS to improve appearance */
@@ -173,4 +183,3 @@
             text-decoration: underline;
         }
 </style>
-

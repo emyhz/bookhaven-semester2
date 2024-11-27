@@ -175,6 +175,55 @@ namespace DataAccessLayer
                 }
             }
         }
+
+        public DataTable GetLastUsedAddress(int userId)
+        {
+            using SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+
+            string query = @"
+        SELECT TOP 1 Address, Country, City, Zip
+        FROM [Order]
+        WHERE UserID = @UserId
+        ORDER BY Date DESC";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@UserId", userId);
+
+                using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                {
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    return dt;
+                }
+            }
+        }
+        public void UpdateOrderStatus(int orderId, int status)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "UPDATE [Order] SET Status = @Status WHERE Id = @OrderId";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Status", status); //int
+                    command.Parameters.AddWithValue("@OrderId", orderId);
+
+                    command.ExecuteNonQuery(); 
+                }
+            }
+        }
+
+
+
+
+
+
+
+
         //public DataTable GetBookOrders(int bookId)
         //{
 

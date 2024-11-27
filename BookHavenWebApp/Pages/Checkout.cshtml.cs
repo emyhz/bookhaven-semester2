@@ -28,6 +28,9 @@ namespace BookHavenWebApp.Pages
         //public decimal Shipping { get; set; }
 
         [BindProperty]
+        public bool UseOldAddress { get; set; }
+
+        [BindProperty]
         [Required(ErrorMessage ="Address is required.")]
         public string Address { get; set; }
 
@@ -62,11 +65,23 @@ namespace BookHavenWebApp.Pages
 
         public IActionResult OnGet()
         {
-            //Shipping = 0.50m;
 
             if (User.Identity.IsAuthenticated)
             {
                 user = _userManager.GetUserByEmail(User.Identity.Name);
+
+
+                var lastOrder = _orderManager.GetLastUsedAddress(user.Id);
+                if (lastOrder != null)
+                {
+                    Address = lastOrder.Address;
+                    Country = lastOrder.Country;
+                    City = lastOrder.City;
+                    ZipCode = lastOrder.ZipCode;
+                }
+
+
+
                 OrderItems = _orderItemManager.GetUserCart(user.Id);
                 TotalPrice = CartCalculation.CalculateOrderShipping(OrderItems);
                 TotalCartQuantity = _orderItemManager.GetItemQuantityFromUser(user.Id);
@@ -94,10 +109,24 @@ namespace BookHavenWebApp.Pages
                 return NotFound();
             }
 
+
+            if (UseOldAddress)
+            {
+                var lastOrder = _orderManager.GetLastUsedAddress(user.Id);
+                if (lastOrder != null)
+                {
+                    Address = lastOrder.Address;
+                    Country = lastOrder.Country;
+                    City = lastOrder.City;
+                    ZipCode = lastOrder.ZipCode;
+                }
+            }
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+
 
             int orderId = _orderManager.CreateOrder(user.Id, Address, Country, City, ZipCode, TotalPrice);
 
