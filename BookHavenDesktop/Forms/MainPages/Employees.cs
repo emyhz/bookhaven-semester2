@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using BookHavenDesktop.UserControls;
 using LogicLayer.EntityClasses;
 using LogicLayer.Enums;
+using LogicLayer.Exceptions;
 using LogicLayer.Managers;
 
 namespace BookHavenDesktop.Forms.MainPages
@@ -142,7 +143,33 @@ namespace BookHavenDesktop.Forms.MainPages
 
         private void btnDeny_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                DialogResult result = MessageBox.Show("Are you sure you would like to delete this request?", "Request Deletion Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    User userToBeDeleted = (User)cmbPendingEmployee.SelectedItem;
+                    userManager.DenyEmpAccessAsAdmin(userToBeDeleted.Email, _userEmail);
+                    LoadPendingEmployees();
+                    MessageBox.Show($"{userToBeDeleted.FirstName}{userToBeDeleted.LastName} has been successfully deleted!", "Employee Denial Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (UserNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message, "User Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (DataAccessException ex)
+            {
+                MessageBox.Show(ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                MessageBox.Show(ex.Message, "Unauthorized", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Unexpected Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

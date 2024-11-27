@@ -239,31 +239,9 @@ namespace LogicLayer.Managers
             return orders;
         }
 
-        //public List<Order> GetCompletedOrders()
+        //public List<Order> GetBookOrders(int bookId)
         //{
-        //    DataTable dt = _orderDb.GetCompletedOrders();
-        //    List<Order> orders = new List<Order>();
 
-        //    foreach (DataRow row in dt.Rows)
-        //    {
-        //        int orderId = Convert.ToInt32(row["OrderId"]);
-        //        int userId = Convert.ToInt32(row["UserId"]);
-        //        User user = _userManager.GetUserById(userId);
-        //        List<OrderItem> items = _orderItemManager.GetOrderItems(orderId);
-
-        //        Order order = new Order(
-        //            orderId,
-        //                Convert.ToDateTime(row["Date"]),
-        //                user,
-        //                Convert.ToDecimal(row["TotalPrice"]),
-        //                Enum.Parse<OrderStatus>(row["Status"].ToString()),
-        //                items
-        //        );
-
-        //        orders.Add(order);
-        //    }
-
-        //    return orders;
         //}
 
 

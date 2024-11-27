@@ -1,4 +1,5 @@
 using LogicLayer.EntityClasses;
+using LogicLayer.Enums;
 using LogicLayer.Managers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -50,24 +51,41 @@ namespace BookHavenWebApp.Pages
         public IActionResult OnPostPasswordChange()
         {
             user = _userManager.GetUserByEmail(User.Identity.Name);
+            orders = _orderManager.GetUserOrders(user.Id);
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _userManager.UpdatePassword(user.Email, CurrentPassword, NewPassword, ConfirmPassword);
+            UpdatePasswordResults results = _userManager.UpdatePassword(user.Email, CurrentPassword, NewPassword, ConfirmPassword);
+            if (results != UpdatePasswordResults.PASSWORD_UPDATED)
+            {
+                switch (results)
+                {
+                    case UpdatePasswordResults.INVALID_OLD_PASSWORD:
+                        ModelState.AddModelError("CurrentPassword", "Incorrect password.");
+                        break;
+                    case UpdatePasswordResults.PASSWORDS_DONT_MATCH:
+                        ModelState.AddModelError("ConfirmPassword", "Passwords do not match.");
+                        break;
+                    case UpdatePasswordResults.MISSING_FIELDS:
+                        ModelState.AddModelError("", "Please fill in all fields.");
+                        break;
+                }
+                return Page();
 
 
+            }
             TempData["SuccessMessage"] = "Password changed successfully!";
             return RedirectToPage();
-
         }
         public IActionResult OnPostDeleteAccount()
         {
             user = _userManager.GetUserByEmail(User.Identity.Name);
             if (user != null)
             {
-                _userManager.DeleteEmployee(user.Email);
+                _userManager.DeleteUser(user.Email);
                 TempData["SuccessMessage"] = "Your account has been deleted.";
 
                 // After account deletion, log the user out and redirect to the homepage or a confirmation page

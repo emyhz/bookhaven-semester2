@@ -94,6 +94,7 @@ namespace BookHavenDesktop.Forms.MainPages
                     MessageBox.Show("An error occurred while signing up");
                     break;
             }
+            ClearFormFields();
         }
 
         private void pbPasswordShow_Click(object sender, EventArgs e)
@@ -107,6 +108,15 @@ namespace BookHavenDesktop.Forms.MainPages
             {
                 txtPassLogin.UseSystemPasswordChar = true; // Hide the password with dots
             }
+        }
+
+        private void ClearFormFields()
+        {
+            txtFirstName.Clear();
+            txtLastName.Clear();
+            txtEmailSignUp.Clear();
+            txtPasswordSignUp.Clear();
+            txtPasswordSignUp2.Clear();
         }
 
         

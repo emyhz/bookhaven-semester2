@@ -14,7 +14,9 @@ namespace LogicLayer.StringManipulation
             {
                 return input;
             }
+            // lowercase the string
             string lowercased = input.ToLower();
+            // capitalize the first letter
             string capitalized = char.ToUpper(lowercased[0]) + lowercased.Substring(1);
 
             return capitalized;

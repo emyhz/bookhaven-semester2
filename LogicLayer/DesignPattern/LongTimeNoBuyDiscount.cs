@@ -20,10 +20,13 @@ namespace LogicLayer.DesignPattern
 
         public decimal ApplyDiscount(decimal price)
         {
+            //check if the user has not purchased anything in the last 30 days
             int daysSinceLastPurchase = (DateTime.Now - lastPurcashedDate).Days;
-            if (daysSinceLastPurchase > 30)
+
+            //if the user has not purchased anything in the last 30 days, apply the discount
+            if (daysSinceLastPurchase > 30) 
             {
-                return price * (1 - discountRate / 100);
+                return price * (1 - discountRate / 100); 
             }
             return price;
         }

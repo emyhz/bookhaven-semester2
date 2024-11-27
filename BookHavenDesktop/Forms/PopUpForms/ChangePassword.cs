@@ -1,4 +1,5 @@
-﻿using LogicLayer.Managers;
+﻿using LogicLayer.Enums;
+using LogicLayer.Managers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,29 +31,23 @@ namespace BookHavenDesktop.Forms.PopUpForms
 
 
 
-            string result = userManager.UpdatePassword(userEmail, oldPassword, newPassword, confirmPassword);
-
-            if (result == "Password updated successfully.")
+            UpdatePasswordResults results = userManager.UpdatePassword(userEmail, oldPassword, newPassword, confirmPassword);
+            switch (results)
             {
-                MessageBox.Show("Password changed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                case UpdatePasswordResults.PASSWORD_UPDATED:
+                    MessageBox.Show("Password successfully changed!", "Password Changed Successfully", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                    break;
+                case UpdatePasswordResults.MISSING_FIELDS:
+                    MessageBox.Show("Please fill in all fields.", "Missing Required Fields", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case UpdatePasswordResults.PASSWORDS_DONT_MATCH:
+                    MessageBox.Show("Your new password does not match. Please try again.", "New Password Mismatch", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                case UpdatePasswordResults.INVALID_OLD_PASSWORD:
+                    MessageBox.Show("Password is incorrect. Please try again.", "Incorrect Password", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
             }
-            else if (result == "Please fill in all fields.")
-            {
-                MessageBox.Show("Please fill in all fields.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else if (result == "The old password is incorrect.")
-            {
-                MessageBox.Show("The old password is incorrect. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (result == "The new passwords do not match.")
-            {
-                MessageBox.Show("The new passwords do not match. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                MessageBox.Show("An unexpected error occurred. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            this.Close();
 
         }
     }

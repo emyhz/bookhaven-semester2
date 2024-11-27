@@ -16,7 +16,5 @@ namespace DataAccessLayer.Interfaces
         DataTable GetOrderDetails(int id);
         public DataTable GetStatisticOrders(DateTime startDate);
         public DataTable GetCompletedOrders();
-
-
     }
 }
