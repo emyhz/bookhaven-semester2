@@ -57,3 +57,29 @@
         </div>
     </div>
 </div>
+<!-- Reviews Section -->
+<div class="mt-5">
+    <h3>Reviews</h3>
+
+    @if (Model.Reviews != null && Model.Reviews.Count > 0)
+    {
+        @foreach (LogicLayer.EntityClasses.Review review in Model.Reviews)
+        {
+            <div class="review border p-3 mb-3">
+                <h5>@review.Title</h5>
+                <p>
+                    <strong>Rating:</strong> @review.Rating/5
+                </p>
+                @if (!string.IsNullOrEmpty(review.Comment))
+                {
+                    <p>@review.Comment</p>
+                }
+                <small class="text-muted">By: @review.Author.FirstName @review.Author.LastName</small>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No reviews yet. Be the first to leave a review!</p>
+    }
+</div>

@@ -11,11 +11,13 @@ namespace BookHavenWebApp.Pages
         private readonly BookManager _bookManager;
         private readonly UserManager _userManager;
         private readonly OrderItemManager _orderItemManager;
-        public BookDetailsModel(BookManager bookManager, UserManager userManager, OrderItemManager orderItemManager)
+        private readonly ReviewManager _reviewManager;
+        public BookDetailsModel(BookManager bookManager, UserManager userManager, OrderItemManager orderItemManager, ReviewManager reviewManager)
         {
             _bookManager = bookManager;
             _userManager = userManager;
             _orderItemManager = orderItemManager;
+            _reviewManager = reviewManager;
         }
         //properties to hold book details
         public int Id { get; set; }
@@ -42,9 +44,16 @@ namespace BookHavenWebApp.Pages
         public List<Book> Books { get; set; }
         public List<Book> SimilarBoughtBooks { get; set; }
 
+        //get reviews
+        public List<Review> Reviews { get; set; }
+
+        //user reviews
+        public User user { get; set; }
+
         public IActionResult OnGet(int id)
         {
             Books = _bookManager.GetAllBooks();
+            Reviews = _reviewManager.GetReviewsForBook(id);
 
             Book book = _bookManager.GetBookById(id);
 
@@ -89,7 +98,7 @@ namespace BookHavenWebApp.Pages
                 // Redirect to the login page if the user is not authenticated
                 return RedirectToPage("/Login", new { area = "Identity" });
             }
-            User user = _userManager.GetUserByEmail(User.Identity.Name);
+            user = _userManager.GetUserByEmail(User.Identity.Name);
 
             _orderItemManager.AddItemToCart(user.Id, bookId);
 
