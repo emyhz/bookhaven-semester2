@@ -25,41 +25,41 @@ namespace BookHavenWebApp.Pages
         public List<OrderItem> OrderItems { get; set; }
         public decimal TotalPrice { get; set; }
         public int TotalCartQuantity { get; set; }
-        //public decimal Shipping { get; set; }
+        public decimal Shipping { get; set; }
 
         [BindProperty]
         public bool UseOldAddress { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage ="Address is required.")]
+        [Required]
         public string Address { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage ="Country is required.")]
+        [Required]
         public string Country { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage ="City is required.")]
+        [Required]
         public string City { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage = "Zipcode is required.")]
+        [Required]
         public string ZipCode { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage = "Card number is required.")]
+        [Required]
         public string CardNumber { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage = "Card holder is required.")]
+        [Required]
         public string CardHolderName { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage = "Expiry date number is required.")]
+        [Required]
         public string ExpiryDate { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage = "CVV is required.")]
+        [Required]
         public string CVV { get; set; }
 
 
@@ -84,6 +84,7 @@ namespace BookHavenWebApp.Pages
 
                 OrderItems = _orderItemManager.GetUserCart(user.Id);
                 TotalPrice = CartCalculation.CalculateOrderShipping(OrderItems);
+                //Shipping =
                 TotalCartQuantity = _orderItemManager.GetItemQuantityFromUser(user.Id);
 
                 return Page();
@@ -100,6 +101,7 @@ namespace BookHavenWebApp.Pages
             {
                 user = _userManager.GetUserByEmail(User.Identity.Name);
                 OrderItems = _orderItemManager.GetUserCart(user.Id);
+                //Shipping = 
                 TotalPrice = CartCalculation.CalculateOrderShipping(OrderItems);
                 TotalCartQuantity = _orderItemManager.GetItemQuantityFromUser(user.Id);
 
