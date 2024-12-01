@@ -13,14 +13,17 @@ namespace BookHavenWebApp.Pages
     {
         UserManager _userManager;
         OrderManager _orderManager;
-        public AccountModel(UserManager userManager, OrderManager orderManager)
+        ReviewManager _reviewManager;
+        public AccountModel(UserManager userManager, OrderManager orderManager, ReviewManager reviewManager)
         {
             _userManager = userManager;
             _orderManager = orderManager;
+            _reviewManager = reviewManager;
         }
 
         public User user { get; set; }
         public List<Order> orders { get; set; }
+        public List<Review> reviews { get; set; }
 
         [BindProperty]
         [DataType(DataType.Password)]
@@ -41,6 +44,7 @@ namespace BookHavenWebApp.Pages
             {
                 user = _userManager.GetUserByEmail(User.Identity.Name);
                 orders = _orderManager.GetUserOrders(user.Id);
+                reviews = _reviewManager.GetReviewsByUser(user.Id);
                 return Page();
             }
             else
@@ -52,6 +56,7 @@ namespace BookHavenWebApp.Pages
         {
             user = _userManager.GetUserByEmail(User.Identity.Name);
             orders = _orderManager.GetUserOrders(user.Id);
+            reviews = _reviewManager.GetReviewsByUser(user.Id);
 
             if (!ModelState.IsValid)
             {

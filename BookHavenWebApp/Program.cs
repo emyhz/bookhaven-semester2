@@ -35,6 +35,7 @@ builder.Services.AddScoped<IUserDb, DBUser>();
 builder.Services.AddScoped<IOrderDb, DBOrder>();
 builder.Services.AddScoped<IOrderItemDb, DBOrderItem>();
 builder.Services.AddScoped<IBookDb, DBBook>();
+builder.Services.AddScoped<IReviewDb, DBReview>();
 
 
 // Add logic layer services to the container
@@ -42,6 +43,7 @@ builder.Services.AddScoped<UserManager>();
 builder.Services.AddScoped<OrderManager>();
 builder.Services.AddScoped<BookManager>();
 builder.Services.AddScoped<OrderItemManager>();
+builder.Services.AddScoped<ReviewManager>();
 
 
 
