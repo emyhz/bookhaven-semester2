@@ -15,7 +15,7 @@
                 @foreach (var orderItem in Model.OrderItems)
                 {
                     <div class="card mb-3">
-                        <a href="/ProductDetails/@orderItem.Book.Id" class="card-link">
+                        <a href="/BookDetails/@orderItem.Book.Id" class="card-link">
                             <div class="row g-0 d-flex align-items-center">
                                 <div class="col-3 col-md-4">
                                     <img src="@orderItem.Book.ImagePath" class="img-fluid p-lg-3" alt="Product Image">

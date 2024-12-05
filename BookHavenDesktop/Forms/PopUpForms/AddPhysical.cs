@@ -82,11 +82,8 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 string coverType = txtCoverType.Text;
 
 
-                // BookType is AudioBook
-                string bookType = "PhysicalBook";
+                int bookId = _bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, null, null, dimensions, pages, coverType);
 
-                // Call the logic layer method to add the book
-                int bookId = _bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, bookType, null, null, dimensions, pages, coverType);
 
 
                 MessageBox.Show($"Book added successfully!");

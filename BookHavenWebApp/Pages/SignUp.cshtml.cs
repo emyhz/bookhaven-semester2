@@ -40,7 +40,7 @@ namespace BookHavenWebApp.Pages
         [BindProperty]
         [Required (ErrorMessage = "Please confirm your password.")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Password and confirmation password do not match.")]
+        [Compare(nameof(Password), ErrorMessage = "Password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public IActionResult OnPost()

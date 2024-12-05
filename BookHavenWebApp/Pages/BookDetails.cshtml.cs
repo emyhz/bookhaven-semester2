@@ -1,3 +1,4 @@
+using LogicLayer.Algorithm;
 using LogicLayer.EntityClasses;
 using LogicLayer.Enums;
 using LogicLayer.Managers;
@@ -12,12 +13,14 @@ namespace BookHavenWebApp.Pages
         private readonly UserManager _userManager;
         private readonly OrderItemManager _orderItemManager;
         private readonly ReviewManager _reviewManager;
-        public BookDetailsModel(BookManager bookManager, UserManager userManager, OrderItemManager orderItemManager, ReviewManager reviewManager)
+        private readonly RecommendationSystem _recommendationSystem;
+        public BookDetailsModel(BookManager bookManager, UserManager userManager, OrderItemManager orderItemManager, ReviewManager reviewManager, RecommendationSystem recommendationSystem)
         {
             _bookManager = bookManager;
             _userManager = userManager;
             _orderItemManager = orderItemManager;
             _reviewManager = reviewManager;
+            _recommendationSystem = recommendationSystem;
         }
         //properties to hold book details
         public int Id { get; set; }
@@ -55,10 +58,10 @@ namespace BookHavenWebApp.Pages
             Books = _bookManager.GetAllBooks();
             Reviews = _reviewManager.GetReviewsForBook(id);
 
-            Book book = _bookManager.GetBookById(id);
-
             //get similar bought books
-            //SimilarBoughtBooks = _bookManager.GetSimilarBoughtBooks(book);
+            SimilarBoughtBooks = _recommendationSystem.GetFrequentlyBoughtBooks(id, 9);
+
+            Book book = _bookManager.GetBookById(id);
 
             //assign book details to properties
             Id = book.Id;

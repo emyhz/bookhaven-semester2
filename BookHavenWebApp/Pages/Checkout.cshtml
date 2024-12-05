@@ -144,9 +144,12 @@
 
 <script>
     function toggleAddressInputs(checkbox) {
+        // Get the container for address inputs
         const addressInputs = document.getElementById("addressInputs");
+        // Select all input and select elements inside the container
         const inputs = addressInputs.querySelectorAll("input, select");
 
+        // Enable or disable inputs based on checkbox state
         inputs.forEach(input => {
             input.disabled = checkbox.checked;
         });
@@ -154,7 +157,6 @@
 </script>
 
 <style>
-    /* Minimal CSS to improve appearance */
     .book-title {
         color: #007bff;
         text-decoration: none;

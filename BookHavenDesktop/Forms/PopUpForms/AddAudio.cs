@@ -54,11 +54,10 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 }
                 string fileSize = txtFileSize.Text;
 
-                // BookType is AudioBook
-                string bookType = "AudioBook";
+
+                int bookId = _bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, audioLength, fileSize, null, null, null);
 
 
-                int bookId = _bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, bookType, audioLength, fileSize);
 
                 MessageBox.Show($"AudioBook added successfully!");
 

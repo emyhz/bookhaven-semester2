@@ -109,7 +109,9 @@ namespace BookHavenDesktop.Forms.PopUpForms
             DialogResult result = MessageBox.Show("Are you sure you would like to save these changes?", "Saving Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
             if (result == DialogResult.Yes)
             {
-                _bookManager.UpdateBook(book.Id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, bookType, audioLength, fileSize, dimensions, pages, coverType);
+
+                _bookManager.UpdateBook(book.Id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, audioLength, fileSize, dimensions, pages, coverType);
+
 
                 MessageBox.Show("Book has been successfully updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();

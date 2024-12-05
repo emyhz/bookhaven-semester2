@@ -14,10 +14,12 @@ namespace DataAccessLayer
 {
     public class DBBook : DatabaseConnection , IBookDb
     {
-        public int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales, string bookType,
-                   TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
+       
+        //new method to add book
+        public int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales,
+    TimeSpan? audioLength = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
         {
-            int bookId = 0; // Initialize bookId
+            int bookId = 0;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -26,10 +28,10 @@ namespace DataAccessLayer
 
                 try
                 {
-                    // Insert into Book table and get the generated Id
-                    string insertBookQuery = "INSERT INTO [Book] (Title, Author, ISBN, PublishDate, Price, Genre, Language, ImagePath, Stock, Sales) " +
-                                             "OUTPUT INSERTED.Id " +
-                                             "VALUES (@Title, @Author, @ISBN, @PublishDate, @Price, @Genre, @Language, @ImagePath, @Stock, @Sales)";
+                    // Insert into Book table and get the generated ID
+                    string insertBookQuery = @"INSERT INTO [Book] (Title, Author, ISBN, PublishDate, Price, Genre, Language, ImagePath, Stock, Sales) 
+                                       OUTPUT INSERTED.Id 
+                                       VALUES (@Title, @Author, @ISBN, @PublishDate, @Price, @Genre, @Language, @ImagePath, @Stock, @Sales)";
 
                     SqlCommand bookCommand = new SqlCommand(insertBookQuery, connection, transaction);
                     bookCommand.Parameters.AddWithValue("@Title", title);
@@ -43,47 +45,44 @@ namespace DataAccessLayer
                     bookCommand.Parameters.AddWithValue("@Stock", stock);
                     bookCommand.Parameters.AddWithValue("@Sales", sales);
 
-                    bookId = (int)bookCommand.ExecuteScalar(); // Retrieve the generated book ID from the Book table
+                    bookId = (int)bookCommand.ExecuteScalar();
 
-                    // Insert into AudioBook table if the type is audiobook
-                    if (bookType == "AudioBook" && length.HasValue && !string.IsNullOrEmpty(fileSize))
+                    // If AudioBook-specific fields are provided, insert into AudioBook table
+                    if (audioLength.HasValue && !string.IsNullOrEmpty(fileSize))
                     {
                         string insertAudioBookQuery = "INSERT INTO [AudioBook] (Id, Length, FileSize) VALUES (@Id, @Length, @FileSize)";
                         SqlCommand audioBookCommand = new SqlCommand(insertAudioBookQuery, connection, transaction);
-                        audioBookCommand.Parameters.AddWithValue("@Id", bookId); // Use the generated bookId from the Book table
-                        audioBookCommand.Parameters.AddWithValue("@Length", length.Value);
+                        audioBookCommand.Parameters.AddWithValue("@Id", bookId);
+                        audioBookCommand.Parameters.AddWithValue("@Length", audioLength.Value);
                         audioBookCommand.Parameters.AddWithValue("@FileSize", fileSize);
                         audioBookCommand.ExecuteNonQuery();
                     }
-                    // Insert into PhysicalBook table if the type is physical book
-                    else if (bookType == "PhysicalBook" && !string.IsNullOrEmpty(dimensions) && pages.HasValue && !string.IsNullOrEmpty(coverType))
+                    // If PhysicalBook-specific fields are provided, insert into PhysicalBook table
+                    else if (!string.IsNullOrEmpty(dimensions) && pages.HasValue && !string.IsNullOrEmpty(coverType))
                     {
                         string insertPhysicalBookQuery = "INSERT INTO [PhysicalBook] (Id, Dimensions, Pages, CoverType) VALUES (@Id, @Dimensions, @Pages, @CoverType)";
                         SqlCommand physicalBookCommand = new SqlCommand(insertPhysicalBookQuery, connection, transaction);
-                        physicalBookCommand.Parameters.AddWithValue("@Id", bookId); // Use the generated bookId from the Book table
+                        physicalBookCommand.Parameters.AddWithValue("@Id", bookId);
                         physicalBookCommand.Parameters.AddWithValue("@Dimensions", dimensions);
                         physicalBookCommand.Parameters.AddWithValue("@Pages", pages.Value);
                         physicalBookCommand.Parameters.AddWithValue("@CoverType", coverType);
                         physicalBookCommand.ExecuteNonQuery();
                     }
 
-                    // Commit the transaction
                     transaction.Commit();
                 }
                 catch (Exception ex)
                 {
-                    // Rollback the transaction if there is any error
                     transaction.Rollback();
                     throw new Exception("An error occurred while adding the book: " + ex.Message);
                 }
-                finally
-                {
-                    connection.Close();
-                }
             }
 
-            return bookId; // Return the inserted book ID
+            return bookId;
         }
+
+
+
         public DataTable GetAllAudioBooks()
         {
             DataTable audioBooksTable = new DataTable();
@@ -154,13 +153,15 @@ namespace DataAccessLayer
 
             return physicalBooksTable;
         }
+       
+        //new method to get all books
         public DataTable GetBooks()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
 
-                // SQL query to fetch both AudioBook and PhysicalBook details
+                // SQL query to fetch books and join them with their respective specific tables
                 string query = @"
             SELECT 
                 b.Id,
@@ -173,36 +174,14 @@ namespace DataAccessLayer
                 b.Language,
                 b.ImagePath,
                 b.Stock,
-                'AudioBook' AS BookType,
                 ab.Length AS AudioLength,
                 ab.FileSize,
-                NULL AS Dimensions,
-                NULL AS Pages,
-                NULL AS CoverType
-            FROM [Book] b
-            INNER JOIN [AudioBook] ab ON b.Id = ab.Id
-
-            UNION ALL
-
-            SELECT 
-                b.Id,
-                b.Title,
-                b.Author,
-                b.ISBN,
-                b.PublishDate,
-                b.Price,
-                b.Genre,
-                b.Language,
-                b.ImagePath,
-                b.Stock,
-                'PhysicalBook' AS BookType,
-                NULL AS AudioLength,
-                NULL AS FileSize,
                 pb.Dimensions,
                 pb.Pages,
                 pb.CoverType
             FROM [Book] b
-            INNER JOIN [PhysicalBook] pb ON b.Id = pb.Id;";
+            LEFT JOIN [AudioBook] ab ON b.Id = ab.Id
+            LEFT JOIN [PhysicalBook] pb ON b.Id = pb.Id;";
 
                 SqlCommand cmd = new SqlCommand(query, connection);
 
@@ -221,7 +200,9 @@ namespace DataAccessLayer
                 }
             }
         }
-        public void UpdateBook(int id, string title, string author, string isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales, string bookType, TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
+
+        public void UpdateBook(int id, string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales,
+    TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -231,8 +212,12 @@ namespace DataAccessLayer
                 try
                 {
                     // Update general book information in Book table
-                    string updateBookQuery = "UPDATE Book SET Title = @Title, Author = @Author, ISBN = @ISBN, PublishDate = @PublishDate, Price = @Price, " +
-                                             "Genre = @Genre, Language = @Language, ImagePath = @ImagePath, Stock = @Stock, Sales = @Sales WHERE Id = @Id";
+                    string updateBookQuery = @"
+                UPDATE Book 
+                SET Title = @Title, Author = @Author, ISBN = @ISBN, PublishDate = @PublishDate, 
+                    Price = @Price, Genre = @Genre, Language = @Language, 
+                    ImagePath = @ImagePath, Stock = @Stock, Sales = @Sales 
+                WHERE Id = @Id";
 
                     SqlCommand bookCommand = new SqlCommand(updateBookQuery, connection, transaction);
                     bookCommand.Parameters.AddWithValue("@Id", id);
@@ -248,20 +233,29 @@ namespace DataAccessLayer
                     bookCommand.Parameters.AddWithValue("@Sales", sales);
                     bookCommand.ExecuteNonQuery();
 
-                    // Update AudioBook details if the book type is AudioBook
-                    if (bookType == "AudioBook" && length.HasValue && !string.IsNullOrEmpty(fileSize))
+                    // Update AudioBook details if `length` and `fileSize` are provided
+                    if (length.HasValue && !string.IsNullOrEmpty(fileSize))
                     {
-                        string updateAudioBookQuery = "UPDATE [AudioBook] SET Length = @Length, FileSize = @FileSize WHERE Id = @Id";
+                        string updateAudioBookQuery = @"
+                    UPDATE AudioBook 
+                    SET Length = @Length, FileSize = @FileSize 
+                    WHERE Id = @Id";
+
                         SqlCommand audioBookCommand = new SqlCommand(updateAudioBookQuery, connection, transaction);
                         audioBookCommand.Parameters.AddWithValue("@Id", id);
                         audioBookCommand.Parameters.AddWithValue("@Length", length.Value);
                         audioBookCommand.Parameters.AddWithValue("@FileSize", fileSize);
                         audioBookCommand.ExecuteNonQuery();
                     }
-                    // Update PhysicalBook details if the book type is PhysicalBook
-                    else if (bookType == "PhysicalBook" && !string.IsNullOrEmpty(dimensions) && pages.HasValue && !string.IsNullOrEmpty(coverType))
+
+                    // Update PhysicalBook details if `dimensions`, `pages`, and `coverType` are provided
+                    if (!string.IsNullOrEmpty(dimensions) && pages.HasValue && !string.IsNullOrEmpty(coverType))
                     {
-                        string updatePhysicalBookQuery = "UPDATE [PhysicalBook] SET Dimensions = @Dimensions, Pages = @Pages, CoverType = @CoverType WHERE Id = @Id";
+                        string updatePhysicalBookQuery = @"
+                    UPDATE PhysicalBook 
+                    SET Dimensions = @Dimensions, Pages = @Pages, CoverType = @CoverType 
+                    WHERE Id = @Id";
+
                         SqlCommand physicalBookCommand = new SqlCommand(updatePhysicalBookQuery, connection, transaction);
                         physicalBookCommand.Parameters.AddWithValue("@Id", id);
                         physicalBookCommand.Parameters.AddWithValue("@Dimensions", dimensions);
@@ -285,6 +279,7 @@ namespace DataAccessLayer
                 }
             }
         }
+
 
         public void DeleteBook(int id)
         {

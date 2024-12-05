@@ -14,5 +14,10 @@ namespace LogicLayer.Enums
         FICTION,
         NON_FICTION,
         MYSTERY,
+        THRILLER,
+        CRIME,
+        NOVEL,
+        HISTORY,
+        EPIC_POEM
     }
 }

@@ -37,21 +37,21 @@ namespace BookHavenWebApp.Pages
         public string ImagePath { get; set; }
         [BindProperty]
         public int Stock { get; set; }
+        public string Filter { get; set; }
 
-
-        public async Task OnGetAsync(int currentPage = 1)
+        public async Task OnGetAsync(int currentPage = 1, string sortBy = "")
         {
             int pageSize = 16;
             var books = _bookManager.GetAllBooks();
 
+            
 
-            // Pagination logic
             CurrentPage = currentPage;
 
-            //all books displayed even if last page has fewer books
+            // Total number of pages according to number of books and page size
             TotalPages = (int)Math.Ceiling(books.Count / (double)pageSize);
 
-            // Get books for the current page by skipping previous pages and taking 'pageSize' items.
+ 
             Books = books.Skip((CurrentPage - 1) * pageSize).Take(pageSize).ToList();
         }
     }

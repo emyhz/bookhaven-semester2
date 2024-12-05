@@ -71,9 +71,11 @@ namespace BookHavenWebApp.Pages
                 user = _userManager.GetUserByEmail(User.Identity.Name);
 
 
+                // Check if the user chose to use their old address
                 var lastOrder = _orderManager.GetLastUsedAddress(user.Id);
                 if (lastOrder != null)
                 {
+                    // Retrieve the last used address and populate address fields
                     Address = lastOrder.Address;
                     Country = lastOrder.Country;
                     City = lastOrder.City;
@@ -111,7 +113,7 @@ namespace BookHavenWebApp.Pages
                 return NotFound();
             }
 
-
+            // Check if the user chose to use their previously saved address
             if (UseOldAddress)
             {
                 var lastOrder = _orderManager.GetLastUsedAddress(user.Id);
@@ -129,16 +131,17 @@ namespace BookHavenWebApp.Pages
                 return Page();
             }
 
-
+            //create new order
             int orderId = _orderManager.CreateOrder(user.Id, Address, Country, City, ZipCode, TotalPrice);
 
             foreach (OrderItem item in OrderItems)
             {
-
+                //checks book out and updates stock
                 _orderItemManager.Checkout(item.Id, orderId);
                 _bookManager.BuyBook(item.Book.Id, item.Quantity);
 
             }
+            // Redirect the user to the "Order Complete" page with the order ID
             return RedirectToPage("/OrderComplete", new { orderId = orderId });
 
         }

@@ -185,7 +185,7 @@ namespace DataAccessLayer
         SELECT TOP 1 Address, Country, City, Zip
         FROM [Order]
         WHERE UserID = @UserId
-        ORDER BY Date DESC";
+        ORDER BY Date DESC"; //ensures the most recent order appears at the top
 
             using (SqlCommand command = new SqlCommand(query, connection))
             {
