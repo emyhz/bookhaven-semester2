@@ -12,6 +12,7 @@ namespace LogicLayer.Enums
         ROMANCE,
         FANTASY,
         FICTION,
+        SCIENCE_FICTION,
         NON_FICTION,
         MYSTERY,
         THRILLER,
