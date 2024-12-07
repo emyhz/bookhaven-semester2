@@ -1,0 +1,51 @@
+﻿using Microsoft.Identity.Client;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace BookHavenDesktop.UserControls
+{
+    public partial class BestSellerBooks : UserControl
+    {
+        private string image;
+        private string title;
+        private string author;
+        private int sales;
+
+        public BestSellerBooks()
+        {
+            InitializeComponent();
+        }
+        public string Image
+        {
+            get { return image; }
+            set { image = value; pbBook.ImageLocation = value; }
+        }
+
+        public string Title
+        {
+            get { return title; }
+            set { title = value; lblTitle.Text = value; }
+        }
+
+        public string Author
+        {
+            get { return author; }
+            set { author = value; lblAuthor.Text = value; }
+        }
+
+        public int Sales
+        {
+            get { return sales; }
+            set { sales = value; lblSold.Text = value + " sold"; }
+
+        }
+    }
+}

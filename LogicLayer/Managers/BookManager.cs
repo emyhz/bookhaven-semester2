@@ -79,6 +79,7 @@ namespace LogicLayer.Managers
                             language: row["Language"].ToString(),
                             imagePath: row["ImagePath"].ToString(),
                             stock: Convert.ToInt32(row["Stock"]),
+                            sales: Convert.ToInt32(row["Sales"]),
                             audioLength: TimeSpan.Parse(row["AudioLength"].ToString()),
                             fileSize: row["FileSize"].ToString()
                         );
@@ -97,6 +98,7 @@ namespace LogicLayer.Managers
                             language: row["Language"].ToString(),
                             imagePath: row["ImagePath"].ToString(),
                             stock: Convert.ToInt32(row["Stock"]),
+                            sales: Convert.ToInt32(row["Sales"]),
                             dimensions: row["Dimensions"].ToString(),
                             pages: Convert.ToInt32(row["Pages"]),
                             coverType: row["CoverType"].ToString()
@@ -137,7 +139,7 @@ namespace LogicLayer.Managers
         public void UpdateBook(int id, string title, string author, long isbn, DateTime publishYear, decimal price, string genre, string language, string imagePath, int stock,
     TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
         {
-            _bookDb.UpdateBook(id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, 0, length, fileSize, dimensions, pages, coverType);
+            _bookDb.UpdateBook(id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, length, fileSize, dimensions, pages, coverType);
         }
 
         public void DeleteBook(int bookId)
@@ -174,6 +176,7 @@ namespace LogicLayer.Managers
                             language: row["Language"].ToString(),
                             imagePath: row["ImagePath"].ToString(),
                             stock: Convert.ToInt32(row["Stock"]),
+                            sales: Convert.ToInt32(row["Sales"]),
                             audioLength: (TimeSpan)row["AudioLength"],
                             fileSize: row["FileSize"].ToString()
                         );
@@ -191,6 +194,7 @@ namespace LogicLayer.Managers
                             language: row["Language"].ToString(),
                             imagePath: row["ImagePath"].ToString(),
                             stock: Convert.ToInt32(row["Stock"]),
+                            sales: Convert.ToInt32(row["Sales"]),
                             dimensions: row["Dimensions"].ToString(),
                             pages: Convert.ToInt32(row["Pages"]),
                             coverType: row["CoverType"].ToString()
@@ -228,6 +232,7 @@ namespace LogicLayer.Managers
                         language: row["Language"].ToString(),
                         imagePath: row["ImagePath"].ToString(),
                         stock: Convert.ToInt32(row["Stock"]),
+                        sales: Convert.ToInt32(row["Sales"]),
                         audioLength: (TimeSpan)row["AudioLength"],
                         fileSize: row["FileSize"].ToString()
                     );
@@ -245,6 +250,7 @@ namespace LogicLayer.Managers
                         language: row["Language"].ToString(),
                         imagePath: row["ImagePath"].ToString(),
                         stock: Convert.ToInt32(row["Stock"]),
+                        sales: Convert.ToInt32(row["Sales"]),
                         dimensions: row["Dimensions"].ToString(),
                         pages: Convert.ToInt32(row["Pages"]),
                         coverType: row["CoverType"].ToString()
@@ -260,6 +266,66 @@ namespace LogicLayer.Managers
             {
                 _bookDb.BuyBook(bookId, quantity);
             }
+        }
+
+        public List<Book> GetBestSellingBooks(int count)
+        {
+            DataTable dt = _bookDb.GetBestSellingBooks(count);
+            List<Book> bestSellingBooks = new List<Book>();
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    Book book;
+
+                    if (!string.IsNullOrEmpty(row["AudioLength"].ToString()) && !string.IsNullOrEmpty(row["FileSize"].ToString()))
+                    {
+                        book = new AudioBook(
+                            id: Convert.ToInt32(row["Id"]),
+                            title: row["Title"].ToString(),
+                            author: row["Author"].ToString(),
+                            isbn: 0, 
+                            publishYear: DateTime.MinValue,
+                            price: Convert.ToDecimal(row["Price"]),
+                            genre: (Genre)0,
+                            language: "Unknown",
+                            imagePath: row["ImagePath"].ToString(),
+                            stock: 0, 
+                            sales: Convert.ToInt32(row["Sales"]),
+                            audioLength: TimeSpan.Parse(row["AudioLength"].ToString()),
+                            fileSize: row["FileSize"].ToString()
+                        );
+                    }
+                    else if (!string.IsNullOrEmpty(row["Dimensions"].ToString()) && !string.IsNullOrEmpty(row["CoverType"].ToString()))
+                    {
+                        book = new PhysicalBook(
+                            id: Convert.ToInt32(row["Id"]),
+                            title: row["Title"].ToString(),
+                            author: row["Author"].ToString(),
+                            isbn: 0, 
+                            publishYear: DateTime.MinValue, 
+                            price: Convert.ToDecimal(row["Price"]),
+                            genre: (Genre)0,
+                            language: "Unknown",
+                            imagePath: row["ImagePath"].ToString(),
+                            stock: 0,
+                            sales: Convert.ToInt32(row["Sales"]),
+                            dimensions: row["Dimensions"].ToString(),
+                            pages: 0,
+                            coverType: row["CoverType"].ToString()
+                        );
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    bestSellingBooks.Add(book);
+                }
+            }
+
+            return bestSellingBooks;
         }
     }
 }

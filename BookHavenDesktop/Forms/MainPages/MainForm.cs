@@ -1,4 +1,6 @@
-﻿using LogicLayer.Managers;
+﻿using BookHavenDesktop.UserControls;
+using LogicLayer.EntityClasses;
+using LogicLayer.Managers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +28,30 @@ namespace BookHavenDesktop.Forms.MainPages
             _userManager = userManager;
             _orderManager = orderManager;
             _bookManager = bookManager;
+
+            DisplayBestSellers(_bookManager.GetBestSellingBooks(4));
         }
+
+        private void DisplayBestSellers(List<Book> books)
+        {
+            flpBestSellerBooks.Controls.Clear();
+
+            foreach (Book book in books)
+            {
+                BestSellerBooks bestSellerBooks = new BestSellerBooks
+                {
+                    Image = book.ImagePath,
+                    Title = book.Title,
+                    Author = book.Author,
+                    Sales = book.Sales
+                };
+                
+
+                flpBestSellerBooks.Controls.Add(bestSellerBooks);
+            }
+        }
+
+
 
         private void OpenChildForms(Form childForm, object btnSender)
         {

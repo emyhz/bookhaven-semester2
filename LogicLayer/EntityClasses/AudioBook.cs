@@ -15,8 +15,8 @@ namespace LogicLayer.EntityClasses
         private string fileSize;
 
         //constructor
-        public AudioBook(int id, string title, string author, long isbn, DateTime publishYear, decimal price, Genre genre, string language, string imagePath, int stock, TimeSpan audioLength, string fileSize)
-        : base(id, title, author, isbn, publishYear, price, genre, language, imagePath, stock)
+        public AudioBook(int id, string title, string author, long isbn, DateTime publishYear, decimal price, Genre genre, string language, string imagePath, int stock, int sales, TimeSpan audioLength, string fileSize)
+        : base(id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, sales)
         {
             this.audioLength = audioLength;
             this.fileSize = fileSize;

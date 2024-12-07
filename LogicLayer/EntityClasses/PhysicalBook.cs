@@ -17,8 +17,8 @@ namespace LogicLayer.EntityClasses
         private string coverType;
 
         //constructors
-        public PhysicalBook(int id, string title, string author, long isbn, DateTime publishYear, decimal price, Genre genre, string language, string imagePath, int stock, string dimensions, int pages, string coverType)
-        : base(id, title, author, isbn, publishYear, price, genre, language, imagePath, stock)
+        public PhysicalBook(int id, string title, string author, long isbn, DateTime publishYear, decimal price, Genre genre, string language, string imagePath, int stock, int sales, string dimensions, int pages, string coverType)
+        : base(id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, sales)
         {
             this.dimensions = dimensions;
             this.pages = pages;

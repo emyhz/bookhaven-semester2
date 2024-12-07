@@ -174,6 +174,7 @@ namespace DataAccessLayer
                 b.Language,
                 b.ImagePath,
                 b.Stock,
+                b.Sales,
                 ab.Length AS AudioLength,
                 ab.FileSize,
                 pb.Dimensions,
@@ -201,7 +202,7 @@ namespace DataAccessLayer
             }
         }
 
-        public void UpdateBook(int id, string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales,
+        public void UpdateBook(int id, string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock,
     TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -216,7 +217,7 @@ namespace DataAccessLayer
                 UPDATE Book 
                 SET Title = @Title, Author = @Author, ISBN = @ISBN, PublishDate = @PublishDate, 
                     Price = @Price, Genre = @Genre, Language = @Language, 
-                    ImagePath = @ImagePath, Stock = @Stock, Sales = @Sales 
+                    ImagePath = @ImagePath, Stock = @Stock 
                 WHERE Id = @Id";
 
                     SqlCommand bookCommand = new SqlCommand(updateBookQuery, connection, transaction);
@@ -230,7 +231,6 @@ namespace DataAccessLayer
                     bookCommand.Parameters.AddWithValue("@Language", language);
                     bookCommand.Parameters.AddWithValue("@ImagePath", imagePath);
                     bookCommand.Parameters.AddWithValue("@Stock", stock);
-                    bookCommand.Parameters.AddWithValue("@Sales", sales);
                     bookCommand.ExecuteNonQuery();
 
                     // Update AudioBook details if `length` and `fileSize` are provided
@@ -456,6 +456,50 @@ namespace DataAccessLayer
                 {
                     connection.Close();
                 }
+            }
+        }
+
+        public DataTable GetBestSellingBooks(int count)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = @"
+            SELECT TOP (@Count) 
+                b.Id, 
+                b.ImagePath, 
+                b.Title, 
+                b.Price, 
+                b.Author, 
+                b.Sales, 
+                ab.Length AS AudioLength, 
+                ab.FileSize, 
+                pb.Dimensions, 
+                pb.Pages, 
+                pb.CoverType
+            FROM [Book] b
+            LEFT JOIN [AudioBook] ab ON b.Id = ab.Id
+            LEFT JOIN [PhysicalBook] pb ON b.Id = pb.Id
+            ORDER BY b.Sales DESC";
+
+                SqlCommand cmd = new SqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@Count", count);
+
+                try
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        sda.Fill(dt);
+                        return dt;
+                    }
+                }
+                catch
+                {
+                    throw new Exception("An error occurred while fetching the best-selling books.");
+                }
+
             }
         }
     }

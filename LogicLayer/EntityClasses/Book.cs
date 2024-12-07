@@ -23,11 +23,12 @@ namespace LogicLayer.EntityClasses
         private string language;
         private string imagePath;
         private int stock;
+        private int sales;
         private IDiscountStrategy discountStrategy;
 
 
         //constructors
-        public Book(int id, string title, string author, long isbn, DateTime publishYear, decimal price, Genre genre, string language, string imagePath, int stock)
+        public Book(int id, string title, string author, long isbn, DateTime publishYear, decimal price, Genre genre, string language, string imagePath, int stock, int sales)
         {
             this.id = id;
             this.title = title;
@@ -39,8 +40,18 @@ namespace LogicLayer.EntityClasses
             this.language = language;
             this.imagePath = imagePath;
             this.stock = stock;
+            this.sales = sales;
         }
 
+        public Book(int id, string title, string author, decimal price, string imagePath, int sales)
+        {
+            this.id = id;
+            this.title = title;
+            this.author = author;
+            this.price = price;
+            this.imagePath = imagePath;
+            this.sales = sales;
+        }
 
         //properties
         public int Id { get { return id; } }
@@ -55,6 +66,7 @@ namespace LogicLayer.EntityClasses
         public string Language { get { return language; } }
         public string ImagePath { get { return imagePath; } }
         public int Stock { get { return stock; } }
+        public int Sales { get { return sales; } }
 
 
         //methods

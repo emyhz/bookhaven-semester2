@@ -1,3 +1,5 @@
+using LogicLayer.EntityClasses;
+using LogicLayer.Managers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -5,16 +7,19 @@ namespace BookHavenWebApp.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly BookManager _bookManager;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(BookManager bookManager)
         {
-            _logger = logger;
+            _bookManager = bookManager;
         }
+
+        public List<Book> BestsellingBooks { get; set; }
+
 
         public void OnGet()
         {
-
+            BestsellingBooks = _bookManager.GetBestSellingBooks(3);
         }
     }
 }
