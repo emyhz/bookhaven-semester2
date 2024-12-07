@@ -59,7 +59,7 @@ namespace BookHavenWebApp.Pages
             Reviews = _reviewManager.GetReviewsForBook(id);
 
             //get similar bought books
-            SimilarBoughtBooks = _recommendationSystem.GetFrequentlyBoughtBooks(id, 9);
+            SimilarBoughtBooks = _recommendationSystem.GetFrequentlyBoughtBooks(id, 7);
 
             Book book = _bookManager.GetBookById(id);
 

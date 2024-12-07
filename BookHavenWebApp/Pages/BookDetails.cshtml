@@ -83,3 +83,31 @@
         <p>No reviews yet. Be the first to leave a review!</p>
     }
 </div>
+
+<!-- PEOPLE WHO BOUGHT THIS ALSO BOUGHT -->
+@if (Model.SimilarBoughtBooks.Count >=1)
+{
+    <div class="container mb-5 px-5">
+        <div class="row align-items-center">
+            <h3 class="display-7 fw-semibold">Customers Also Bought</h3>
+            <p class="fs-6 m-0 mb-2">Discover similar picks</p>
+        </div>
+        <div class="row justify-content-center mt-4">
+            @foreach (var book in Model.SimilarBoughtBooks)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <a href="/BookDetails/@book.Id" class="text-decoration-none">
+                        <div class="card border-0 shadow-sm text-center">
+                            <img src="@book.ImagePath" class="card-img-top img-fluid mt-3" alt="@book.Title" style="height: 250px; object-fit: contain;" />
+                            <div class="card-body">
+                                <h5 class="card-title text-dark">@book.Title</h5>
+                                <p class="card-text text-muted">@book.Author</p>
+                                <p class="card-text text-primary fw-semibold">€@book.Price</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+}

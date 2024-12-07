@@ -21,7 +21,7 @@ namespace LogicLayer.Algorithm
         public List<Book> GetFrequentlyBoughtBooks(int bookId, int count)
         {
             // Get all orders where the specified book was bought
-            List<Order> bookOrders = _orderManager.GetUserOrders(bookId);
+            List<Order> bookOrders = _orderManager.GetOrdersForSpecificBook(bookId);
 
             // Extract all users who purchased these orders
             List<User> usersBoughtOrders = new List<User>();

@@ -414,12 +414,12 @@ namespace DataAccessLayer
 
                 try
                 {
-                    // Decrease the stock for physical books
+                    // Decrease the stock for books
                     string updateStockQuery = @"
             UPDATE [Book] 
             SET Stock = Stock - @Quantity 
             WHERE Id = @Id AND Stock >= @Quantity 
-            AND Id IN (SELECT Id FROM [PhysicalBook])";
+           AND (Id IN (SELECT Id FROM [PhysicalBook]) OR Id IN (SELECT Id FROM [AudioBook]))";
 
                     SqlCommand updateStockCommand = new SqlCommand(updateStockQuery, connection, transaction);
                     updateStockCommand.Parameters.AddWithValue("@Id", bookId);

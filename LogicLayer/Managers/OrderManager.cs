@@ -24,7 +24,7 @@ namespace LogicLayer.Managers
             _orderItemManager = orderItemManager;
         }
 
-        public int CreateOrder(int userId, string address, string country, string city, string zipCode, decimal totalPrice)
+        public int AddOrder(int userId, string address, string country, string city, string zipCode, decimal totalPrice)
         {
             int pendingStatus = (int)OrderStatus.PENDING;
             return _orderDb.AddOrder(userId, address, country, city, zipCode, totalPrice, pendingStatus);
@@ -90,6 +90,36 @@ namespace LogicLayer.Managers
             }
             return orders;
 
+        }
+
+        public List<Order> GetOrdersForSpecificBook(int bookId)
+        {
+            DataTable dt = _orderDb.GetOrdersForBook(bookId);
+            List<Order> orders = new List<Order>();
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    int orderId = Convert.ToInt32(row["ID"]);
+                    int userId = Convert.ToInt32(row["UserId"]);
+                    User user = _userManager.GetUserById(userId);
+                    List<OrderItem> orderItems = _orderItemManager.GetOrderItems(orderId);
+
+                    Order order = new Order(
+                    orderId,
+                    Convert.ToDateTime(row["Date"]),
+                    user,
+                    Convert.ToDecimal(row["TotalPrice"]),
+                    (OrderStatus)Convert.ToInt32(row["Status"]),
+                    orderItems
+                );
+
+                    orders.Add(order);
+                }
+            }
+
+            return orders;
         }
         public Order GetOrderDetailsForUser(int id)
         {

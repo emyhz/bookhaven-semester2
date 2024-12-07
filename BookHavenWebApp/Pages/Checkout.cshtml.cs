@@ -132,7 +132,7 @@ namespace BookHavenWebApp.Pages
             }
 
             //create new order
-            int orderId = _orderManager.CreateOrder(user.Id, Address, Country, City, ZipCode, TotalPrice);
+            int orderId = _orderManager.AddOrder(user.Id, Address, Country, City, ZipCode, TotalPrice);
 
             foreach (OrderItem item in OrderItems)
             {

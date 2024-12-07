@@ -262,10 +262,17 @@ namespace LogicLayer.Managers
         }
         public void BuyBook(int bookId, int quantity)
         {
-            if(GetBookById(bookId).Stock > quantity)
+            //if(GetBookById(bookId).Stock > quantity)
+            //{
+            //    _bookDb.BuyBook(bookId, quantity);
+            //}
+            if (quantity <= 0)
             {
-                _bookDb.BuyBook(bookId, quantity);
+                throw new ArgumentException("Quantity must be greater than zero.");
             }
+
+            _bookDb.BuyBook(bookId, quantity);
+
         }
 
         public List<Book> GetBestSellingBooks(int count)
