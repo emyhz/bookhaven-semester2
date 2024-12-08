@@ -21,6 +21,14 @@
                                 <span>
                                     <strong>@orderItem.Book.Title</strong>
                                     <small class="text-muted d-block">Quantity: @orderItem.Quantity</small>
+
+                                    <!-- Check if the book is an audiobook -->
+                                    @if (orderItem.Book is LogicLayer.EntityClasses.AudioBook audioBook)
+                                    {
+                                        <a href="@audioBook.Link" class="d-block text-primary mt-2" target="_blank">
+                                            Download Audiobook
+                                        </a>
+                                    }
                                 </span>
                                 <span class="badge bg-primary">€@orderItem.Price</span>
                             </li>

@@ -25,14 +25,6 @@ namespace BookHavenWebApp.Pages
             Order order = _orderManager.GetOrderDetailsForUser(OrderId);
             TotalPrice = order.TotalPrice;
             OrderItems = order.OrderItems;
-
-            foreach (var item in OrderItems)
-            {
-                if (item.Book is AudioBook audioBook)
-                {
-
-                }
-            }
         }
 
     }

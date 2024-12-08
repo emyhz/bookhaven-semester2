@@ -55,7 +55,7 @@ namespace BookHavenWebApp.Pages
 
         public IActionResult OnGet(int id)
         {
-            Books = _bookManager.GetAllBooks();
+            //Books = _bookManager.GetAllBooks();
             Reviews = _reviewManager.GetReviewsForBook(id);
 
             //get similar bought books

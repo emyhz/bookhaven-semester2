@@ -39,6 +39,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
             {
                 txtAudioLengthEdit.Text = audioBook.AudioLength.ToString();
                 txtFileSizeEdit.Text = audioBook.FileSize;
+                txtDummyLink.Text = audioBook.Link;
 
                 // Hide physical book specific controls
                 lblDimensions.Visible = false;
@@ -60,6 +61,8 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 txtAudioLengthEdit.Visible = false;
                 lblFileSize.Visible = false;
                 txtFileSizeEdit.Visible = false;
+                lblDummyLink.Visible = false;
+                txtDummyLink.Visible = false;
             }
 
         }
@@ -88,6 +91,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
             // Additional fields for specific book types
             TimeSpan? audioLength = null;
             string fileSize = null;
+            string link = null;
             string dimensions = null;
             int? pages = null;
             string coverType = null;
@@ -98,6 +102,8 @@ namespace BookHavenDesktop.Forms.PopUpForms
             {
                 audioLength = TimeSpan.Parse(txtAudioLengthEdit.Text);
                 fileSize = txtFileSizeEdit.Text;
+                link = txtDummyLink.Text;
+
             }
             else if (book is PhysicalBook)
             {
@@ -110,7 +116,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
             if (result == DialogResult.Yes)
             {
 
-                _bookManager.UpdateBook(book.Id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, audioLength, fileSize, dimensions, pages, coverType);
+                _bookManager.UpdateBook(book.Id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, audioLength, fileSize, link, dimensions, pages, coverType);
 
 
                 MessageBox.Show("Book has been successfully updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

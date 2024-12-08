@@ -305,7 +305,10 @@ namespace LogicLayer.Managers
             _orderDb.UpdateOrderStatus(orderId, statusValue);
         }
 
-        
+        public DateTime? GetUserLastPurchaseDate(int userId)
+        {
+            return _orderDb.GetLastOrderDate(userId);
+        }
 
 
 

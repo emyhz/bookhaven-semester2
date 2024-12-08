@@ -9,13 +9,13 @@ namespace DataAccessLayer.Interfaces
 {
     public interface IBookDb
     {
-        int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales,
-    TimeSpan? audioLength = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null);
+        public int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales,
+    TimeSpan? audioLength = null, string fileSize = null, string link = null, string dimensions = null, int? pages = null, string coverType = null);
         DataTable GetAllAudioBooks();
         DataTable GetAllPhysicalBooks();
         DataTable GetBooks();
-        void UpdateBook(int id, string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock,
-   TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null);
+        public void UpdateBook(int id, string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock,
+    TimeSpan? length = null, string fileSize = null, string link = null, string dimensions = null, int? pages = null, string coverType = null);
         void DeleteBook(int id);
         DataTable GetBooksSummary();
         DataTable GetBookDetails(int id);

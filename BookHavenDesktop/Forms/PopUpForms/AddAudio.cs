@@ -53,9 +53,10 @@ namespace BookHavenDesktop.Forms.PopUpForms
                     return;
                 }
                 string fileSize = txtFileSize.Text;
+                string link = txtDummyLink.Text;
 
 
-                int bookId = _bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, audioLength, fileSize, null, null, null);
+                int bookId = _bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, audioLength, fileSize, link, null, null, null);
 
 
 

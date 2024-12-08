@@ -28,17 +28,29 @@
                                 </div>
                             </div>
                         </a>
-                        <div class="input-group">
-                            <form method="post" asp-page-handler="DecreaseQuantity">
-                                <input type="hidden" name="orderItemId" value="@orderItem.Id" />
-                                <button class="btn btn-outline-secondary" type="submit">-</button>
-                            </form>
-                            <input type="text" class="form-control text-center" value="@orderItem.Quantity" readonly>
-                            <form method="post" asp-page-handler="IncreaseQuantity">
-                                <input type="hidden" name="orderItemId" value="@orderItem.Id" />
-                                <button class="btn btn-outline-secondary" type="submit">+</button>
-                            </form>
-                        </div>
+
+                        <!-- Conditional display of quantity controls -->
+                        @if (orderItem.Book is LogicLayer.EntityClasses.PhysicalBook)
+                        {
+                            <div class="input-group">
+                                <form method="post" asp-page-handler="DecreaseQuantity">
+                                    <input type="hidden" name="orderItemId" value="@orderItem.Id" />
+                                    <button class="btn btn-outline-secondary" type="submit">-</button>
+                                </form>
+                                <input type="text" class="form-control text-center" value="@orderItem.Quantity" readonly>
+                                <form method="post" asp-page-handler="IncreaseQuantity">
+                                    <input type="hidden" name="orderItemId" value="@orderItem.Id" />
+                                    <button class="btn btn-outline-secondary" type="submit">+</button>
+                                </form>
+                            </div>
+                        }
+                        else
+                        {
+                            <!-- Display link for audiobooks -->
+                            <div class="p-2">
+                                <span class="text-muted">Audiobook link will be available at checkout.</span>
+                            </div>
+                        }
                     </div>
                 }
             </div>

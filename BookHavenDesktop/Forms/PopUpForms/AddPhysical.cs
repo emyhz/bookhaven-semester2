@@ -82,7 +82,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
                 string coverType = txtCoverType.Text;
 
 
-                int bookId = _bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, null, null, dimensions, pages, coverType);
+                int bookId = _bookManager.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, null, null, null, dimensions, pages, coverType);
 
 
 

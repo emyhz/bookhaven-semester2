@@ -24,7 +24,7 @@ namespace LogicLayer.DesignPattern
             int daysSinceLastPurchase = (DateTime.Now - lastPurcashedDate).Days;
 
             //if the user has not purchased anything in the last 30 days, apply the discount
-            if (daysSinceLastPurchase > 30) 
+            if (daysSinceLastPurchase > 2) 
             {
                 return price * (1 - discountRate / 100); 
             }

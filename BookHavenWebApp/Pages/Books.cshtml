@@ -14,7 +14,6 @@
     <div class="row">
         <div class="col-12">
             <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
-                <!-- Iterate through the list of books passed from the Model -->
                 @foreach (LogicLayer.EntityClasses.Book book in Model.Books)
                 {
                     <div class="col">
@@ -24,7 +23,18 @@
                                 <div class="card-body">
                                     <h5 class="card-title">@book.Title</h5>
                                     <p class="card-text mb-1 text-muted">Author: @book.Author</p>
-                                    <p class="card-text"><strong>€@book.Price</strong></p>
+
+                                    @if (book.DiscountPrice < book.Price)
+                                    {
+                                        <p class="card-text">
+                                            <span class="text-danger text-decoration-line-through">€@book.Price</span>
+                                            <span class="fw-bold text-success">€@book.DiscountPrice</span>
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p class="card-text"><strong>€@book.Price</strong></p>
+                                    }
                                 </div>
                             </div>
                         </a>

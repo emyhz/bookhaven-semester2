@@ -1,3 +1,4 @@
+using LogicLayer.Algorithm;
 using LogicLayer.EntityClasses;
 using LogicLayer.Enums;
 using LogicLayer.Managers;
@@ -10,9 +11,13 @@ namespace BookHavenWebApp.Pages
     public class BooksModel : PageModel
     {
         private readonly BookManager _bookManager;
-        public BooksModel(BookManager bookManager)
+        private readonly DiscountManager _discountManager;
+        private readonly UserManager _userManager;
+        public BooksModel(BookManager bookManager, DiscountManager discountManager, UserManager userManager)
         {
             _bookManager = bookManager;
+            _discountManager = discountManager;
+            _userManager = userManager;
         }
 
         public List<Book> Books { get; set; }
@@ -30,6 +35,8 @@ namespace BookHavenWebApp.Pages
         [BindProperty]
         public decimal Price { get; set; }
         [BindProperty]
+        public decimal DiscountPrice { get; set; }
+        [BindProperty]
         public Genre genre { get; set; }
         [BindProperty]
         public string Language { get; set; }
@@ -44,7 +51,17 @@ namespace BookHavenWebApp.Pages
             int pageSize = 16;
             var books = _bookManager.GetAllBooks();
 
-            
+
+            // Apply discounts if the user is logged in
+            if (User.Identity.IsAuthenticated)
+            {
+                 var user = _userManager.GetUserByEmail(User.Identity.Name);
+                _discountManager.ApplyDiscountForInactiveUsers(user.Id ,books);
+            }
+
+
+
+
 
             CurrentPage = currentPage;
 

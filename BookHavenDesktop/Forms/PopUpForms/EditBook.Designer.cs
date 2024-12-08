@@ -60,6 +60,8 @@
             btnSelectImg = new Button();
             txtFilePath = new TextBox();
             lblImage = new Label();
+            lblDummyLink = new Label();
+            txtDummyLink = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pbBookDetails).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPriceEdit).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numStockEdit).BeginInit();
@@ -432,12 +434,36 @@
             lblImage.TabIndex = 104;
             lblImage.Text = "Image:";
             // 
+            // lblDummyLink
+            // 
+            lblDummyLink.AutoSize = true;
+            lblDummyLink.Font = new Font("Segoe UI", 10.8F);
+            lblDummyLink.ForeColor = Color.Black;
+            lblDummyLink.Location = new Point(18, 735);
+            lblDummyLink.Name = "lblDummyLink";
+            lblDummyLink.Size = new Size(130, 25);
+            lblDummyLink.TabIndex = 107;
+            lblDummyLink.Text = "Download link:";
+            // 
+            // txtDummyLink
+            // 
+            txtDummyLink.BackColor = Color.WhiteSmoke;
+            txtDummyLink.BorderStyle = BorderStyle.None;
+            txtDummyLink.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtDummyLink.Location = new Point(154, 719);
+            txtDummyLink.Multiline = true;
+            txtDummyLink.Name = "txtDummyLink";
+            txtDummyLink.Size = new Size(298, 69);
+            txtDummyLink.TabIndex = 108;
+            // 
             // EditBook
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(915, 856);
+            Controls.Add(txtDummyLink);
+            Controls.Add(lblDummyLink);
             Controls.Add(btnSelectImg);
             Controls.Add(txtFilePath);
             Controls.Add(lblImage);
@@ -515,5 +541,7 @@
         private Button btnSelectImg;
         private TextBox txtFilePath;
         private Label lblImage;
+        private Label lblDummyLink;
+        private TextBox txtDummyLink;
     }
 }

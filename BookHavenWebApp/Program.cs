@@ -48,8 +48,10 @@ builder.Services.AddScoped<ReviewManager>();
 
 
 
+
 //Add algorithm services to the container
 builder.Services.AddScoped<RecommendationSystem>();
+builder.Services.AddScoped<DiscountManager>();
 
 
 var app = builder.Build();

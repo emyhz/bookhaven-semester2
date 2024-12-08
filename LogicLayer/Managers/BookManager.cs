@@ -26,7 +26,7 @@ namespace LogicLayer.Managers
         
         //new method to add book
         public int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales,
-    TimeSpan? audioLength = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
+    TimeSpan? audioLength = null, string fileSize = null, string link = null,string dimensions = null, int? pages = null, string coverType = null)
         {
             // Validate general book details
             if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(author))
@@ -35,10 +35,10 @@ namespace LogicLayer.Managers
             }
 
             // Ensure the required parameters are provided for each type of book
-            if (audioLength.HasValue && !string.IsNullOrEmpty(fileSize))
+            if (audioLength.HasValue && !string.IsNullOrEmpty(fileSize) && !string.IsNullOrEmpty(link))
             {
                 // Validate audiobook fields
-                return _bookDb.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, audioLength, fileSize);
+                return _bookDb.AddBook(title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, audioLength, fileSize, link);
             }
             else if (!string.IsNullOrEmpty(dimensions) && pages.HasValue && !string.IsNullOrEmpty(coverType))
             {
@@ -81,7 +81,8 @@ namespace LogicLayer.Managers
                             stock: Convert.ToInt32(row["Stock"]),
                             sales: Convert.ToInt32(row["Sales"]),
                             audioLength: TimeSpan.Parse(row["AudioLength"].ToString()),
-                            fileSize: row["FileSize"].ToString()
+                            fileSize: row["FileSize"].ToString(),
+                            link: row["Link"].ToString()
                         );
                     }
                     // Check if it's a PhysicalBook by the presence of physical-specific fields
@@ -137,9 +138,9 @@ namespace LogicLayer.Managers
        
 
         public void UpdateBook(int id, string title, string author, long isbn, DateTime publishYear, decimal price, string genre, string language, string imagePath, int stock,
-    TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
+    TimeSpan? length = null, string fileSize = null, string link = null, string dimensions = null, int? pages = null, string coverType = null)
         {
-            _bookDb.UpdateBook(id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, length, fileSize, dimensions, pages, coverType);
+            _bookDb.UpdateBook(id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, length, fileSize, link ,dimensions, pages, coverType);
         }
 
         public void DeleteBook(int bookId)
@@ -178,7 +179,8 @@ namespace LogicLayer.Managers
                             stock: Convert.ToInt32(row["Stock"]),
                             sales: Convert.ToInt32(row["Sales"]),
                             audioLength: (TimeSpan)row["AudioLength"],
-                            fileSize: row["FileSize"].ToString()
+                            fileSize: row["FileSize"].ToString(),
+                            link: row["Link"].ToString()
                         );
                     }
                     else if (bookType == "PhysicalBook")
@@ -234,7 +236,8 @@ namespace LogicLayer.Managers
                         stock: Convert.ToInt32(row["Stock"]),
                         sales: Convert.ToInt32(row["Sales"]),
                         audioLength: (TimeSpan)row["AudioLength"],
-                        fileSize: row["FileSize"].ToString()
+                        fileSize: row["FileSize"].ToString(),
+                        link: row["Link"].ToString()
                     );
                 }
                 else if (bookType == "PhysicalBook")
@@ -301,7 +304,8 @@ namespace LogicLayer.Managers
                             stock: 0, 
                             sales: Convert.ToInt32(row["Sales"]),
                             audioLength: TimeSpan.Parse(row["AudioLength"].ToString()),
-                            fileSize: row["FileSize"].ToString()
+                            fileSize: row["FileSize"].ToString(),
+                            link: row["Link"].ToString()
                         );
                     }
                     else if (!string.IsNullOrEmpty(row["Dimensions"].ToString()) && !string.IsNullOrEmpty(row["CoverType"].ToString()))

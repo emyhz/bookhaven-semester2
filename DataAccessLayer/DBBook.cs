@@ -17,7 +17,7 @@ namespace DataAccessLayer
        
         //new method to add book
         public int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales,
-    TimeSpan? audioLength = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
+    TimeSpan? audioLength = null, string fileSize = null, string link = null, string dimensions = null, int? pages = null, string coverType = null)
         {
             int bookId = 0;
 
@@ -48,13 +48,14 @@ namespace DataAccessLayer
                     bookId = (int)bookCommand.ExecuteScalar();
 
                     // If AudioBook-specific fields are provided, insert into AudioBook table
-                    if (audioLength.HasValue && !string.IsNullOrEmpty(fileSize))
+                    if (audioLength.HasValue && !string.IsNullOrEmpty(fileSize) && !string.IsNullOrEmpty(link))
                     {
-                        string insertAudioBookQuery = "INSERT INTO [AudioBook] (Id, Length, FileSize) VALUES (@Id, @Length, @FileSize)";
+                        string insertAudioBookQuery = "INSERT INTO [AudioBook] (Id, Length, FileSize, Link) VALUES (@Id, @Length, @FileSize, @Link)";
                         SqlCommand audioBookCommand = new SqlCommand(insertAudioBookQuery, connection, transaction);
                         audioBookCommand.Parameters.AddWithValue("@Id", bookId);
                         audioBookCommand.Parameters.AddWithValue("@Length", audioLength.Value);
                         audioBookCommand.Parameters.AddWithValue("@FileSize", fileSize);
+                        audioBookCommand.Parameters.AddWithValue("@Link", link);
                         audioBookCommand.ExecuteNonQuery();
                     }
                     // If PhysicalBook-specific fields are provided, insert into PhysicalBook table
@@ -106,6 +107,7 @@ namespace DataAccessLayer
             b.Stock,
             ab.Length AS AudioLength,
             ab.FileSize
+            ab.Link
         FROM 
             [Book] b
         INNER JOIN 
@@ -177,6 +179,7 @@ namespace DataAccessLayer
                 b.Sales,
                 ab.Length AS AudioLength,
                 ab.FileSize,
+                ab.Link,
                 pb.Dimensions,
                 pb.Pages,
                 pb.CoverType
@@ -203,7 +206,7 @@ namespace DataAccessLayer
         }
 
         public void UpdateBook(int id, string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock,
-    TimeSpan? length = null, string fileSize = null, string dimensions = null, int? pages = null, string coverType = null)
+    TimeSpan? length = null, string fileSize = null, string link = null, string dimensions = null, int? pages = null, string coverType = null)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -234,17 +237,18 @@ namespace DataAccessLayer
                     bookCommand.ExecuteNonQuery();
 
                     // Update AudioBook details if `length` and `fileSize` are provided
-                    if (length.HasValue && !string.IsNullOrEmpty(fileSize))
+                    if (length.HasValue && !string.IsNullOrEmpty(fileSize) && !string.IsNullOrEmpty(link))
                     {
                         string updateAudioBookQuery = @"
                     UPDATE AudioBook 
-                    SET Length = @Length, FileSize = @FileSize 
+                    SET Length = @Length, FileSize = @FileSize, Link = @Link
                     WHERE Id = @Id";
 
                         SqlCommand audioBookCommand = new SqlCommand(updateAudioBookQuery, connection, transaction);
                         audioBookCommand.Parameters.AddWithValue("@Id", id);
                         audioBookCommand.Parameters.AddWithValue("@Length", length.Value);
                         audioBookCommand.Parameters.AddWithValue("@FileSize", fileSize);
+                        audioBookCommand.Parameters.AddWithValue("@Link", link);
                         audioBookCommand.ExecuteNonQuery();
                     }
 
@@ -376,7 +380,7 @@ namespace DataAccessLayer
                 string query = @"
             SELECT b.*, 
                    pb.Dimensions, pb.Pages, pb.CoverType, 
-                   ab.Length AS AudioLength, ab.FileSize,
+                   ab.Length AS AudioLength, ab.FileSize, ab.Link,
                    CASE 
                        WHEN pb.Id IS NOT NULL THEN 'PhysicalBook' 
                        WHEN ab.Id IS NOT NULL THEN 'AudioBook' 
@@ -475,6 +479,7 @@ namespace DataAccessLayer
                 b.Sales, 
                 ab.Length AS AudioLength, 
                 ab.FileSize, 
+                ab.Link,
                 pb.Dimensions, 
                 pb.Pages, 
                 pb.CoverType

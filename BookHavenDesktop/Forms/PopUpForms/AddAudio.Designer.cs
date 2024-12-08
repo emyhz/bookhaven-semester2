@@ -59,6 +59,8 @@
             pnlAudio = new Panel();
             pbMoney = new PictureBox();
             btnClose = new Button();
+            lblDummyLink = new Label();
+            txtDummyLink = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pbAudio).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numStock).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPrice).BeginInit();
@@ -259,7 +261,7 @@
             txtFilePath.Location = new Point(139, 551);
             txtFilePath.Multiline = true;
             txtFilePath.Name = "txtFilePath";
-            txtFilePath.Size = new Size(359, 41);
+            txtFilePath.Size = new Size(231, 41);
             txtFilePath.TabIndex = 31;
             // 
             // AudioLength
@@ -350,9 +352,9 @@
             btnSelectImg.FlatStyle = FlatStyle.Flat;
             btnSelectImg.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnSelectImg.ForeColor = Color.White;
-            btnSelectImg.Location = new Point(504, 551);
+            btnSelectImg.Location = new Point(366, 551);
             btnSelectImg.Name = "btnSelectImg";
-            btnSelectImg.Size = new Size(140, 41);
+            btnSelectImg.Size = new Size(132, 41);
             btnSelectImg.TabIndex = 89;
             btnSelectImg.Text = "Select image";
             btnSelectImg.UseVisualStyleBackColor = false;
@@ -376,6 +378,8 @@
             // pnlAudio
             // 
             pnlAudio.BackColor = Color.White;
+            pnlAudio.Controls.Add(txtDummyLink);
+            pnlAudio.Controls.Add(lblDummyLink);
             pnlAudio.Controls.Add(pbMoney);
             pnlAudio.Controls.Add(btnAddAudioBook);
             pnlAudio.Controls.Add(btnSelectImg);
@@ -431,6 +435,28 @@
             btnClose.Text = "Close";
             btnClose.UseVisualStyleBackColor = false;
             btnClose.Click += btnClose_Click;
+            // 
+            // lblDummyLink
+            // 
+            lblDummyLink.AutoSize = true;
+            lblDummyLink.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblDummyLink.ForeColor = Color.Black;
+            lblDummyLink.Location = new Point(515, 564);
+            lblDummyLink.Name = "lblDummyLink";
+            lblDummyLink.Size = new Size(142, 28);
+            lblDummyLink.TabIndex = 92;
+            lblDummyLink.Text = "Download link:";
+            // 
+            // txtDummyLink
+            // 
+            txtDummyLink.BackColor = Color.WhiteSmoke;
+            txtDummyLink.BorderStyle = BorderStyle.None;
+            txtDummyLink.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtDummyLink.Location = new Point(663, 551);
+            txtDummyLink.Multiline = true;
+            txtDummyLink.Name = "txtDummyLink";
+            txtDummyLink.Size = new Size(341, 41);
+            txtDummyLink.TabIndex = 93;
             // 
             // AddAudio
             // 
@@ -496,5 +522,7 @@
         private Label label4;
         private Label label3;
         private Label label2;
+        private TextBox txtDummyLink;
+        private Label lblDummyLink;
     }
 }

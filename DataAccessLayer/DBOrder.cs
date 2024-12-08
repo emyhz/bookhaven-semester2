@@ -217,6 +217,34 @@ namespace DataAccessLayer
             }
         }
 
+        public DateTime? GetLastOrderDate(int userId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = @"
+            SELECT TOP 1 Date 
+            FROM [Order] 
+            WHERE UserID = @UserId 
+            ORDER BY Date DESC";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@UserId", userId);
+
+                    object result = command.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        return Convert.ToDateTime(result);
+                    }
+
+                    return null;
+                }
+            }
+        }
+
+
 
 
 
