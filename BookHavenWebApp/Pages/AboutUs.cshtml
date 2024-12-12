@@ -3,56 +3,47 @@
 @{
     ViewData["Title"] = "About us";
 }
-<h1>@ViewData["Title"]</h1>
 
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4">About Us</h1>
+        <p class="lead text-muted">Learn more about Book Haven, our mission, and our passion for books.</p>
+    </div>
 
-<!-- About Section -->
-<section class="about-section">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-4 mb-lg-0">
-                <img src="/Resources/aboutUs.png" alt="About BookHaven" class="img-fluid featured-image">
-            </div>
-            <div class="col-lg-6">
-                <h2 class="display-6 fw-bold">About BookHaven</h2>
-                <p class="lead">Welcome to BookHaven, your ultimate destination for discovering, browsing, and purchasing books. We are passionate about creating a platform that caters to book lovers, offering a diverse range of genres and formats to suit every reader's preference.</p>
-                <p>At BookHaven, we believe in the power of books to transform lives, inspire imagination, and connect people from all walks of life. Our mission is to make it easy for you to find your next great read, whether you're looking for bestsellers, hidden gems, or something in between.</p>
-            </div>
+    <!-- About Us Content -->
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-md-6">
+            <h4 class="text-primary">Who We Are</h4>
+            <p>
+                Welcome to <strong>Book Haven</strong>, your ultimate destination for discovering and exploring books of all genres.
+                We are a team of book lovers committed to making your reading journey smooth and enjoyable.
+            </p>
+            <p>
+                Whether you're searching for timeless classics, contemporary novels, or educational materials, our curated selection has
+                something for every reader.
+            </p>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-md-6">
+            <h4 class="text-primary">Our Mission</h4>
+            <p>
+                At <strong>Book Haven</strong>, we believe in the transformative power of stories and knowledge. Our mission is to connect readers
+                with the books they love while introducing them to new and inspiring authors and genres.
+            </p>
+            <p>We strive to create a platform that fosters a love for reading and brings communities together through a shared passion for literature.</p>
         </div>
     </div>
-</section>
 
-<!-- Features Section -->
-<section class="py-5 bg-white">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="feature-box">
-                    <div class="feature-icon mb-3">
-                        <i class="bi bi-book"></i>
-                    </div>
-                    <h5 class="fw-bold">Diverse Selection</h5>
-                    <p>Explore a vast collection of books across different genres, from timeless classics to the latest bestsellers.</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="feature-box">
-                    <div class="feature-icon mb-3">
-                        <i class="bi bi-heart"></i>
-                    </div>
-                    <h5 class="fw-bold">Personalized Recommendations</h5>
-                    <p>Receive book suggestions tailored to your reading preferences and discover new authors and genres.</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="feature-box">
-                    <div class="feature-icon mb-3">
-                        <i class="bi bi-cart"></i>
-                    </div>
-                    <h5 class="fw-bold">Easy & Secure Purchase</h5>
-                    <p>Enjoy a seamless shopping experience with multiple payment options and secure checkout.</p>
-                </div>
-            </div>
-        </div>
+    <!-- Image Section -->
+    <div class="text-center mt-5">
+        <img src="/Resources/aboutUs.png" alt="Books and Coffee" class="img-fluid rounded shadow" style="max-width: 30%;">
+        <p class="text-muted mt-2">"Books are a uniquely portable magic." — Stephen King</p>
     </div>
-</section>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-5">
+        <a href="/Books" class="btn btn-primary btn-lg">Explore Our Collection</a>
+    </div>
+</div>
