@@ -25,10 +25,12 @@ namespace BookHavenDesktop.UserControls
         {
             InitializeComponent();
             _bookManager = bookManager;
-            //this.Click += BookList_Click;
+
+            AttachClickEventToAllControls(this);
+
         }
 
-        
+
 
 
 
@@ -67,6 +69,19 @@ namespace BookHavenDesktop.UserControls
             details.ShowDialog();
         }
 
-       
+        private void AttachClickEventToAllControls(Control control)
+        {
+            foreach (Control child in control.Controls)
+            {
+                child.Click += ForwardClickEvent;
+                AttachClickEventToAllControls(child);
+            }
+        }
+
+        private void ForwardClickEvent(object sender, EventArgs e)
+        {
+            this.OnClick(e);
+        }
+
     }
 }

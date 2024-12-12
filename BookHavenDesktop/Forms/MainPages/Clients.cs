@@ -18,6 +18,7 @@ namespace BookHavenDesktop.Forms.MainPages
 
         private List<User> customers;
         private UserManager userManager;
+        private List<User> searchCustomers;
         public Clients(UserManager userManager)
         {
             InitializeComponent();
@@ -26,26 +27,30 @@ namespace BookHavenDesktop.Forms.MainPages
             GenerateEmployees(customers);
         }
 
-        private void GenerateEmployees(List<User> customer)
+        private void GenerateEmployees(List<User> customers)
         {
             flpCustomer.Controls.Clear();
 
-            if ( customer!= null && customers.Count > 0)
+            foreach (User customer in customers)
             {
-                EmployeeList[] listItems = new EmployeeList[customers.Count];
-
-                for (int i = 0; i < customers.Count; i++)
+                EmployeeList employeeControl = new EmployeeList
                 {
-                    User employee = customers[i];
-                    listItems[i] = new EmployeeList();
+                    Name = $"{customer.FirstName} {customer.LastName}",
+                    Email = customer.Email
+                };
 
-                    string name = $"{employee.FirstName} {employee.LastName}";
-                    listItems[i].Name = name;
-                    listItems[i].Email = employee.Email;
-
-                    flpCustomer.Controls.Add(listItems[i]);
-                }
+                flpCustomer.Controls.Add(employeeControl);
             }
+        }
+
+        private void btnSearchClient_Click(object sender, EventArgs e)
+        {
+            string firstName = txtFNameSearch.Text;
+            string lastName = txtLNameSearch.Text;
+            string email = txtEmailSearch.Text;
+
+            searchCustomers = userManager.SearchCustomer(firstName, lastName, email);
+            GenerateEmployees(searchCustomers);
         }
     }
 }

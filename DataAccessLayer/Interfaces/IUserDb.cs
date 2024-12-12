@@ -18,6 +18,6 @@ namespace DataAccessLayer.Interfaces
         void UpdateUserType(int id, string userType);
         void DeleteUser(string email);
         void UpdatePassword(string email, string newPass);
-        void UpdateCustomerInfo(string email, string firstName, string lastName);
+        void UpdateDetails(string email, string firstName, string lastName);
     }
 }

@@ -32,13 +32,13 @@
             btnEditNameUserType = new Button();
             lblAccountHead = new Label();
             panel1 = new Panel();
-            lblUsersNameDisplay = new Label();
-            label2 = new Label();
             label1 = new Label();
             lblUserType = new Label();
             pictureBox1 = new PictureBox();
+            lblUsersNameDisplay = new Label();
+            label2 = new Label();
             panel2 = new Panel();
-            button1 = new Button();
+            btnEditDetails = new Button();
             lblUserEmail = new Label();
             lblEmail2 = new Label();
             lblPersonalInfoHead = new Label();
@@ -70,6 +70,7 @@
             btnEditNameUserType.TabIndex = 13;
             btnEditNameUserType.Text = "Edit";
             btnEditNameUserType.UseVisualStyleBackColor = false;
+            btnEditNameUserType.Click += btnEditNameUserType_Click;
             // 
             // lblAccountHead
             // 
@@ -85,44 +86,21 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.Control;
-            panel1.Controls.Add(lblUsersNameDisplay);
-            panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(lblUserType);
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(btnEditNameUserType);
             panel1.Location = new Point(54, 117);
             panel1.Name = "panel1";
-            panel1.Size = new Size(774, 160);
+            panel1.Size = new Size(774, 143);
             panel1.TabIndex = 15;
-            // 
-            // lblUsersNameDisplay
-            // 
-            lblUsersNameDisplay.AutoSize = true;
-            lblUsersNameDisplay.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblUsersNameDisplay.Location = new Point(294, 46);
-            lblUsersNameDisplay.Name = "lblUsersNameDisplay";
-            lblUsersNameDisplay.Size = new Size(123, 31);
-            lblUsersNameDisplay.TabIndex = 23;
-            lblUsersNameDisplay.Text = "UserName";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.Black;
-            label2.Location = new Point(120, 48);
-            label2.Name = "label2";
-            label2.Size = new Size(68, 28);
-            label2.TabIndex = 22;
-            label2.Text = "Name:";
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(120, 91);
+            label1.Location = new Point(115, 37);
             label1.Name = "label1";
             label1.Size = new Size(86, 28);
             label1.TabIndex = 21;
@@ -132,7 +110,7 @@
             // 
             lblUserType.AutoSize = true;
             lblUserType.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblUserType.Location = new Point(294, 91);
+            lblUserType.Location = new Point(249, 37);
             lblUserType.Name = "lblUserType";
             lblUserType.Size = new Size(111, 31);
             lblUserType.TabIndex = 18;
@@ -143,38 +121,62 @@
             pictureBox1.ErrorImage = (Image)resources.GetObject("pictureBox1.ErrorImage");
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.InitialImage = (Image)resources.GetObject("pictureBox1.InitialImage");
-            pictureBox1.Location = new Point(23, 45);
+            pictureBox1.Location = new Point(23, 32);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(75, 74);
             pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox1.TabIndex = 16;
             pictureBox1.TabStop = false;
             // 
+            // lblUsersNameDisplay
+            // 
+            lblUsersNameDisplay.AutoSize = true;
+            lblUsersNameDisplay.Font = new Font("Segoe UI Semibold", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblUsersNameDisplay.Location = new Point(187, 135);
+            lblUsersNameDisplay.Name = "lblUsersNameDisplay";
+            lblUsersNameDisplay.Size = new Size(123, 31);
+            lblUsersNameDisplay.TabIndex = 23;
+            lblUsersNameDisplay.Text = "UserName";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.ForeColor = Color.Black;
+            label2.Location = new Point(33, 138);
+            label2.Name = "label2";
+            label2.Size = new Size(68, 28);
+            label2.TabIndex = 22;
+            label2.Text = "Name:";
+            // 
             // panel2
             // 
             panel2.BackColor = SystemColors.Control;
-            panel2.Controls.Add(button1);
+            panel2.Controls.Add(lblUsersNameDisplay);
+            panel2.Controls.Add(btnEditDetails);
+            panel2.Controls.Add(label2);
             panel2.Controls.Add(lblUserEmail);
             panel2.Controls.Add(lblEmail2);
             panel2.Controls.Add(lblPersonalInfoHead);
             panel2.Location = new Point(54, 351);
             panel2.Name = "panel2";
-            panel2.Size = new Size(774, 164);
+            panel2.Size = new Size(774, 188);
             panel2.TabIndex = 19;
             // 
-            // button1
+            // btnEditDetails
             // 
-            button1.BackColor = Color.FromArgb(130, 76, 113);
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(644, 21);
-            button1.Name = "button1";
-            button1.Size = new Size(116, 50);
-            button1.TabIndex = 24;
-            button1.Text = "Edit";
-            button1.UseVisualStyleBackColor = false;
+            btnEditDetails.BackColor = Color.FromArgb(130, 76, 113);
+            btnEditDetails.FlatAppearance.BorderSize = 0;
+            btnEditDetails.FlatStyle = FlatStyle.Flat;
+            btnEditDetails.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnEditDetails.ForeColor = Color.White;
+            btnEditDetails.Location = new Point(644, 21);
+            btnEditDetails.Name = "btnEditDetails";
+            btnEditDetails.Size = new Size(116, 50);
+            btnEditDetails.TabIndex = 24;
+            btnEditDetails.Text = "Edit";
+            btnEditDetails.UseVisualStyleBackColor = false;
+            btnEditDetails.Click += btnEditDetails_Click;
             // 
             // lblUserEmail
             // 
@@ -338,7 +340,7 @@
         private Label lblUsersNameDisplay;
         private Label label2;
         private Label label1;
-        private Button button1;
+        private Button btnEditDetails;
         private Label lblUserEmail;
         private Panel panel3;
         private Button btnDeleteAccount;

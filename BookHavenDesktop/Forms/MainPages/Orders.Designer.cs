@@ -88,6 +88,7 @@
             btnSearchOrder.TabIndex = 21;
             btnSearchOrder.Text = "Search order";
             btnSearchOrder.UseVisualStyleBackColor = false;
+            btnSearchOrder.Click += btnSearchOrder_Click;
             // 
             // txtOrderNo
             // 
@@ -149,11 +150,11 @@
             lbl.AutoSize = true;
             lbl.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbl.ForeColor = Color.FromArgb(220, 204, 163);
-            lbl.Location = new Point(41, 31);
+            lbl.Location = new Point(60, 42);
             lbl.Name = "lbl";
-            lbl.Size = new Size(250, 31);
+            lbl.Size = new Size(209, 31);
             lbl.TabIndex = 4;
-            lbl.Text = "Statistics of BookHaven";
+            lbl.Text = "Overview of Orders\r\n";
             // 
             // lblOrdersFound
             // 

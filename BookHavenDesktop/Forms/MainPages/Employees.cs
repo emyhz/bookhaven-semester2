@@ -99,8 +99,7 @@ namespace BookHavenDesktop.Forms.MainPages
                             return;
                         }
 
-                        // Debug: Check the selected user's email
-                        MessageBox.Show($"User to be approved: {userToBePromoted.Email}", "Debug", MessageBoxButtons.OK);
+                       
 
                         // Approve the user
                         userManager.UpdateToEmployee(userToBePromoted.Id, _userEmail);
@@ -108,8 +107,10 @@ namespace BookHavenDesktop.Forms.MainPages
                         // Reload pending employees list
                         LoadPendingEmployees();
 
-                        // Reload employees list
                         empUsers = userManager.GetEmployees();
+                        DisplayEmployees(empUsers);
+
+                        lblEmailPending.Text = string.Empty;
 
                         MessageBox.Show($"{userToBePromoted.FirstName} {userToBePromoted.LastName} has been successfully approved!",
                             "Employee Approval Successful",
@@ -151,6 +152,10 @@ namespace BookHavenDesktop.Forms.MainPages
                     User userToBeDeleted = (User)cmbPendingEmployee.SelectedItem;
                     userManager.DenyEmpAccessAsAdmin(userToBeDeleted.Email, _userEmail);
                     LoadPendingEmployees();
+                    DisplayEmployees(empUsers);
+
+                    lblEmailPending.Text = string.Empty;
+
                     MessageBox.Show($"{userToBeDeleted.FirstName}{userToBeDeleted.LastName} has been successfully deleted!", "Employee Denial Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }

@@ -68,7 +68,7 @@ namespace BookHavenUnitTests
             _userDbMock.AddUser("Sam", "Adams", "sam.adams@example.com", "password123", UserType.PENDING_EMPLOYEE.ToString());
 
             // Act
-            _userManager.UpdateToEmployee(1, "admin@example.com"); // Assuming 1 is the ID and admin has rights to update
+            _userManager.UpdateToEmployee(1, "admin@example.com"); 
 
             // Assert
             var user = _userManager.GetUserByEmail("sam.adams@example.com");

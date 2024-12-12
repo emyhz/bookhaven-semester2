@@ -54,9 +54,9 @@ namespace BookHavenDesktop.Forms.MainPages
 
                 if (dialogResult == DialogResult.Yes)
                 {
-                    userManager.DeleteUser(_userEmail); // Assuming this is a void method
+                    userManager.DeleteUser(_userEmail);
                     MessageBox.Show("Account successfully deleted.", "Account Deletion Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    OnAccountDeleted(EventArgs.Empty); // raise event
+                    OnAccountDeleted(EventArgs.Empty);
                     this.Close();
 
                 }
@@ -79,6 +79,18 @@ namespace BookHavenDesktop.Forms.MainPages
         protected virtual void OnAccountDeleted(EventArgs e)
         {
             AccountDeleted?.Invoke(this, e); // invoke event
+        }
+
+        private void btnEditNameUserType_Click(object sender, EventArgs e)
+        {
+            ChangeUserType changeUserType = new ChangeUserType(_userEmail, userManager);
+            changeUserType.ShowDialog();
+        }
+
+        private void btnEditDetails_Click(object sender, EventArgs e)
+        {
+            EditDetails editDetails = new EditDetails(_userEmail, userManager);
+            editDetails.ShowDialog();
         }
     }
 }

@@ -30,6 +30,12 @@ namespace BookHavenWebApp.Pages
 
         public async Task<IActionResult> OnPost()
         {
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
             if(userManager.AuthenticateUser(Email, Password))
             {
 

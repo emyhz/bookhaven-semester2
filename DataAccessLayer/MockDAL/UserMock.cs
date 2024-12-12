@@ -175,7 +175,7 @@ namespace DataAccessLayer.MockDAL
         }
 
         // Update customer info
-        public void UpdateCustomerInfo(string email, string firstName, string lastName)
+        public void UpdateDetails(string email, string firstName, string lastName)
         {
             if (Users.TryGetValue(email, out var user))
             {

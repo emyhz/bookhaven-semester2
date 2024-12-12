@@ -44,6 +44,7 @@
             // 
             // flpCustomer
             // 
+            flpCustomer.AutoScroll = true;
             flpCustomer.BackColor = Color.White;
             flpCustomer.Location = new Point(426, -1);
             flpCustomer.Name = "flpCustomer";
@@ -79,6 +80,7 @@
             btnSearchClient.TabIndex = 20;
             btnSearchClient.Text = "Search customer";
             btnSearchClient.UseVisualStyleBackColor = false;
+            btnSearchClient.Click += btnSearchClient_Click;
             // 
             // txtEmailSearch
             // 

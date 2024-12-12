@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataAccessLayer.Exceptions
+{
+    public class DatabaseExceptions
+    {
+        public class DatabaseConnectionException : Exception
+        {
+            public DatabaseConnectionException(string message) : base(message)
+            {
+            }
+        }
+
+        public class DatabaseQueryException : Exception
+        {
+            public DatabaseQueryException(string message) : base(message)
+            {
+            }
+        }
+    }
+}

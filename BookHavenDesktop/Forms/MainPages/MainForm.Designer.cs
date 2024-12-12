@@ -278,9 +278,9 @@
             lblBestSeller.ForeColor = Color.FromArgb(130, 76, 113);
             lblBestSeller.Location = new Point(634, 128);
             lblBestSeller.Name = "lblBestSeller";
-            lblBestSeller.Size = new Size(431, 41);
+            lblBestSeller.Size = new Size(434, 41);
             lblBestSeller.TabIndex = 5;
-            lblBestSeller.Text = "Our current best selling books";
+            lblBestSeller.Text = "Our all time best selling books";
             // 
             // flpBestSellerBooks
             // 

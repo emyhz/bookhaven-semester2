@@ -46,10 +46,44 @@ namespace BookHavenWebApp.Pages
         public int Stock { get; set; }
         public string Filter { get; set; }
 
-        public async Task OnGetAsync(int currentPage = 1, string sortBy = "")
+        public async Task OnGetAsync(int currentPage = 1, string filter = "")
         {
+
             int pageSize = 16;
+            Filter = filter;
             var books = _bookManager.GetAllBooks();
+
+
+            // Apply filter
+            if (!string.IsNullOrEmpty(Filter))
+            {
+                List<Book> filteredBooks = new List<Book>();
+
+                if (Filter == "Physical")
+                {
+                    foreach (var book in books)
+                    {
+                        if (book is PhysicalBook)
+                        {
+                            filteredBooks.Add(book);
+                        }
+                    }
+                }
+                else if (Filter == "Audio")
+                {
+                    foreach (var book in books)
+                    {
+                        if (book is AudioBook)
+                        {
+                            filteredBooks.Add(book);
+                        }
+                    }
+                }
+
+                books = filteredBooks;
+            }
+
+
 
 
             // Apply discounts if the user is logged in

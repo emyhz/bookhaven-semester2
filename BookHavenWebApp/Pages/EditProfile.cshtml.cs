@@ -45,7 +45,7 @@ namespace BookHavenWebApp.Pages
             {
                 return Page();
             }
-             _userManager.UpdateCustomerInfo(user.Email, NewFirstName, NewLastName);
+             _userManager.UpdateDetails(user.Email, NewFirstName, NewLastName);
             TempData["SuccessMessage"] = "Profile updated successfully!";
 
             return RedirectToPage("/Account");

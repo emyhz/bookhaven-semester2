@@ -310,6 +310,36 @@ namespace LogicLayer.Managers
             return _orderDb.GetLastOrderDate(userId);
         }
 
+        public List<Order> GetOrderByNumber(int orderNumber)
+        {
+            DataTable dt = _orderDb.GetOrderByNumber(orderNumber);
+            List<Order> orders = new List<Order>();
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    int orderId = Convert.ToInt32(row["Id"]);
+                    int userId = Convert.ToInt32(row["UserId"]);
+                    User user = _userManager.GetUserById(userId);
+                    List<OrderItem> orderItems = _orderItemManager.GetOrderItems(orderId);
+
+                    Order order = new Order(
+                        orderId,
+                        Convert.ToDateTime(row["Date"]),
+                        user,
+                        Convert.ToDecimal(row["TotalPrice"]),
+                        Enum.Parse<OrderStatus>(row["Status"].ToString()),
+                        orderItems
+                    );
+
+                    orders.Add(order);
+                }
+            }
+
+            return orders;
+        }
+
 
 
 

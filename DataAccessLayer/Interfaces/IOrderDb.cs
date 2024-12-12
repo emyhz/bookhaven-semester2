@@ -19,5 +19,6 @@ namespace DataAccessLayer.Interfaces
         DataTable GetLastUsedAddress(int userId);
         void UpdateOrderStatus(int orderId, int status);
         DateTime? GetLastOrderDate(int userId);
+        DataTable GetOrderByNumber(int orderNumber);
     }
 }

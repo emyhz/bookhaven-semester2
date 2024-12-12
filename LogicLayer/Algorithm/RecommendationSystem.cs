@@ -27,7 +27,7 @@ namespace LogicLayer.Algorithm
             List<User> usersBoughtOrders = new List<User>();
             foreach (Order order in bookOrders)
             {
-                usersBoughtOrders.Add(order.User);
+                usersBoughtOrders.Add(order.User); //add 
             }
 
             // Get all orders placed by these users
@@ -35,11 +35,11 @@ namespace LogicLayer.Algorithm
             foreach (User user in usersBoughtOrders)
             {
                 List<Order> orders = _orderManager.GetUserOrders(user.Id);
-                ordersBoughtByUsers.AddRange(orders);
+                ordersBoughtByUsers.AddRange(orders); //add
             }
 
             // Count occurrences of other books bought with the specified book
-            Dictionary<int, int> bookCount = new Dictionary<int, int>();
+            Dictionary<int, int> bookCount = new Dictionary<int, int>(); //book id, frequency 
             foreach (Order order in ordersBoughtByUsers)
             {
                 foreach (OrderItem item in order.OrderItems)
@@ -49,18 +49,22 @@ namespace LogicLayer.Algorithm
                     {
                         if (bookCount.ContainsKey(item.Book.Id))
                         {
-                            bookCount[item.Book.Id]++;
+                            bookCount[item.Book.Id]++; //increment count
                         }
                         else
                         {
-                            bookCount.Add(item.Book.Id, 1);
+                            bookCount.Add(item.Book.Id, 1); //add to dictionary
                         }
                     }
                 }
             }
 
-            // Sort books by their frequency in descending order and get the top `count` books
-            var booksSort = bookCount.OrderByDescending(x => x.Value).Select(x=> _bookManager.GetBookById(x.Key)).Take(count).ToList();
+            // retrieves the top `count` books that are frequently purchased together with the specified book.
+            var booksSort = bookCount
+                .OrderByDescending(x => x.Value) //sort descending 
+                .Select(x=> _bookManager.GetBookById(x.Key)) //maps bookid to book
+                .Take(count) //takes top count books
+                .ToList(); //convert to list
 
             return booksSort;  // Return the recommended books
 

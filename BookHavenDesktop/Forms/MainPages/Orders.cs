@@ -83,7 +83,7 @@ namespace BookHavenDesktop.Forms.MainPages
                 case 3:
                     _orders = _orderManager.GetOrdersLastYear();
                     break;
-                
+
 
             }
 
@@ -95,6 +95,26 @@ namespace BookHavenDesktop.Forms.MainPages
         {
             cmbStatisticsTime.SelectedIndex = cmbStatisticsTime.SelectedIndex;
             LoadStatisticsAndOrders(cmbStatisticsTime.SelectedIndex);
+        }
+
+        private void btnSearchOrder_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int orderNumber = int.Parse(txtOrderNo.Text);
+
+                _orders = _orderManager.GetOrderByNumber(orderNumber);
+
+                GenerateOrders(_orders);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Please enter a valid order number.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

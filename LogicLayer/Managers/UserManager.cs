@@ -18,11 +18,13 @@ namespace LogicLayer.Managers
     {
         private IUserDb _dbuser;
         private List<User> users;
+        private List<User> searchClient;
 
         public UserManager(IUserDb dbuser)
         {
             _dbuser = dbuser;
             users = GetEmployees();
+            searchClient = GetCustomers();
         }
 
         public void AddUser(string firstName, string lastName, string email, string password, UserType userType)
@@ -118,7 +120,6 @@ namespace LogicLayer.Managers
 
         public void UpdateToEmployee(int id, string loggedIn)
         {
-            // Get the user to be promoted by ID
             User updateToEmp = GetUserById(id);
             if (updateToEmp == null)
             {
@@ -134,6 +135,21 @@ namespace LogicLayer.Managers
 
             // Update the user type to EMPLOYEE
             _dbuser.UpdateUserType(id, UserType.EMPLOYEE.ToString());
+        }
+        public void UpdateUserType(int userId, string newUserType, string loggedInEmail)
+        {
+            User userToUpdate = GetUserById(userId);
+            if (userToUpdate == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            if (!Enum.TryParse(typeof(UserType), newUserType, true, out var parsedUserType))
+            {
+                throw new Exception("Invalid user type specified");
+            }
+
+            _dbuser.UpdateUserType(userId, newUserType);
         }
         public bool EmailExists(string email)
         {
@@ -226,6 +242,22 @@ namespace LogicLayer.Managers
             return searchResults;
         }
 
+        public List<User> SearchCustomer(string firstName, string lastName, string email)
+        {
+            List<User> searchCustomer = new List<User>();
+            foreach (User user in searchClient)
+            {
+                bool matchesFirstName = string.IsNullOrEmpty(firstName) || user.FirstName.ToLower().Contains(firstName.ToLower());
+                bool matchesLastName = string.IsNullOrEmpty(lastName) || user.LastName.ToLower().Contains(lastName.ToLower());
+                bool matchesEmail = string.IsNullOrEmpty(email) || user.Email.ToLower().Contains(email.ToLower());
+
+                if (matchesFirstName && matchesLastName && matchesEmail)
+                {
+                    searchCustomer.Add(user);
+                }
+            }
+            return searchCustomer;
+        }
 
         public void DeleteUser(string email)
         {
@@ -285,9 +317,14 @@ namespace LogicLayer.Managers
 
             return UpdatePasswordResults.PASSWORD_UPDATED;
         }
-        public void UpdateCustomerInfo(string email, string newFirstName, string newLastName)
+        public void UpdateDetails(string email, string newFirstName, string newLastName)
         {
-            _dbuser.UpdateCustomerInfo(email, newFirstName, newLastName);
+            _dbuser.UpdateDetails(email, newFirstName, newLastName);
+        }
+
+        public void UpdateEmpDetails(string firstName, string lastName, string loggedIn)
+        {
+            
         }
     }
     

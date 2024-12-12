@@ -244,6 +244,25 @@ namespace DataAccessLayer
             }
         }
 
+        public DataTable GetOrderByNumber(int orderNumber)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "SELECT * FROM [Order] WHERE Id = @OrderNumber";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@OrderNumber", orderNumber);
+
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    {
+                        DataTable orderTable = new DataTable();
+                        adapter.Fill(orderTable);
+                        return orderTable;
+                    }
+                }
+            }
+        }
 
 
 

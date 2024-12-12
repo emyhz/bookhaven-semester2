@@ -55,7 +55,7 @@ namespace DataAccessLayer
             catch (Exception ex)
             {
                 HandleDatabaseException(ex);
-                return null; // Return null or empty DataTable
+                return null; 
             }
         }
 
@@ -148,7 +148,6 @@ namespace DataAccessLayer
         }
 
 
-
         public void DeleteUser(string email)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -176,7 +175,7 @@ namespace DataAccessLayer
                 }
             }
         }
-        public void UpdateCustomerInfo(string email, string FirstName, string LastName)
+        public void UpdateDetails(string email, string FirstName, string LastName)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
