@@ -50,5 +50,11 @@ namespace BookHavenWebApp.Pages
             _orderItemManager.DecreaseQuantity(orderItemId);
             return RedirectToPage();
         }
+
+        public IActionResult OnPostRemoveItem(int orderItemId)
+        {
+            _orderItemManager.RemoveAudioItemFromCart(orderItemId);
+            return RedirectToPage();
+        }
     }
 }

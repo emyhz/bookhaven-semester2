@@ -126,6 +126,22 @@ namespace DataAccessLayer
                 }
             }
         }
+        //removes audiobook from cart (without quantity)
+        public void RemoveAudioOrderItem(int orderItemId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "DELETE FROM OrderItem WHERE Id = @Id";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", orderItemId);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
 
         // Checkout method that updates status in Order and OrderItem tables
         public void Checkout(int id,int orderId)

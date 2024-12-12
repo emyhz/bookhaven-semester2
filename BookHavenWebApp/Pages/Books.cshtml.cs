@@ -46,11 +46,13 @@ namespace BookHavenWebApp.Pages
         public int Stock { get; set; }
         public string Filter { get; set; }
 
-        public async Task OnGetAsync(int currentPage = 1, string filter = "")
+        public async Task OnGetAsync(int currentPage = 1, string filter = "", string title = "", string author = "")
         {
 
             int pageSize = 16;
             Filter = filter;
+            Title = title;
+            Author = author;
             var books = _bookManager.GetAllBooks();
 
 
@@ -83,7 +85,11 @@ namespace BookHavenWebApp.Pages
                 books = filteredBooks;
             }
 
-
+            // Apply search
+            if (!string.IsNullOrEmpty(Title) || !string.IsNullOrEmpty(Author))
+            {
+                books = _bookManager.SearchBook(Title, Author);
+            }
 
 
             // Apply discounts if the user is logged in

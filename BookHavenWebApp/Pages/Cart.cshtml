@@ -47,8 +47,12 @@
                         else
                         {
                             <!-- Display link for audiobooks -->
-                            <div class="p-2">
+                            <div class="p-2 d-flex justify-content-between align-items-center">
                                 <span class="text-muted">Audiobook link will be available at checkout.</span>
+                                <form method="post" asp-page-handler="RemoveItem">
+                                    <input type="hidden" name="orderItemId" value="@orderItem.Id" />
+                                    <button class="btn btn-outline-danger btn-sm">Remove</button>
+                                </form>
                             </div>
                         }
                     </div>

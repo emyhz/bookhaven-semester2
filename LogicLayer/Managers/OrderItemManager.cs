@@ -115,5 +115,10 @@ namespace LogicLayer.Managers
         {
             _orderItemDb.Checkout(orderId, orderItemId);
         }
+
+        public void RemoveAudioItemFromCart(int orderItemId)
+        {
+            _orderItemDb.RemoveAudioOrderItem(orderItemId);
+        }
     }
 }

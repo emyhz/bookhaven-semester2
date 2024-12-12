@@ -15,5 +15,6 @@ namespace DataAccessLayer.Interfaces
         public void IncreaseQuantity(int orderItemId);
         public void DecreaseQuantity(int orderItemId);
         public void Checkout(int id,int orderId);
+        void RemoveAudioOrderItem(int orderItemId);
     }
 }
