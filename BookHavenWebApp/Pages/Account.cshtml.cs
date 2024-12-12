@@ -101,5 +101,24 @@ namespace BookHavenWebApp.Pages
             TempData["ErrorMessage"] = "Account not found.";
             return RedirectToPage("/Account");
         }
+
+        public IActionResult OnPostEditReview(int reviewId)
+        {
+            return RedirectToPage("/EditReview", new { reviewId = reviewId });
+        }
+        public IActionResult OnPostDeleteReview(int reviewId)
+        {
+            try
+            {
+                _reviewManager.DeleteReview(reviewId);
+                TempData["SuccessMessage"] = "Review deleted successfully!";
+                return RedirectToPage();
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Failed to delete the review: {ex.Message}";
+                return RedirectToPage();
+            }
+        }
     }
 }
