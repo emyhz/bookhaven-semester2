@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Metrics;
+using System.Net;
+using System.Reflection.Emit;
 
 namespace BookHavenWebApp.Pages
 {
@@ -24,6 +27,7 @@ namespace BookHavenWebApp.Pages
         public User user { get; set; }
         public List<Order> orders { get; set; }
         public List<Review> reviews { get; set; }
+        public Order LastUsedAddress { get; set; }
 
         [BindProperty]
         [DataType(DataType.Password)]
@@ -38,6 +42,16 @@ namespace BookHavenWebApp.Pages
         public string ConfirmPassword { get; set; }
 
 
+        [BindProperty]
+        public string Address { get; set; }
+        [BindProperty]
+        public string City { get; set; }
+        [BindProperty]
+        public string Country { get; set; }
+        [BindProperty]
+        public string ZipCode { get; set; }
+
+
         public IActionResult OnGet()
         {
             if (User.Identity.IsAuthenticated)
@@ -45,6 +59,16 @@ namespace BookHavenWebApp.Pages
                 user = _userManager.GetUserByEmail(User.Identity.Name);
                 orders = _orderManager.GetUserOrders(user.Id);
                 reviews = _reviewManager.GetReviewsByUser(user.Id);
+                LastUsedAddress = _orderManager.GetLastUsedAddress(user.Id);
+
+                if (LastUsedAddress != null)
+                {
+                    Address = LastUsedAddress.Address;
+                    City = LastUsedAddress.City;
+                    Country = LastUsedAddress.Country;
+                    ZipCode = LastUsedAddress.ZipCode;
+                }
+
                 return Page();
             }
             else

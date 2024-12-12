@@ -63,7 +63,28 @@
                     <button type="submit" class="btn btn-danger btn-custom">Delete Account</button>
                 </form>
             </div>
+
+            <!-- Manage Address Section -->
+            <div class="border p-3 mb-3">
+                <h6>My Address</h6>
+                @if (Model.LastUsedAddress != null)
+                {
+                    <p><strong>Address:</strong> @Model.LastUsedAddress.Address</p>
+                    <p><strong>City:</strong> @Model.LastUsedAddress.City</p>
+                    <p><strong>Country:</strong> @Model.LastUsedAddress.Country</p>
+                    <p><strong>Zip Code:</strong> @Model.LastUsedAddress.ZipCode</p>
+                }
+                else
+                {
+                    <p class="text-danger">No address available.</p>
+                }
+            </div>
+
         </div>
+
+
+       
+        
 
         <!-- Right Column -->
         <div class="col-md-6">
