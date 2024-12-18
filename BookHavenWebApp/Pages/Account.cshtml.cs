@@ -73,7 +73,8 @@ namespace BookHavenWebApp.Pages
             }
             else
             {
-                return NotFound();
+                //return NotFound();
+                return RedirectToPage("/Login");
             }
         }
         public IActionResult OnPostPasswordChange()

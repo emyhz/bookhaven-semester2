@@ -48,7 +48,7 @@
             flpCustomer.BackColor = Color.White;
             flpCustomer.Location = new Point(426, -1);
             flpCustomer.Name = "flpCustomer";
-            flpCustomer.Size = new Size(1201, 920);
+            flpCustomer.Size = new Size(1201, 867);
             flpCustomer.TabIndex = 0;
             // 
             // pnlClient

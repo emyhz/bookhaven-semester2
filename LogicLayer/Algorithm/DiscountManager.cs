@@ -40,7 +40,7 @@ namespace LogicLayer.Algorithm
             }
             else
             {
-                discountStrategy = new NoDiscount(); // No discount
+                discountStrategy = new NoDiscount();
             }
 
             // Apply the discount strategy to all books

@@ -44,7 +44,7 @@ namespace BookHavenWebApp.Pages
 
                 var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, Email), //id 
+                new Claim(ClaimTypes.Name, Email), 
                 new Claim(ClaimTypes.Role, user.UserType.ToString())
             };
 

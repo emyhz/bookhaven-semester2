@@ -49,6 +49,7 @@ namespace BookHavenWebApp.Pages
         public async Task OnGetAsync(int currentPage = 1, string filter = "", string title = "", string author = "")
         {
 
+
             int pageSize = 16;
             Filter = filter;
             Title = title;

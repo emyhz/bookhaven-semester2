@@ -45,7 +45,7 @@ namespace BookHavenDesktop.Forms.MainPages
                     Author = book.Author,
                     Sales = book.Sales
                 };
-                
+
 
                 flpBestSellerBooks.Controls.Add(bestSellerBooks);
             }
@@ -137,6 +137,11 @@ namespace BookHavenDesktop.Forms.MainPages
                     previousBtn.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
                 }
             }
+        }
+
+        private void btnStatistics_Click(object sender, EventArgs e)
+        {
+            OpenChildForms(new Statistics(), sender);
         }
     }
 }

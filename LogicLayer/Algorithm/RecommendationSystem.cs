@@ -27,7 +27,7 @@ namespace LogicLayer.Algorithm
             List<User> usersBoughtOrders = new List<User>();
             foreach (Order order in bookOrders)
             {
-                usersBoughtOrders.Add(order.User); //add 
+                usersBoughtOrders.Add(order.User); //add
             }
 
             // Get all orders placed by these users

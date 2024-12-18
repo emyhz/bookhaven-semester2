@@ -1,6 +1,35 @@
 ﻿@page "{id}"
 @model BookHavenWebApp.Pages.BookDetailsModel
 @{
+    ViewData["Title"] = "Product Details";
+
+    //get the cookie
+    var recentlyViewed = Request.Cookies["RecentlyViewed"];
+
+    List<string> bookList;
+    if(string.IsNullOrEmpty(recentlyViewed))
+    {
+        bookList = new List<string>
+        {
+          Model.Id.ToString()
+        };
+    }
+    else
+    {
+        bookList = recentlyViewed.Split(',').ToList();
+        if(!bookList.Contains(Model.Id.ToString()))
+        {
+            bookList.Add(Model.Id.ToString());
+            if(bookList.Count > 5)
+            {
+                bookList.RemoveAt(0);
+            }
+        }
+    }
+
+    //update the cookie
+
+
 }
 
 <div class="container align-items-stretch mt-5 p-5 px-sm-3 px-md-2 px-lg-5">
@@ -26,7 +55,22 @@
             <p><strong>Published on:</strong> @Model.PublishDate.ToString("dd MMMM yyyy")</p>
             <p><strong>Genre:</strong> @Model.Genre</p>
             <p><strong>Language:</strong> @Model.Language</p>
-            <h2 class="mb-0">€@Model.Price</h2>
+            @if (Model.DiscountPrice < Model.Price)
+            {
+                <h2 class="mb-0">
+                    <span class="text-danger text-decoration-line-through" style="font-size: 1.5rem; font-weight: 400;">
+                        €@Model.Price
+                    </span>
+                    <span class="fw-bold text-success" style="font-size: 2rem; font-weight: 700; margin-left: 10px;">
+                        €@Model.DiscountPrice
+                    </span>
+                </h2>
+            }
+            else
+            {
+                <h2 class="mb-0 fw-bold">€@Model.Price</h2>
+            }
+
 
             <!-- Add to Cart Button -->
             <div class="row align-items-center">

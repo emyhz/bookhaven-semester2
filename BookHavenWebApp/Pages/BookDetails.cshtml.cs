@@ -14,13 +14,15 @@ namespace BookHavenWebApp.Pages
         private readonly OrderItemManager _orderItemManager;
         private readonly ReviewManager _reviewManager;
         private readonly RecommendationSystem _recommendationSystem;
-        public BookDetailsModel(BookManager bookManager, UserManager userManager, OrderItemManager orderItemManager, ReviewManager reviewManager, RecommendationSystem recommendationSystem)
+        private readonly DiscountManager _discountManager;
+        public BookDetailsModel(BookManager bookManager, UserManager userManager, OrderItemManager orderItemManager, ReviewManager reviewManager, RecommendationSystem recommendationSystem, DiscountManager discountManager)
         {
             _bookManager = bookManager;
             _userManager = userManager;
             _orderItemManager = orderItemManager;
             _reviewManager = reviewManager;
             _recommendationSystem = recommendationSystem;
+            _discountManager = discountManager;
         }
         //properties to hold book details
         public int Id { get; set; }
@@ -29,6 +31,7 @@ namespace BookHavenWebApp.Pages
         public long ISBN { get; set; }
         public DateTime PublishDate { get; set; }
         public decimal Price { get; set; }
+        public decimal DiscountPrice { get; set; }
         public Genre Genre { get; set; }
         public string Language { get; set; }
         public string ImagePath { get; set; }
@@ -55,13 +58,21 @@ namespace BookHavenWebApp.Pages
 
         public IActionResult OnGet(int id)
         {
-            //Books = _bookManager.GetAllBooks();
+
             Reviews = _reviewManager.GetReviewsForBook(id);
 
             //get similar bought books
             SimilarBoughtBooks = _recommendationSystem.GetFrequentlyBoughtBooks(id, 7);
 
             Book book = _bookManager.GetBookById(id);
+
+            // Apply discounts if the user is logged in
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = _userManager.GetUserByEmail(User.Identity.Name);
+                _discountManager.ApplyDiscountForInactiveUsers(user.Id, new List<Book> { book });
+            }
+
 
             //assign book details to properties
             Id = book.Id;
@@ -70,6 +81,7 @@ namespace BookHavenWebApp.Pages
             ISBN = book.ISBN1;
             PublishDate = book.PublishYear;
             Price = book.Price;
+            DiscountPrice = book.DiscountPrice;
             Genre = book.Genre;
             Language = book.Language;
             ImagePath = book.ImagePath;

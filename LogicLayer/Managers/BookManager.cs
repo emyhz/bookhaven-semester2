@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer;
 using DataAccessLayer.Interfaces;
+using LogicLayer.DesignPattern;
 using LogicLayer.EntityClasses;
 using LogicLayer.Enums;
 
@@ -110,7 +111,10 @@ namespace LogicLayer.Managers
                         continue; // Skip if it's neither AudioBook nor PhysicalBook
                     }
 
+
+                    book.SetDiscountStrategy(new NoDiscount());
                     allBooks.Add(book);
+
                 }
             }
 
@@ -258,6 +262,8 @@ namespace LogicLayer.Managers
                         pages: Convert.ToInt32(row["Pages"]),
                         coverType: row["CoverType"].ToString()
                     );
+
+                    book.SetDiscountStrategy(new NoDiscount());
                 }
             }
 

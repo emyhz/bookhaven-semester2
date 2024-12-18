@@ -57,7 +57,7 @@
             flpProducts.Controls.Add(cmbGenre);
             flpProducts.Location = new Point(423, -2);
             flpProducts.Name = "flpProducts";
-            flpProducts.Size = new Size(1201, 922);
+            flpProducts.Size = new Size(1201, 880);
             flpProducts.TabIndex = 1;
             // 
             // label3

@@ -1,4 +1,5 @@
-﻿using LogicLayer.Enums;
+﻿using LogicLayer.DesignPattern;
+using LogicLayer.Enums;
 using LogicLayer.Interfaces;
 using LogicLayer.Managers;
 using System;
@@ -41,6 +42,8 @@ namespace LogicLayer.EntityClasses
             this.imagePath = imagePath;
             this.stock = stock;
             this.sales = sales;
+
+            this.discountStrategy = new NoDiscount();
         }
 
         public Book(int id, string title, string author, decimal price, string imagePath, int sales)
@@ -51,6 +54,8 @@ namespace LogicLayer.EntityClasses
             this.price = price;
             this.imagePath = imagePath;
             this.sales = sales;
+            this.discountStrategy = new NoDiscount();
+
         }
 
         //properties
@@ -78,6 +83,8 @@ namespace LogicLayer.EntityClasses
             this.discountStrategy = strategy;
             RecalculateDiscountedPrice();
         }
+
+
 
         private void RecalculateDiscountedPrice()
         {

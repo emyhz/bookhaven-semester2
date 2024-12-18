@@ -46,6 +46,7 @@
             lblHome = new Label();
             lblBestSeller = new Label();
             flpBestSellerBooks = new FlowLayoutPanel();
+            btnStatistics = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             flpMainPage.SuspendLayout();
@@ -110,6 +111,7 @@
             flpMainPage.Controls.Add(btnEmployees);
             flpMainPage.Controls.Add(btnClients);
             flpMainPage.Controls.Add(btnMyAccount);
+            flpMainPage.Controls.Add(btnStatistics);
             flpMainPage.Location = new Point(0, 110);
             flpMainPage.Name = "flpMainPage";
             flpMainPage.Size = new Size(293, 954);
@@ -290,6 +292,25 @@
             flpBestSellerBooks.Size = new Size(959, 644);
             flpBestSellerBooks.TabIndex = 4;
             // 
+            // btnStatistics
+            // 
+            btnStatistics.FlatAppearance.BorderSize = 0;
+            btnStatistics.FlatStyle = FlatStyle.Flat;
+            btnStatistics.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnStatistics.ForeColor = Color.White;
+            btnStatistics.Image = (Image)resources.GetObject("btnStatistics.Image");
+            btnStatistics.ImageAlign = ContentAlignment.MiddleLeft;
+            btnStatistics.Location = new Point(0, 420);
+            btnStatistics.Margin = new Padding(0);
+            btnStatistics.Name = "btnStatistics";
+            btnStatistics.Size = new Size(290, 70);
+            btnStatistics.TabIndex = 6;
+            btnStatistics.Text = "Statistics";
+            btnStatistics.TextAlign = ContentAlignment.MiddleLeft;
+            btnStatistics.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnStatistics.UseVisualStyleBackColor = true;
+            btnStatistics.Click += btnStatistics_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -331,5 +352,6 @@
         private FlowLayoutPanel flpBestSellerBooks;
         private PictureBox pictureBox2;
         private Panel panel2;
+        private Button btnStatistics;
     }
 }
