@@ -20,7 +20,7 @@
         if(!bookList.Contains(Model.Id.ToString()))
         {
             bookList.Add(Model.Id.ToString());
-            if(bookList.Count > 5)
+            if(bookList.Count > 8)
             {
                 bookList.RemoveAt(0);
             }
@@ -28,7 +28,23 @@
     }
 
     //update the cookie
+    var newCookie = string.Join(",", bookList);
+    Response.Cookies.Append("RecentlyViewed", newCookie, new CookieOptions
+    {
+        Expires = DateTimeOffset.UtcNow.AddDays(1) // Cookie expiration time
+    });
 
+
+    // Retrieve details of recently viewed products excluding the current product
+    var recentlyViewedBooks = Model.Books
+        .Where(v => bookList.Contains(v.Id.ToString()) && v.Id != Model.Id)
+        .OrderByDescending(v => bookList.IndexOf(v.Id.ToString()))
+        .ToList();
+
+
+
+    // Retrieve more vinyls from artist excluding the current product
+    var moreBySameAuthor = Model.Books.Where(v => v.Author == Model.Author && v.Id != Model.Id).ToList();
 
 }
 
@@ -129,17 +145,17 @@
 </div>
 
 <!-- PEOPLE WHO BOUGHT THIS ALSO BOUGHT -->
-@if (Model.SimilarBoughtBooks.Count >=1)
+@if (Model.SimilarBoughtBooks.Count >= 1)
 {
     <div class="container mb-5 px-5">
         <div class="row align-items-center">
             <h3 class="display-7 fw-semibold">Customers Also Bought</h3>
             <p class="fs-6 m-0 mb-2">Discover similar picks</p>
         </div>
-        <div class="row justify-content-center mt-4">
+        <div class="d-flex overflow-auto py-3">
             @foreach (var book in Model.SimilarBoughtBooks)
             {
-                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="me-3 flex-shrink-0" style="width: 200px;">
                     <a href="/BookDetails/@book.Id" class="text-decoration-none">
                         <div class="card border-0 shadow-sm text-center">
                             <img src="@book.ImagePath" class="card-img-top img-fluid mt-3" alt="@book.Title" style="height: 250px; object-fit: contain;" />
@@ -155,3 +171,52 @@
         </div>
     </div>
 }
+
+<!-- RECENTLY VIEWED BOOKS -->
+@if (recentlyViewedBooks.Count >= 1)
+{
+    <div class="container mb-5 px-5">
+        <div class="row align-items-center">
+            <h3 class="display-7 fw-semibold">Recently Viewed Books</h3>
+            <p class="fs-6 m-0 mb-2">Your Recent Glances</p>
+        </div>
+        <div class="d-flex overflow-auto py-3">
+            @foreach (var book in recentlyViewedBooks)
+            {
+                <div class="me-3 flex-shrink-0" style="width: 200px;">
+                    <a href="/BookDetails/@book.Id" class="text-decoration-none">
+                        <div class="card border-0 shadow-sm text-center">
+                            <img src="@book.ImagePath" class="card-img-top img-fluid mt-3" alt="@book.Title" style="height: 250px; object-fit: contain;" />
+                            <div class="card-body">
+                                <h5 class="card-title text-dark">@book.Title</h5>
+                                <p class="card-text text-muted">@book.Author</p>
+                                <p class="card-text text-primary fw-semibold">€@book.Price</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+}
+<style>
+    .d-flex.overflow-auto {
+        scroll-behavior: smooth;
+        scrollbar-width: thin;
+    }
+
+        .d-flex.overflow-auto::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .d-flex.overflow-auto::-webkit-scrollbar-thumb {
+            background-color: #007bff;
+            border-radius: 4px;
+        }
+
+        .d-flex.overflow-auto::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+</style>
+
+
