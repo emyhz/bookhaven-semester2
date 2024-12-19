@@ -1,3 +1,4 @@
+using LogicLayer.Algorithm;
 using LogicLayer.EntityClasses;
 using LogicLayer.Managers;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +13,15 @@ namespace BookHavenWebApp.Pages
         private readonly OrderItemManager _orderItemManager;
         private readonly OrderManager _orderManager;
         private readonly BookManager _bookManager;
+        private readonly DiscountManager _discountManager;
 
-        public CheckoutModel(UserManager userManager, OrderItemManager orderItemManager, OrderManager orderManager, BookManager bookManager)
+        public CheckoutModel(UserManager userManager, OrderItemManager orderItemManager, OrderManager orderManager, BookManager bookManager, DiscountManager discountManager)
         {
             _userManager = userManager;
             _orderItemManager = orderItemManager;
             _orderManager = orderManager;
             _bookManager = bookManager;
+            _discountManager = discountManager;
         }
 
         public User user { get; set; }
@@ -85,8 +88,14 @@ namespace BookHavenWebApp.Pages
 
 
                 OrderItems = _orderItemManager.GetUserCart(user.Id);
-                TotalPrice = CartCalculation.CalculateOrderShipping(OrderItems);
-                //Shipping =
+
+                foreach (var orderItem in OrderItems)
+                {
+                    _discountManager.ApplyDiscountForInactiveUsers(user.Id, new List<Book> { orderItem.Book });
+                }
+
+                TotalPrice = CartCalculation.CalculateOrderTotal(OrderItems);
+                Shipping = CartCalculation.CalculateOrderShipping(OrderItems);
                 TotalCartQuantity = _orderItemManager.GetItemQuantityFromUser(user.Id);
 
                 return Page();
@@ -103,8 +112,15 @@ namespace BookHavenWebApp.Pages
             {
                 user = _userManager.GetUserByEmail(User.Identity.Name);
                 OrderItems = _orderItemManager.GetUserCart(user.Id);
-                //Shipping = 
-                TotalPrice = CartCalculation.CalculateOrderShipping(OrderItems);
+
+                foreach (var orderItem in OrderItems)
+                {
+                    _discountManager.ApplyDiscountForInactiveUsers(user.Id, new List<Book> { orderItem.Book });
+                }
+
+
+                TotalPrice = CartCalculation.CalculateOrderTotal(OrderItems);
+                Shipping = CartCalculation.CalculateOrderShipping(OrderItems);
                 TotalCartQuantity = _orderItemManager.GetItemQuantityFromUser(user.Id);
 
             }

@@ -1,3 +1,4 @@
+using LogicLayer.Algorithm;
 using LogicLayer.EntityClasses;
 using LogicLayer.Managers;
 using Microsoft.AspNetCore.Mvc;
@@ -9,17 +10,22 @@ namespace BookHavenWebApp.Pages
     {
         private UserManager _userManager;
         private OrderItemManager _orderItemManager;
+        private DiscountManager _discountManager;
 
-        public CartModel(UserManager userManager, OrderItemManager orderItemManager)
+        public CartModel(UserManager userManager, OrderItemManager orderItemManager, DiscountManager discountManager)
         {
             _userManager = userManager;
             _orderItemManager = orderItemManager;
+            _discountManager = discountManager;
         }
 
         //properties
         public List<OrderItem> OrderItems { get; set; }
-        public decimal TotalPrice { get; set; }
         public int TotalOrderItems { get; set; }
+
+        public decimal ItemsTotal { get; set; } // Total for items
+        public decimal ShippingTotal { get; set; } // Total for shipping
+
 
 
         public IActionResult OnGet()
@@ -28,8 +34,20 @@ namespace BookHavenWebApp.Pages
             {
                 User user = _userManager.GetUserByEmail(User.Identity.Name);
                 OrderItems = _orderItemManager.GetUserCart(user.Id);
-                TotalPrice = CartCalculation.CalculateOrderTotal(OrderItems);
+
+                foreach (var orderItem in OrderItems)
+                {
+                    _discountManager.ApplyDiscountForInactiveUsers(user.Id, new List<Book> { orderItem.Book });
+                }
+
+
+                // Calculate totals
+                ItemsTotal = CartCalculation.CalculateOrderTotal(OrderItems); // Total price of items
+                ShippingTotal = CartCalculation.CalculateOrderShipping(OrderItems); // Shipping cost
+
+
                 TotalOrderItems = _orderItemManager.GetItemQuantityFromUser(user.Id);
+
 
 
 

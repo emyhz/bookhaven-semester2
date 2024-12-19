@@ -23,7 +23,19 @@
                                 <div class="col-9 col-md-8">
                                     <div class="card-body">
                                         <h5 class="card-title">@orderItem.Book.Title</h5>
-                                        <p class="card-text">Price: €@orderItem.Price</p>
+                                        <!-- Show Discounted Price if applicable -->
+                                        @if (orderItem.Book.DiscountPrice < orderItem.Book.Price)
+                                        {
+                                            <p class="card-text">
+                                                <span class="text-danger text-decoration-line-through">€@orderItem.Book.Price</span>
+                                                <span class="fw-bold text-success">€@orderItem.Book.DiscountPrice</span>
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p class="card-text"><strong>€@orderItem.Book.Price</strong></p>
+                                        }
+
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +74,8 @@
                 <div class="border rounded p-3">
                     <h5 class="fw-bold">Cart Summary</h5>
                     <p>Total Items: @Model.TotalOrderItems</p>
-                    <p>Total Price: €@Model.TotalPrice</p>
+                    <p>Shipping: <strong>€@Model.ShippingTotal</strong></p>
+                    <p>Total price: <strong>€@Model.ItemsTotal</strong></p>
                     <a asp-page="/Checkout" class="btn btn-primary btn-custom">Checkout</a>
                 </div>
             </div>

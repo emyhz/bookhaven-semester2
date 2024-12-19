@@ -31,14 +31,30 @@
                                 </a>
                                 <small class="text-muted">@item.Book.Author</small>
                             </div>
-                            <span class="text-muted">€@item.Price</span>
+                            <!-- Display Discounted Price if applicable -->
+                            @if (item.Book.DiscountPrice < item.Book.Price)
+                            {
+                                <span>
+                                    <span class="text-danger text-decoration-line-through">€@item.Book.Price</span>
+                                    <span class="fw-bold text-success ms-2">€@item.Book.DiscountPrice</span>
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">€@item.Book.Price</span>
+                            }
                         </li>
                     }
 
                     <li class="list-group-item d-flex justify-content-between">
+                        <span>Shipping cost</span>
+                        <strong>€@Model.Shipping</strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
                         <span>Total Price</span>
                         <strong>€@Model.TotalPrice</strong>
                     </li>
+                    
                 </ul>
             </div>
 

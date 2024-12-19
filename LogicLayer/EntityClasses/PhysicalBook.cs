@@ -34,8 +34,8 @@ namespace LogicLayer.EntityClasses
         public override decimal CalculateFinalPrice()
         {
             const decimal shippingRate = 0.10m; // 10% shipping
-            decimal shippingCost = Math.Round(Price * shippingRate, 2); // Round to 2 decimal places
-            return Math.Round(Price + shippingCost, 2); // Return rounded final price
+            decimal shippingCost = Math.Round(DiscountPrice * shippingRate, 2); // Round to 2 decimal places
+            return Math.Round(DiscountPrice + shippingCost, 2); // Return rounded final price
         }
     }
 }

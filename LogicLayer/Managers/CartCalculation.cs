@@ -11,26 +11,40 @@ namespace LogicLayer.Managers
     {
         public static decimal CalculateOrderTotal(List<OrderItem> orderItems)
         {
+            
             decimal totalPrice = 0;
+
             foreach (OrderItem orderItem in orderItems)
             {
-                totalPrice += (orderItem.Price);
+                decimal itemFinalPrice = orderItem.Book.CalculateFinalPrice();
+                totalPrice += itemFinalPrice * orderItem.Quantity;
             }
 
-            return totalPrice;
+            return Math.Round(totalPrice, 2);
+
         }
         public static decimal CalculateOrderShipping(List<OrderItem> orderItems)
         {
-            decimal totalPrice = 0;
+
+            decimal totalShippingCost = 0;
 
             foreach (OrderItem orderItem in orderItems)
             {
-                decimal bookFinalPrice = orderItem.Book.CalculateFinalPrice();
-
-                totalPrice += bookFinalPrice * orderItem.Quantity;
+                if (orderItem.Book is PhysicalBook physicalBook)
+                {
+                    decimal shippingCost = physicalBook.CalculateFinalPrice() - physicalBook.DiscountPrice;
+                    totalShippingCost += shippingCost * orderItem.Quantity;
+                }
             }
 
-            return totalPrice;
+            return Math.Round(totalShippingCost, 2);
+        }
+        public static decimal CalculateGrandTotal(List<OrderItem> orderItems)
+        {
+            decimal itemsTotal = CalculateOrderTotal(orderItems);
+            decimal shippingTotal = CalculateOrderShipping(orderItems);
+
+            return Math.Round(itemsTotal + shippingTotal, 2);
         }
     }
 }

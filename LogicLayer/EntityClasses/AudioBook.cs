@@ -31,7 +31,7 @@ namespace LogicLayer.EntityClasses
 
         public override decimal CalculateFinalPrice()
         {
-            return Price;
+            return DiscountPrice;
         }
     }
 }
