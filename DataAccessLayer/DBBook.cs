@@ -72,10 +72,15 @@ namespace DataAccessLayer
 
                     transaction.Commit();
                 }
-                catch (Exception ex)
+                catch (SqlException)
                 {
                     transaction.Rollback();
-                    throw new Exception("An error occurred while adding the book: " + ex.Message);
+                    throw new Exception("Failed to connect to the database. Please check your connection.");
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    throw new Exception("An unexpected error occurred while adding the book.");
                 }
             }
 
@@ -271,11 +276,15 @@ namespace DataAccessLayer
                     // Commit transaction
                     transaction.Commit();
                 }
+                catch (SqlException ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Failed to connect to the database while updating the book. Please check your connection.", ex);
+                }
                 catch (Exception ex)
                 {
-                    // Rollback transaction if there is an error
                     transaction.Rollback();
-                    throw new Exception("An error occurred while updating the book: " + ex.Message);
+                    throw new Exception("An error occurred while updating the book: " + ex.Message, ex);
                 }
                 finally
                 {
@@ -340,14 +349,22 @@ namespace DataAccessLayer
             {
                 connection.Open();
 
-                // Select basic details of books for summary display, include the book type.
+                // Query to fetch book summary details without explicitly using BookType
                 string query = @"
-            SELECT b.Id, b.Title, b.Author, b.Price, b.Stock, b.Sales, b.ImagePath, 
-                   CASE 
-                       WHEN pb.Id IS NOT NULL THEN 'PhysicalBook' 
-                       WHEN ab.Id IS NOT NULL THEN 'AudioBook' 
-                       ELSE 'UnknownBookType' 
-                   END AS BookType
+            SELECT 
+                b.Id, 
+                b.Title, 
+                b.Author, 
+                b.Price, 
+                b.Stock, 
+                b.Sales, 
+                b.ImagePath,
+                pb.Dimensions, 
+                pb.Pages, 
+                pb.CoverType,
+                ab.Length AS AudioLength, 
+                ab.FileSize, 
+                ab.Link
             FROM [Book] b
             LEFT JOIN [PhysicalBook] pb ON b.Id = pb.Id
             LEFT JOIN [AudioBook] ab ON b.Id = ab.Id";
@@ -369,23 +386,24 @@ namespace DataAccessLayer
                 }
             }
         }
-        
+
+
         public DataTable GetBookDetails(int id)
         {
             DataTable dataTable = new DataTable();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                // SQL query to fetch all details of a specific book, including the book type and its specific attributes.
+                // SQL query to fetch all details of a specific book, including attributes for both AudioBook and PhysicalBook.
                 string query = @"
-            SELECT b.*, 
-                   pb.Dimensions, pb.Pages, pb.CoverType, 
-                   ab.Length AS AudioLength, ab.FileSize, ab.Link,
-                   CASE 
-                       WHEN pb.Id IS NOT NULL THEN 'PhysicalBook' 
-                       WHEN ab.Id IS NOT NULL THEN 'AudioBook' 
-                       ELSE 'UnknownBookType' 
-                   END AS BookType
+            SELECT 
+                b.*,
+                pb.Dimensions, 
+                pb.Pages, 
+                pb.CoverType,
+                ab.Length AS AudioLength, 
+                ab.FileSize, 
+                ab.Link
             FROM [Book] b
             LEFT JOIN [PhysicalBook] pb ON b.Id = pb.Id
             LEFT JOIN [AudioBook] ab ON b.Id = ab.Id
@@ -404,6 +422,7 @@ namespace DataAccessLayer
 
             return dataTable;
         }
+
         public void BuyBook(int bookId, int quantity)
         {
             if (quantity <= 0)
@@ -507,6 +526,46 @@ namespace DataAccessLayer
 
             }
         }
+
+        public DataTable GetSalesByBookType()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = @"
+        SELECT 
+            b.Id,
+            b.Title,
+            b.Author,
+            b.Sales,
+            ab.Length AS AudioLength,
+            ab.FileSize,
+            pb.Dimensions,
+            pb.CoverType
+        FROM [Book] b
+        LEFT JOIN [AudioBook] ab ON b.Id = ab.Id
+        LEFT JOIN [PhysicalBook] pb ON b.Id = pb.Id;";
+
+                SqlCommand cmd = new SqlCommand(query, connection);
+
+                try
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        sda.Fill(dt);
+                        return dt;
+                    }
+                }
+                catch
+                {
+                    throw new Exception("An error occurred while fetching sales data by book type.");
+                }
+            }
+        }
+
+
     }
 }
 

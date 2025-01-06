@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Interfaces;
+﻿using DataAccessLayer.Exceptions;
+using DataAccessLayer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,20 +17,27 @@ namespace DataAccessLayer
 
         public void AddUser(string firstName, string lastName, string email, string password, string userType)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "INSERT INTO [User] (FirstName, LastName, Email, Password, UserType, CreatedDate) VALUES (@FirstName, @LastName, @Email, @Password, @UserType, @CreatedDate)";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.Parameters.AddWithValue("@FirstName", firstName);
-                    command.Parameters.AddWithValue("@LastName", lastName);
-                    command.Parameters.AddWithValue("@Email", email);
-                    command.Parameters.AddWithValue("@Password", password);
-                    command.Parameters.AddWithValue("@UserType", userType);
-                    command.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
-                    command.ExecuteNonQuery();
+                    connection.Open();
+                    string query = "INSERT INTO [User] (FirstName, LastName, Email, Password, UserType, CreatedDate) VALUES (@FirstName, @LastName, @Email, @Password, @UserType, @CreatedDate)";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@FirstName", firstName);
+                        command.Parameters.AddWithValue("@LastName", lastName);
+                        command.Parameters.AddWithValue("@Email", email);
+                        command.Parameters.AddWithValue("@Password", password);
+                        command.Parameters.AddWithValue("@UserType", userType);
+                        command.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (SqlException ex)
+            {
+                throw new DatabaseExceptions.DatabaseConnectionException("Failed to connect to the database.", ex);
             }
         }
 
@@ -52,142 +60,205 @@ namespace DataAccessLayer
                     }
                 }
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
-                HandleDatabaseException(ex);
-                return null; 
+                throw new DatabaseExceptions.DatabaseConnectionException("Failed to connect to the database.", ex);
             }
+            
         }
 
         public DataTable GetUsers(string userType)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "SELECT ID, FirstName, LastName, Email, CreatedDate FROM [User] WHERE UserType = @UserType";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.Parameters.AddWithValue("@UserType", userType);
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    connection.Open();
+                    string query = "SELECT ID, FirstName, LastName, Email, CreatedDate FROM [User] WHERE UserType = @UserType";
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        DataTable table = new DataTable();
-                        adapter.Fill(table);
-                        return table;
+                        command.Parameters.AddWithValue("@UserType", userType);
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                        {
+                            DataTable table = new DataTable();
+                            adapter.Fill(table);
+                            return table;
+                        }
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                throw new DatabaseExceptions.DatabaseConnectionException("Failed to connect to the database.", ex);
+            }
+            
         }
-        
+
         public DataTable GetUserByEmail(string email)
         {
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "SELECT * FROM [User] WHERE Email = @Email";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.Parameters.AddWithValue("@Email", email);
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    connection.Open();
+                    string query = "SELECT * FROM [User] WHERE Email = @Email";
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        DataTable table = new DataTable();
-                        adapter.Fill(table);
-                        return table;
+                        command.Parameters.AddWithValue("@Email", email);
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                        {
+                            DataTable table = new DataTable();
+                            adapter.Fill(table);
+                            return table;
+                        }
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                throw new DatabaseExceptions.DatabaseConnectionException("Failed to connect to the database.", ex);
+            }
+            
         }
 
         public DataTable GetUserById(int id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "SELECT * FROM [User] WHERE Id = @Id";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.Parameters.AddWithValue("@Id", id);
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    connection.Open();
+                    string query = "SELECT * FROM [User] WHERE Id = @Id";
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        DataTable table = new DataTable();
-                        adapter.Fill(table);
-                        return table;
+                        command.Parameters.AddWithValue("@Id", id);
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                        {
+                            DataTable table = new DataTable();
+                            adapter.Fill(table);
+                            return table;
+                        }
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                throw new DatabaseExceptions.DatabaseConnectionException("Failed to connect to the database.", ex);
+            }
+            
         }
-        
+
         public bool EmailExists(string email)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "SELECT COUNT(*) FROM [User] WHERE Email = @Email";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.Parameters.AddWithValue("@Email", email);
-                    int count = (int)command.ExecuteScalar();
-                    return count > 0;
+                    connection.Open();
+                    string query = "SELECT COUNT(*) FROM [User] WHERE Email = @Email";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Email", email);
+                        int count = (int)command.ExecuteScalar();
+                        return count > 0;
+                    }
                 }
             }
+            catch (SqlException ex)
+            {
+                throw new DatabaseExceptions.DatabaseConnectionException("Failed to connect to the database.", ex);
+            }
+            
         }
 
         public void UpdateUserType(int id, string userType)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "UPDATE [User] SET UserType = @UserType WHERE Id = @Id";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.Parameters.AddWithValue("@UserType", userType);
-                    command.Parameters.AddWithValue("@Id", id);
-                    command.ExecuteNonQuery();
+                    connection.Open();
+                    string query = "UPDATE [User] SET UserType = @UserType WHERE Id = @Id";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserType", userType);
+                        command.Parameters.AddWithValue("@Id", id);
+                        command.ExecuteNonQuery();
+                    }
                 }
             }
+            catch (SqlException ex)
+            {
+                throw new DatabaseExceptions.DatabaseConnectionException("Failed to connect to the database.", ex);
+            }
+            
         }
-
 
         public void DeleteUser(string email)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "DELETE FROM [User] WHERE Email = @Email";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.Parameters.AddWithValue("@Email", email);
-                    command.ExecuteNonQuery();
+                    connection.Open();
+                    string query = "DELETE FROM [User] WHERE Email = @Email";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Email", email);
+                        command.ExecuteNonQuery();
+                    }
                 }
             }
-        }
-        public void UpdatePassword(string email, string NewPass)
-        {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            catch (SqlException ex)
             {
-                connection.Open();
-                string query = "UPDATE [User] SET Password = @Password WHERE Email = @Email";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                throw new DatabaseExceptions.DatabaseConnectionException("Failed to connect to the database.", ex);
+            }
+           
+        }
+
+        public void UpdatePassword(string email, string newPass)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.Parameters.AddWithValue("@Password", NewPass);
-                    command.Parameters.AddWithValue("@Email", email);
-                    command.ExecuteNonQuery();
+                    connection.Open();
+                    string query = "UPDATE [User] SET Password = @Password WHERE Email = @Email";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Password", newPass);
+                        command.Parameters.AddWithValue("@Email", email);
+                        command.ExecuteNonQuery();
+                    }
                 }
             }
-        }
-        public void UpdateDetails(string email, string FirstName, string LastName)
-        {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            catch (SqlException ex)
             {
-                connection.Open();
-                string query = "UPDATE [User] SET FirstName = @FirstName, LastName = @LastName WHERE Email = @Email";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                throw new DatabaseExceptions.DatabaseConnectionException("Failed to connect to the database.", ex);
+            }
+        
+        }
+
+        public void UpdateDetails(string email, string firstName, string lastName)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.Parameters.AddWithValue("@FirstName", FirstName);
-                    command.Parameters.AddWithValue("@LastName", LastName);
-                    command.Parameters.AddWithValue("@Email", email);
-                    command.ExecuteNonQuery();
+                    connection.Open();
+                    string query = "UPDATE [User] SET FirstName = @FirstName, LastName = @LastName WHERE Email = @Email";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@FirstName", firstName);
+                        command.Parameters.AddWithValue("@LastName", lastName);
+                        command.Parameters.AddWithValue("@Email", email);
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (SqlException ex)
+            {
+                throw new DatabaseExceptions.DatabaseConnectionException("Failed to connect to the database.", ex);
             }
         }
     }

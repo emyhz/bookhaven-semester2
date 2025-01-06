@@ -60,21 +60,64 @@ namespace BookHavenUnitTests
             Assert.IsFalse(_userDbMock.EmailExists("jane.smith@example.com"), "The user should be removed from the mock database.");
         }
 
-        // Example test case: Updating a user's type
+        
         [TestMethod]
-        public void UpdateUserType_ShouldChangeUserTypeInMockDb()
+        public void UpdateUserType_ShouldChangeUserTypeToEmployee_WhenLoggedInUserIsAdmin()
         {
             // Arrange
+            // Add a PENDING_EMPLOYEE user
             _userDbMock.AddUser("Sam", "Adams", "sam.adams@example.com", "password123", UserType.PENDING_EMPLOYEE.ToString());
 
+            // Add an ADMIN user to act as the logged-in user
+            _userDbMock.AddUser("Admin", "User", "admin@example.com", "adminpassword", UserType.ADMIN.ToString());
+
             // Act
-            _userManager.UpdateToEmployee(1, "admin@example.com"); 
+            _userManager.UpdateToEmployee(1, "admin@example.com");
 
             // Assert
-            var user = _userManager.GetUserByEmail("sam.adams@example.com");
-            Assert.IsNotNull(user, "User should not be null.");
-            Assert.AreEqual(UserType.EMPLOYEE, user.UserType, "User type should be updated to EMPLOYEE.");
+            var updatedUser = _userManager.GetUserByEmail("sam.adams@example.com");
+            Assert.IsNotNull(updatedUser, "User should not be null.");
+            Assert.AreEqual(UserType.EMPLOYEE, updatedUser.UserType, "User type should be updated to EMPLOYEE.");
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "You do not have permission to do this")]
+        public void UpdateUserType_ShouldThrowException_WhenLoggedInUserIsNotAdmin()
+        {
+            // Arrange
+            // Add a PENDING_EMPLOYEE user
+            _userDbMock.AddUser("Sam", "Adams", "sam.adams@example.com", "password123", UserType.PENDING_EMPLOYEE.ToString());
+
+            // Add a non-ADMIN user to act as the logged-in user
+            _userDbMock.AddUser("John", "Doe", "john.doe@example.com", "userpassword", UserType.EMPLOYEE.ToString());
+
+            // Act
+            _userManager.UpdateToEmployee(1, "john.doe@example.com");
+
+            // Assert handled by ExpectedException
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "User not found")]
+        public void UpdateUserType_ShouldThrowException_WhenUserToBeUpdatedDoesNotExist()
+        {
+            // Arrange
+            // Add an ADMIN user to act as the logged-in user
+            _userDbMock.AddUser("Admin", "User", "admin@example.com", "adminpassword", UserType.ADMIN.ToString());
+
+            // Act
+            _userManager.UpdateToEmployee(99, "admin@example.com"); // Non-existent user ID
+
+            // Assert handled by ExpectedException
+        }
+
+
+
+
+
+
+
+
 
         // Example test case: Authenticating a user
         [TestMethod]

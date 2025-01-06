@@ -78,49 +78,49 @@ namespace BookHavenDesktop.Forms.PopUpForms
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            string title = txtTitleEdit.Text;
-            string author = txtAuthorEdit.Text;
-            long isbn = long.Parse(txtISBNEdit.Text);
-            DateTime publishYear = dtpPublishEdit.Value;
-            decimal price = numPriceEdit.Value;
-            string genre = cmbGenreEdit.SelectedItem.ToString();
-            string language = lblLanguageEdit.Text;
-            string imagePath = pbBookDetails.ImageLocation;
-            int stock = (int)numStockEdit.Value;
-
-            // Additional fields for specific book types
-            TimeSpan? audioLength = null;
-            string fileSize = null;
-            string link = null;
-            string dimensions = null;
-            int? pages = null;
-            string coverType = null;
-
-            string bookType = book is AudioBook ? "AudioBook" : "PhysicalBook";
-
-            if (book is AudioBook)
+            try
             {
-                audioLength = TimeSpan.Parse(txtAudioLengthEdit.Text);
-                fileSize = txtFileSizeEdit.Text;
-                link = txtDummyLink.Text;
+                string title = txtTitleEdit.Text;
+                string author = txtAuthorEdit.Text;
+                long isbn = long.Parse(txtISBNEdit.Text);
+                DateTime publishYear = dtpPublishEdit.Value;
+                decimal price = numPriceEdit.Value;
+                string genre = cmbGenreEdit.SelectedItem.ToString();
+                string language = lblLanguageEdit.Text;
+                string imagePath = pbBookDetails.ImageLocation;
+                int stock = (int)numStockEdit.Value;
 
+                TimeSpan? audioLength = null;
+                string fileSize = null;
+                string link = null;
+                string dimensions = null;
+                int? pages = null;
+                string coverType = null;
+
+                if (book is AudioBook)
+                {
+                    audioLength = TimeSpan.Parse(txtAudioLengthEdit.Text);
+                    fileSize = txtFileSizeEdit.Text;
+                    link = txtDummyLink.Text;
+                }
+                else if (book is PhysicalBook)
+                {
+                    dimensions = txtDimensionsEdit.Text;
+                    pages = (int)numPagesEdit.Value;
+                    coverType = txtCovertypeEdit.Text;
+                }
+
+                DialogResult result = MessageBox.Show("Are you sure you would like to save these changes?", "Saving Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                if (result == DialogResult.Yes)
+                {
+                    _bookManager.UpdateBook(book.Id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, audioLength, fileSize, link, dimensions, pages, coverType);
+                    MessageBox.Show("Book has been successfully updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                }
             }
-            else if (book is PhysicalBook)
+            catch (Exception ex)
             {
-                dimensions = txtDimensionsEdit.Text;
-                pages = (int)numPagesEdit.Value;
-                coverType = txtCovertypeEdit.Text;
-            }
-
-            DialogResult result = MessageBox.Show("Are you sure you would like to save these changes?", "Saving Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
-            if (result == DialogResult.Yes)
-            {
-
-                _bookManager.UpdateBook(book.Id, title, author, isbn, publishYear, price, genre, language, imagePath, stock, audioLength, fileSize, link, dimensions, pages, coverType);
-
-
-                MessageBox.Show("Book has been successfully updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+                MessageBox.Show($"An error occurred while updating the book: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

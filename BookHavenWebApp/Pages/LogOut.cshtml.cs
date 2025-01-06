@@ -9,6 +9,9 @@ namespace BookHavenWebApp.Pages
     {
         public IActionResult OnGet()
         {
+            Response.Cookies.Delete("RecentlyViewed");
+
+
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToPage("/Index");
         }

@@ -57,10 +57,11 @@
             btnSelectImg = new Button();
             btnAddAudioBook = new Button();
             pnlAudio = new Panel();
+            txtDummyLink = new TextBox();
+            lblDummyLink = new Label();
             pbMoney = new PictureBox();
             btnClose = new Button();
-            lblDummyLink = new Label();
-            txtDummyLink = new TextBox();
+            lblAudioFormat = new Label();
             ((System.ComponentModel.ISupportInitialize)pbAudio).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numStock).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numPrice).BeginInit();
@@ -378,6 +379,7 @@
             // pnlAudio
             // 
             pnlAudio.BackColor = Color.White;
+            pnlAudio.Controls.Add(lblAudioFormat);
             pnlAudio.Controls.Add(txtDummyLink);
             pnlAudio.Controls.Add(lblDummyLink);
             pnlAudio.Controls.Add(pbMoney);
@@ -410,6 +412,28 @@
             pnlAudio.Size = new Size(1064, 715);
             pnlAudio.TabIndex = 0;
             // 
+            // txtDummyLink
+            // 
+            txtDummyLink.BackColor = Color.WhiteSmoke;
+            txtDummyLink.BorderStyle = BorderStyle.None;
+            txtDummyLink.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtDummyLink.Location = new Point(663, 551);
+            txtDummyLink.Multiline = true;
+            txtDummyLink.Name = "txtDummyLink";
+            txtDummyLink.Size = new Size(341, 41);
+            txtDummyLink.TabIndex = 93;
+            // 
+            // lblDummyLink
+            // 
+            lblDummyLink.AutoSize = true;
+            lblDummyLink.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblDummyLink.ForeColor = Color.Black;
+            lblDummyLink.Location = new Point(515, 564);
+            lblDummyLink.Name = "lblDummyLink";
+            lblDummyLink.Size = new Size(142, 28);
+            lblDummyLink.TabIndex = 92;
+            lblDummyLink.Text = "Download link:";
+            // 
             // pbMoney
             // 
             pbMoney.Image = (Image)resources.GetObject("pbMoney.Image");
@@ -436,27 +460,16 @@
             btnClose.UseVisualStyleBackColor = false;
             btnClose.Click += btnClose_Click;
             // 
-            // lblDummyLink
+            // lblAudioFormat
             // 
-            lblDummyLink.AutoSize = true;
-            lblDummyLink.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblDummyLink.ForeColor = Color.Black;
-            lblDummyLink.Location = new Point(515, 564);
-            lblDummyLink.Name = "lblDummyLink";
-            lblDummyLink.Size = new Size(142, 28);
-            lblDummyLink.TabIndex = 92;
-            lblDummyLink.Text = "Download link:";
-            // 
-            // txtDummyLink
-            // 
-            txtDummyLink.BackColor = Color.WhiteSmoke;
-            txtDummyLink.BorderStyle = BorderStyle.None;
-            txtDummyLink.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtDummyLink.Location = new Point(663, 551);
-            txtDummyLink.Multiline = true;
-            txtDummyLink.Name = "txtDummyLink";
-            txtDummyLink.Size = new Size(341, 41);
-            txtDummyLink.TabIndex = 93;
+            lblAudioFormat.AutoSize = true;
+            lblAudioFormat.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblAudioFormat.ForeColor = Color.Tomato;
+            lblAudioFormat.Location = new Point(663, 489);
+            lblAudioFormat.Name = "lblAudioFormat";
+            lblAudioFormat.Size = new Size(86, 23);
+            lblAudioFormat.TabIndex = 94;
+            lblAudioFormat.Text = "HH:mm:ss";
             // 
             // AddAudio
             // 
@@ -524,5 +537,6 @@
         private Label label2;
         private TextBox txtDummyLink;
         private Label lblDummyLink;
+        private Label lblAudioFormat;
     }
 }

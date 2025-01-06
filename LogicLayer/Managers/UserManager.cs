@@ -11,6 +11,7 @@ using static System.Reflection.Metadata.BlobBuilder;
 using DataAccessLayer.Interfaces;
 using LogicLayer.StringManipulation;
 using LogicLayer.Exceptions;
+using DataAccessLayer.Exceptions;
 
 namespace LogicLayer.Managers
 {
@@ -29,10 +30,18 @@ namespace LogicLayer.Managers
 
         public void AddUser(string firstName, string lastName, string email, string password, UserType userType)
         {
-            string userTypeString = userType.ToString();
-            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+            try
+            {
+                string userTypeString = userType.ToString();
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
 
-            _dbuser.AddUser(UserFormatter.CapitalizeFirstLetter(firstName), UserFormatter.CapitalizeFirstLetter(lastName), email.ToLower(), hashedPassword, userTypeString);
+                _dbuser.AddUser(UserFormatter.CapitalizeFirstLetter(firstName), UserFormatter.CapitalizeFirstLetter(lastName), email.ToLower(), hashedPassword, userTypeString);
+            }
+            catch (DatabaseExceptions.DatabaseConnectionException ex)
+            {
+                throw new ApplicationException("An unexpected error while adding the user. Please try again later.", ex);
+            }
+            
         }
 
         public User GetUserByEmail(string email)

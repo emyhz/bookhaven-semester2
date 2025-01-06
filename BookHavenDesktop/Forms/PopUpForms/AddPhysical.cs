@@ -91,10 +91,10 @@ namespace BookHavenDesktop.Forms.PopUpForms
 
                 // Clear form fields after adding the book
                 ClearFormFields();
-            }
+            } 
             catch (Exception ex)
             {
-                MessageBox.Show("An error occurred while adding the audiobook: " + ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void ClearFormFields()

@@ -71,30 +71,52 @@ namespace BookHavenDesktop.Forms.MainPages
 
         private void UserTypeSignUp(string firstName, string lastName, string email, string password, string repeatPassword)
         {
-            UserCreation userCreation = User.ValidateSignUp(_userManager, firstName, lastName, email, password, repeatPassword);
-            switch (userCreation)
+            try
             {
-                case UserCreation.SUCCESS:
-                    _userManager.AddUser(firstName, lastName, email, password, UserType.PENDING_EMPLOYEE);
-                    MessageBox.Show("You have successfully signed up. An admin needs to approve you first to login");
-                    break;
-                case UserCreation.PASSWORDS_DONT_MATCH:
-                    MessageBox.Show("Passwords do not match", "Invalid Password Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-                case UserCreation.INVALID_EMAIL:
-                    MessageBox.Show("Invalid email", "Invalid Email Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-                case UserCreation.EMPTY_FIELDS:
-                    MessageBox.Show("Please fill in all fields and try again." , "Missing Fields Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-                case UserCreation.EMAIL_ALREADY_EXISTS:
-                    MessageBox.Show("This email is already in use.", "Email is Taken", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-                default:
-                    MessageBox.Show("An error occurred while signing up");
-                    break;
+                UserCreation userCreation = User.ValidateSignUp(_userManager, firstName, lastName, email, password, repeatPassword);
+                switch (userCreation)
+                {
+                    case UserCreation.SUCCESS:
+                        try
+                        {
+                            _userManager.AddUser(firstName, lastName, email, password, UserType.PENDING_EMPLOYEE);
+                            MessageBox.Show("You have successfully signed up. An admin needs to approve you first to login.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (ApplicationException ex)
+                        {
+                            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        break;
+
+                    case UserCreation.PASSWORDS_DONT_MATCH:
+                        MessageBox.Show("Passwords do not match.", "Invalid Password Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+
+                    case UserCreation.INVALID_EMAIL:
+                        MessageBox.Show("Invalid email.", "Invalid Email Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+
+                    case UserCreation.EMPTY_FIELDS:
+                        MessageBox.Show("Please fill in all fields and try again.", "Missing Fields Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+
+                    case UserCreation.EMAIL_ALREADY_EXISTS:
+                        MessageBox.Show("This email is already in use.", "Email is Taken", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+
+                    default:
+                        MessageBox.Show("An unknown error occurred while signing up.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                }
             }
-            ClearFormFields();
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred.\n\nDetails: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                ClearFormFields();
+            }
         }
 
         private void pbPasswordShow_Click(object sender, EventArgs e)

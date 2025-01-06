@@ -141,7 +141,7 @@ namespace BookHavenDesktop.Forms.MainPages
 
         private void btnStatistics_Click(object sender, EventArgs e)
         {
-            OpenChildForms(new Statistics(), sender);
+            OpenChildForms(new Statistics(_bookManager), sender);
         }
     }
 }

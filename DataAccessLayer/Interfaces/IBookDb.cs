@@ -21,6 +21,6 @@ namespace DataAccessLayer.Interfaces
         DataTable GetBookDetails(int id);
         void BuyBook(int bookId, int quantity);
         DataTable GetBestSellingBooks(int count);
-
+        DataTable GetSalesByBookType();
     }
 }

@@ -67,7 +67,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error occurred while adding the audiobook: " + ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private bool ValidateTimeInput(string timeInput)
