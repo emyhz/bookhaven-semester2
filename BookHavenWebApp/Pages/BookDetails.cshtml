@@ -1,33 +1,40 @@
 ﻿@page "{id}"
 @model BookHavenWebApp.Pages.BookDetailsModel
 @{
-    ViewData["Title"] = "Product Details";
+    ViewData["Title"] = "Book Details";
 
-    //get the cookie
+    //get the cookie from users browser
     var recentlyViewed = Request.Cookies["RecentlyViewed"];
 
     List<string> bookList;
+
+    //check if the cookie is empty
     if(string.IsNullOrEmpty(recentlyViewed))
     {
+        //new list with current books id
         bookList = new List<string>
         {
-          Model.Id.ToString()
+          Model.Id.ToString() //add the current book id to the list
+
         };
     }
     else
     {
+        //split the cookie into a list of book ids
         bookList = recentlyViewed.Split(',').ToList();
+
+        //if current book id is not in the list, add it
         if(!bookList.Contains(Model.Id.ToString()))
         {
             bookList.Add(Model.Id.ToString());
-            if(bookList.Count > 8)
+            if(bookList.Count > 8) // if list exceeds 8, remove oldest book
             {
                 bookList.RemoveAt(0);
             }
         }
     }
 
-    //update the cookie
+    //update the cookie with the new list (convert back to string)
     var newCookie = string.Join(",", bookList);
     Response.Cookies.Append("RecentlyViewed", newCookie, new CookieOptions
     {
@@ -35,16 +42,16 @@
     });
 
 
-    // Retrieve details of recently viewed products excluding the current product
+    // Retrieve details of recently viewed products excluding the current book
     var recentlyViewedBooks = Model.Books
-        .Where(v => bookList.Contains(v.Id.ToString()) && v.Id != Model.Id)
+        .Where(v => bookList.Contains(v.Id.ToString()) && v.Id != Model.Id) //exclude current book
         .OrderByDescending(v => bookList.IndexOf(v.Id.ToString()))
         .ToList();
 
+         
 
-
-    // Retrieve more vinyls from artist excluding the current product
-    var moreBySameAuthor = Model.Books.Where(v => v.Author == Model.Author && v.Id != Model.Id).ToList();
+    // Retrieve more books from author excluding the current product 
+    //var moreBySameAuthor = Model.Books.Where(v => v.Author == Model.Author && v.Id != Model.Id).ToList();
 
 }
 

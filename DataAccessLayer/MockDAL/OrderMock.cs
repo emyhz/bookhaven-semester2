@@ -12,6 +12,8 @@ namespace DataAccessLayer.MockDAL
     {
         private List<(int Id, int UserId, string Address, string Country, string City, string ZipCode, decimal TotalPrice, int Status, DateTime Date)> Orders { get; } = new();
         private int _nextOrderId = 1;
+        
+
 
         // Add a new order to the in-memory storage
         public int AddOrder(int userId, string address, string country, string city, string zipCode, decimal totalPrice, int orderStatus)
@@ -110,7 +112,7 @@ namespace DataAccessLayer.MockDAL
             dt.Columns.Add("Address", typeof(string));
             dt.Columns.Add("Country", typeof(string));
             dt.Columns.Add("City", typeof(string));
-            dt.Columns.Add("ZipCode", typeof(string));
+            dt.Columns.Add("Zip", typeof(string));
 
             foreach (var order in Orders)
             {
@@ -120,7 +122,7 @@ namespace DataAccessLayer.MockDAL
                     row["Address"] = order.Address;
                     row["Country"] = order.Country;
                     row["City"] = order.City;
-                    row["ZipCode"] = order.ZipCode;
+                    row["Zip"] = order.ZipCode;
                     dt.Rows.Add(row);
                     break;
                 }
@@ -179,7 +181,7 @@ namespace DataAccessLayer.MockDAL
             dt.Columns.Add("Address", typeof(string));
             dt.Columns.Add("Country", typeof(string));
             dt.Columns.Add("City", typeof(string));
-            dt.Columns.Add("ZipCode", typeof(string));
+            dt.Columns.Add("Zip", typeof(string));
             dt.Columns.Add("TotalPrice", typeof(decimal));
             dt.Columns.Add("Status", typeof(int));
             dt.Columns.Add("Date", typeof(DateTime));
@@ -194,7 +196,7 @@ namespace DataAccessLayer.MockDAL
             row["Address"] = order.Address;
             row["Country"] = order.Country;
             row["City"] = order.City;
-            row["ZipCode"] = order.ZipCode;
+            row["Zip"] = order.ZipCode;
             row["TotalPrice"] = order.TotalPrice;
             row["Status"] = order.Status;
             row["Date"] = order.Date;

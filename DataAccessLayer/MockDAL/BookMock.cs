@@ -14,12 +14,13 @@ namespace DataAccessLayer.MockDAL
         private int _nextId = 1;
 
         public int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales,
-            TimeSpan? audioLength = null, string fileSize = null, string link = null, string dimensions = null, int? pages = null, string coverType = null)
+    TimeSpan? audioLength = null, string fileSize = null, string link = null, string dimensions = null, int? pages = null, string coverType = null)
         {
-            int newId = _nextId++;
+            int newId = _nextId++; // Generate a new ID
             _books.Add((newId, title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, audioLength, fileSize, link, dimensions, pages, coverType));
             return newId;
         }
+
 
         public void UpdateBook(int id, string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock,
             TimeSpan? length = null, string fileSize = null, string link = null, string dimensions = null, int? pages = null, string coverType = null)
@@ -86,18 +87,21 @@ namespace DataAccessLayer.MockDAL
 
         public DataTable GetBooksSummary()
         {
-            return GetBooks(); // For simplicity, return all books as the summary
+            return GetBooks(); 
         }
 
         public DataTable GetBookDetails(int id)
         {
             var book = _books.FirstOrDefault(b => b.Id == id);
-            if (book.Id == 0) throw new KeyNotFoundException($"Book with ID {id} not found.");
+
+            // Return an empty DataTable if the book is not found
+            if (book.Id == 0) return new DataTable();
 
             DataTable dt = CreateBookDataTable();
             AddBookToDataTable(dt, book);
             return dt;
         }
+
 
         public void BuyBook(int bookId, int quantity)
         {
@@ -170,13 +174,14 @@ namespace DataAccessLayer.MockDAL
             row["Stock"] = book.Stock;
             row["Sales"] = book.Sales;
             row["AudioLength"] = book.AudioLength ?? (object)DBNull.Value;
-            row["FileSize"] = book.FileSize ?? (object)DBNull.Value; 
-            row["Link"] = book.Link ?? (object)DBNull.Value; 
-            row["Dimensions"] = book.Dimensions ?? (object)DBNull.Value; 
+            row["FileSize"] = book.FileSize ?? (object)DBNull.Value;
+            row["Link"] = book.Link ?? (object)DBNull.Value;
+            row["Dimensions"] = book.Dimensions ?? (object)DBNull.Value;
             row["Pages"] = book.Pages ?? (object)DBNull.Value;
             row["CoverType"] = book.CoverType ?? (object)DBNull.Value;
             dt.Rows.Add(row);
         }
+
 
         public DataTable GetSalesByBookType()
         {
@@ -205,6 +210,20 @@ namespace DataAccessLayer.MockDAL
             return dt;
         }
 
+        public DataTable GetBookById(int id)
+        {
+            var book = _books.FirstOrDefault(b => b.Id == id);
+
+            if (book.Equals(default))
+            {
+                Console.WriteLine($"Book with ID {id} not found.");
+                return new DataTable();
+            }
+
+            DataTable dt = CreateBookDataTable();
+            AddBookToDataTable(dt, book);
+            return dt;
+        }
 
 
 

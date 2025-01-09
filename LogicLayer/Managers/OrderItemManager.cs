@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,9 +40,19 @@ namespace LogicLayer.Managers
             {
                 int Id = Convert.ToInt32(row["Id"]);
                 int clientId = Convert.ToInt32(row["UserId"]);
-                Book book = _bookManager.GetBookById(Convert.ToInt32(row["BookId"]));
+                int bookId = Convert.ToInt32(row["BookId"]);
+
+
                 int quantity = Convert.ToInt32(row["Quantity"]);
                 int orderId = Convert.ToInt32(row["OrderId"]);
+
+                Book book = _bookManager.GetBookById(bookId);
+
+                if (book == null)
+                {
+                    throw new InvalidOperationException($"Book with ID {bookId} not found in the database.");
+                }
+
 
                 decimal price = book.Price * quantity;
 

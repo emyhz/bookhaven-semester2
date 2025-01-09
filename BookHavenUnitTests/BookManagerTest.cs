@@ -145,23 +145,25 @@ namespace BookHavenUnitTests
         public void GetBestSellingBooks_ShouldReturnTopSellingBooks()
         {
             // Arrange
-            int book1Id = _bookMock.AddBook("Book 1", "Author 1", 123, DateTime.Now, 19.99m, "Fiction", "English", "path/1.jpg", 20, 0); // Stock: 20
-            int book2Id = _bookMock.AddBook("Book 2", "Author 2", 456, DateTime.Now, 29.99m, "Fiction", "English", "path/2.jpg", 15, 0); // Stock: 15
-            int book3Id = _bookMock.AddBook("Book 3", "Author 3", 789, DateTime.Now, 39.99m, "Fiction", "English", "path/3.jpg", 10, 0); // Stock: 10
+            int book1Id = _bookMock.AddBook("Book 1", "Author 1", 123, DateTime.Now, 19.99m, "Fiction", "English", "path/1.jpg", 20, 0);
+            int book2Id = _bookMock.AddBook("Book 2", "Author 2", 456, DateTime.Now, 29.99m, "Fiction", "English", "path/2.jpg", 15, 0);
+            int book3Id = _bookMock.AddBook("Book 3", "Author 3", 789, DateTime.Now, 39.99m, "Fiction", "English", "path/3.jpg", 10, 0);
 
             // Simulate purchases
-            _bookManager.BuyBook(book1Id, 5); // Book 1 sold 5 copies
-            _bookManager.BuyBook(book2Id, 10); // Book 2 sold 10 copies
-            _bookManager.BuyBook(book3Id, 8); // Book 3 sold 8 copies
+            _bookMock.BuyBook(book1Id, 5); // Book 1 sold 5 copies
+            _bookMock.BuyBook(book2Id, 10); // Book 2 sold 10 copies
+            _bookMock.BuyBook(book3Id, 8); // Book 3 sold 8 copies
 
             // Act
-            List<Book> bestSellingBooks = _bookManager.GetBestSellingBooks(2);
+            DataTable bestSellingBooksTable = _bookMock.GetBestSellingBooks(2);
 
-            // Assert
-            Assert.AreEqual(2, bestSellingBooks.Count, "Should return the top 2 best-selling books.");
-            Assert.AreEqual("Book 2", bestSellingBooks[0].Title, "First book should be the top seller.");
-            Assert.AreEqual("Book 3", bestSellingBooks[1].Title, "Second book should be the next top seller.");
+            // Assert: Validate the top 2 books
+            Assert.AreEqual(2, bestSellingBooksTable.Rows.Count, "Should return the top 2 best-selling books.");
+
+            Assert.AreEqual("Book 2", bestSellingBooksTable.Rows[0]["Title"], "First book should be the top seller.");
+            Assert.AreEqual("Book 3", bestSellingBooksTable.Rows[1]["Title"], "Second book should be the next top seller.");
         }
+
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
@@ -190,6 +192,18 @@ namespace BookHavenUnitTests
             Assert.AreEqual(3, book["Sales"], "Sales should increase by 3.");
         }
 
+        [TestMethod]
+        public void BookMock_GetBookById_ShouldReturnCorrectBook()
+        {
+            // Arrange
+            int bookId = _bookMock.AddBook("Book 1", "Author 1", 12345, DateTime.Now, 10.0m, "Fiction", "English", "path/to/image1", 10, 0);
 
+            // Act
+            DataTable bookTable = _bookMock.GetBookById(bookId);
+
+            // Assert
+            Assert.AreEqual(1, bookTable.Rows.Count, "Book should be retrieved.");
+            Assert.AreEqual("Book 1", bookTable.Rows[0]["Title"], "Book title should match.");
+        }
     }
 }

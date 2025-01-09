@@ -97,7 +97,6 @@ namespace DataAccessLayer
             {
                 connection.Open();
 
-                // Include ISBN in the SQL query to get all audiobook details
                 string query = @"
         SELECT 
             b.Id,
@@ -133,7 +132,6 @@ namespace DataAccessLayer
             {
                 connection.Open();
 
-                // SQL query to get all physical book details including ISBN, dimensions, pages, and cover type
                 string query = @"
                                 SELECT 
                                 b.Id,
@@ -168,7 +166,6 @@ namespace DataAccessLayer
             {
                 connection.Open();
 
-                // SQL query to fetch books and join them with their respective specific tables
                 string query = @"
             SELECT 
                 b.Id,
@@ -349,7 +346,6 @@ namespace DataAccessLayer
             {
                 connection.Open();
 
-                // Query to fetch book summary details without explicitly using BookType
                 string query = @"
             SELECT 
                 b.Id, 
@@ -394,7 +390,6 @@ namespace DataAccessLayer
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                // SQL query to fetch all details of a specific book, including attributes for both AudioBook and PhysicalBook.
                 string query = @"
             SELECT 
                 b.*,

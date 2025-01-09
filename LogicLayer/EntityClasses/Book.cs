@@ -25,7 +25,7 @@ namespace LogicLayer.EntityClasses
         private string imagePath;
         private int stock;
         private int sales;
-        private IDiscountStrategy discountStrategy;
+        private IDiscountStrategy _discountStrategy;
 
 
         //constructors
@@ -43,7 +43,7 @@ namespace LogicLayer.EntityClasses
             this.stock = stock;
             this.sales = sales;
 
-            this.discountStrategy = new NoDiscount();
+            _discountStrategy = new NoDiscount();
         }
 
         public Book(int id, string title, string author, decimal price, string imagePath, int sales)
@@ -54,7 +54,7 @@ namespace LogicLayer.EntityClasses
             this.price = price;
             this.imagePath = imagePath;
             this.sales = sales;
-            this.discountStrategy = new NoDiscount();
+            _discountStrategy = new NoDiscount();
 
         }
 
@@ -80,7 +80,7 @@ namespace LogicLayer.EntityClasses
         //discount strategy
         public void SetDiscountStrategy(IDiscountStrategy strategy)
         {
-            this.discountStrategy = strategy;
+            _discountStrategy = strategy;
             RecalculateDiscountedPrice();
         }
 
@@ -88,7 +88,7 @@ namespace LogicLayer.EntityClasses
 
         private void RecalculateDiscountedPrice()
         {
-            this.discountPrice = discountStrategy?.ApplyDiscount(price) ?? price;
+            this.discountPrice = _discountStrategy?.ApplyDiscount(price) ?? price;
 
         }
     }

@@ -73,7 +73,7 @@ namespace BookHavenWebApp.Pages
             }
             else
             {
-                //return NotFound();
+                //return NotFound(); old code
                 return RedirectToPage("/Login");
             }
         }

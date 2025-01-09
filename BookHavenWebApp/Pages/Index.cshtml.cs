@@ -19,7 +19,7 @@ namespace BookHavenWebApp.Pages
 
         public void OnGet()
         {
-            BestsellingBooks = _bookManager.GetBestSellingBooks(3);
+            BestsellingBooks = _bookManager.GetBestSellingBooks(4);
         }
     }
 }

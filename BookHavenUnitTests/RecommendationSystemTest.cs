@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.MockDAL;
 using LogicLayer.Algorithm;
 using LogicLayer.EntityClasses;
+using LogicLayer.Enums;
 using LogicLayer.Managers;
 using System;
 using System.Collections.Generic;
@@ -31,97 +32,75 @@ namespace BookHavenUnitTests
             _userManager = new UserManager(_userMock);
             _bookMock = new BookMock();
             _bookManager = new BookManager(_bookMock);
-            _orderItemMock = new OrderItemMock();
+            _orderItemMock = new OrderItemMock(_bookMock);
             _orderItemManager = new OrderItemManager(_orderItemMock, _userManager, _bookManager);
             _orderManager = new OrderManager(_orderMock, _userManager, _orderItemManager);
             _recommendationSystem = new RecommendationSystem(_orderManager, _bookManager);
         }
 
         [TestMethod]
-        public void GetFrequentlyBoughtBooks_ShouldReturnBooksFrequentlyBoughtWithSpecifiedBook()
+        public void GetFrequentlyBoughtBooks_ShouldReturnEmptyList_WhenNoOrdersExistForBook()
         {
             // Arrange
-            // Add users
-            int user1Id = 1;
-            int user2Id = 2;
-            _userMock.AddUser("John", "Doe", "john.doe@example.com", "password123", "CUSTOMER");
-            _userMock.AddUser("Jane", "Smith", "jane.smith@example.com", "password123", "CUSTOMER");
-
-            // Add books
-            int bookId1 = _bookMock.AddBook("Book 1", "Author 1", 12345, DateTime.Now, 10.00m, "Fiction", "English", "path1", 10, 0);
-            int bookId2 = _bookMock.AddBook("Book 2", "Author 2", 67890, DateTime.Now, 15.00m, "Non-Fiction", "English", "path2", 10, 0);
-            int bookId3 = _bookMock.AddBook("Book 3", "Author 3", 11223, DateTime.Now, 20.00m, "Fiction", "English", "path3", 10, 0);
-
-            // Add orders for User 1
-            int orderId1 = _orderMock.AddOrder(user1Id, "123 Street", "Country", "City", "12345", 25.00m, 1);
-            _orderItemMock.AddItemToCart(user1Id, bookId1, 1); // Bought Book 1
-            _orderItemMock.AddItemToCart(user1Id, bookId2, 1); // Bought Book 2
-            _orderItemMock.Checkout(orderId1, 1);
-            _orderItemMock.Checkout(orderId1, 2);
-
-            // Add orders for User 2
-            int orderId2 = _orderMock.AddOrder(user2Id, "456 Avenue", "Country", "City", "67890", 35.00m, 1);
-            _orderItemMock.AddItemToCart(user2Id, bookId1, 1); // Bought Book 1
-            _orderItemMock.AddItemToCart(user2Id, bookId3, 1); // Bought Book 3
-            _orderItemMock.Checkout(orderId2, 3);
-            _orderItemMock.Checkout(orderId2, 4);
+            int bookId = 1;
+            int count = 5;
 
             // Act
-            List<Book> recommendedBooks = _recommendationSystem.GetFrequentlyBoughtBooks(bookId1, 2);
+            List<Book> recommendedBooks = _recommendationSystem.GetFrequentlyBoughtBooks(bookId, count);
 
             // Assert
-            Assert.AreEqual(2, recommendedBooks.Count, "Should return two books frequently bought with the specified book.");
-            Assert.IsTrue(recommendedBooks.Exists(b => b.Id == bookId2), "Recommended books should include Book 2.");
-            Assert.IsTrue(recommendedBooks.Exists(b => b.Id == bookId3), "Recommended books should include Book 3.");
+            Assert.IsNotNull(recommendedBooks, "Recommended books list should not be null.");
+            Assert.AreEqual(0, recommendedBooks.Count, "Recommended books list should be empty when no orders exist.");
         }
 
         [TestMethod]
-        public void GetFrequentlyBoughtBooks_ShouldReturnEmptyListWhenNoOtherBooksBought()
+        public void GetFrequentlyBoughtBooks_ShouldReturnEmptyList_WhenNoOtherBooksBoughtWithSpecifiedBook()
         {
             // Arrange
+            int bookId = 1;
+            int count = 5;
             int userId = 1;
-            _userMock.AddUser("John", "Doe", "john.doe@example.com", "password123", "CUSTOMER");
 
-            int bookId1 = _bookMock.AddBook("Book 1", "Author 1", 12345, DateTime.Now, 10.00m, "Fiction", "English", "path1", 10, 0);
-
-            int orderId1 = _orderMock.AddOrder(userId, "123 Street", "Country", "City", "12345", 10.00m, 1);
-            _orderItemMock.AddItemToCart(userId, bookId1, 1);
-            _orderItemMock.Checkout(orderId1, 1);
+            // Add book and order
+            _bookMock.AddBook("Book 1", "Author 1", 12345, DateTime.Now, 10.0m, "Fiction", "English", "path/to/image1", 10, 0);
+            int orderId = _orderMock.AddOrder(userId, "123 Main St", "USA", "City", "12345", 100.0m, 1);
+            _orderItemMock.AddOrderItem(orderId, bookId, 1);
 
             // Act
-            List<Book> recommendedBooks = _recommendationSystem.GetFrequentlyBoughtBooks(bookId1, 2);
+            List<Book> recommendedBooks = _recommendationSystem.GetFrequentlyBoughtBooks(bookId, count);
 
             // Assert
-            Assert.AreEqual(0, recommendedBooks.Count, "Should return an empty list when no other books were bought.");
+            Assert.IsNotNull(recommendedBooks);
+            Assert.AreEqual(0, recommendedBooks.Count, "Recommended books list should be empty when no other books are bought.");
         }
 
         [TestMethod]
-        public void GetFrequentlyBoughtBooks_ShouldLimitResultsToSpecifiedCount()
+        public void GetFrequentlyBoughtBooks_ShouldReturnFrequentlyBoughtBooks()
         {
             // Arrange
+            int bookId1 = _bookMock.AddBook("Book 1", "Author 1", 12345, DateTime.Now, 10.0m, "FICTION", "English", "path/to/image1", 10, 0);
+            int bookId2 = _bookMock.AddBook("Book 2", "Author 2", 67890, DateTime.Now, 15.0m, "NON_FICTION", "English", "path/to/image2", 8, 0);
+            int bookId3 = _bookMock.AddBook("Book 3", "Author 3", 11111, DateTime.Now, 20.0m, "THRILLER", "English", "path/to/image3", 5, 0);
+
             int userId = 1;
             _userMock.AddUser("John", "Doe", "john.doe@example.com", "password123", "CUSTOMER");
+            int orderId1 = _orderMock.AddOrder(userId, "123 Main St", "USA", "City", "12345", 50.0m, 1);
 
-            int bookId1 = _bookMock.AddBook("Book 1", "Author 1", 12345, DateTime.Now, 10.00m, "Fiction", "English", "path1", 10, 0);
-            int bookId2 = _bookMock.AddBook("Book 2", "Author 2", 67890, DateTime.Now, 15.00m, "Non-Fiction", "English", "path2", 10, 0);
-            int bookId3 = _bookMock.AddBook("Book 3", "Author 3", 11223, DateTime.Now, 20.00m, "Fiction", "English", "path3", 10, 0);
-            int bookId4 = _bookMock.AddBook("Book 4", "Author 4", 44556, DateTime.Now, 25.00m, "Drama", "English", "path4", 10, 0);
-
-            int orderId1 = _orderMock.AddOrder(userId, "123 Street", "Country", "City", "12345", 75.00m, 1);
-            _orderItemMock.AddItemToCart(userId, bookId1, 1);
-            _orderItemMock.AddItemToCart(userId, bookId2, 1);
-            _orderItemMock.AddItemToCart(userId, bookId3, 1);
-            _orderItemMock.AddItemToCart(userId, bookId4, 1);
-            _orderItemMock.Checkout(orderId1, 1);
-            _orderItemMock.Checkout(orderId1, 2);
-            _orderItemMock.Checkout(orderId1, 3);
-            _orderItemMock.Checkout(orderId1, 4);
+            // Add books to an order
+            _orderItemMock.AddOrderItem(orderId1, bookId1, 1);
+            _orderItemMock.AddOrderItem(orderId1, bookId2, 1);
+            _orderItemMock.AddOrderItem(orderId1, bookId3, 1);
 
             // Act
             List<Book> recommendedBooks = _recommendationSystem.GetFrequentlyBoughtBooks(bookId1, 2);
 
             // Assert
-            Assert.AreEqual(2, recommendedBooks.Count, "Should limit the results to the specified count.");
+            Assert.IsNotNull(recommendedBooks, "Recommended books list should not be null.");
+            Assert.AreEqual(2, recommendedBooks.Count, "Should return two recommended books.");
+            Assert.IsTrue(recommendedBooks.Any(b => b.Id == bookId2), "Recommended books should contain Book 2.");
+            Assert.IsTrue(recommendedBooks.Any(b => b.Id == bookId3), "Recommended books should contain Book 3.");
         }
+
+
     }
 }

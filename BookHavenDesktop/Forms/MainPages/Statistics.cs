@@ -109,7 +109,7 @@ namespace BookHavenDesktop.Forms.MainPages
             Series audioBookSeries = new Series("Audiobooks")
             {
                 ChartType = SeriesChartType.Bar,
-                IsValueShownAsLabel = true, // Show values on the chart
+                IsValueShownAsLabel = true, 
                 Color = Color.Blue
             };
             audioBookSeries.Points.AddY(audioBookSales);
@@ -118,7 +118,7 @@ namespace BookHavenDesktop.Forms.MainPages
             Series physicalBookSeries = new Series("Physical Books")
             {
                 ChartType = SeriesChartType.Bar,
-                IsValueShownAsLabel = true, // Show values on the chart
+                IsValueShownAsLabel = true,
                 Color = Color.Orange
             };
             physicalBookSeries.Points.AddY(physicalBookSales);

@@ -19,11 +19,12 @@ namespace BookHavenUnitTests
         private BookManager _bookManager;
         private UserManager _userManager;
 
+
         [TestInitialize]
         public void Setup()
         {
             // Initialize mocks and managers
-            _orderItemMock = new OrderItemMock();
+            _orderItemMock = new OrderItemMock(_bookMock);
             _bookMock = new BookMock();
             _bookManager = new BookManager(_bookMock);
             _userManager = new UserManager(new UserMock());
@@ -53,26 +54,61 @@ namespace BookHavenUnitTests
         {
             // Arrange
             int userId = 1;
-            int bookId = _bookMock.AddBook("Test Book", "Author", 12345, System.DateTime.Now, 10.0m, "Fiction", "English", "path/to/image", 10, 0);
+
+            // Add a book to BookMock
+            int bookId = _bookManager.AddBook(
+                title: "Test Book",
+                author: "Test Author",
+                isbn: 1234567890,
+                publishDate: DateTime.Now,
+                price: 19.99m,
+                genre: "FICTION",
+                language: "English",
+                imagePath: "path/to/image.jpg",
+                stock: 10,
+                sales: 0,
+                dimensions: "6x9",
+                pages: 300,
+                coverType: "Hardcover"
+            );
+
+            Console.WriteLine($"Book added to BookMock with ID: {bookId}");
+
+            // Add item to cart
             _orderItemMock.AddItemToCart(userId, bookId, 1);
-            _orderItemMock.Checkout(1, 1); // Move item to an order with ID 1
+
+            // Check cart contents
+            DataTable userCart = _orderItemMock.GetUserCart(userId);
+            Assert.AreEqual(1, userCart.Rows.Count, "Cart should contain one item.");
+
+            int orderItemId = (int)userCart.Rows[0]["Id"];
+            Console.WriteLine($"OrderItem added to OrderItemMock with ID: {orderItemId} and BookId: {bookId}");
+
+            // Checkout
+            _orderItemMock.Checkout(1, orderItemId);
 
             // Act
             List<OrderItem> orderItems = _orderItemManager.GetOrderItems(1);
 
             // Assert
             Assert.AreEqual(1, orderItems.Count, "Order should contain one item.");
+            Assert.IsNotNull(orderItems[0].Book, "Book should not be null.");
             Assert.AreEqual(bookId, orderItems[0].Book.Id, "Book ID should match.");
         }
+
+
 
         [TestMethod]
         public void GetUserCart_ShouldReturnItemsInCart()
         {
             // Arrange
             int userId = 1;
-            int bookId1 = _bookMock.AddBook("Book 1", "Author 1", 12345, System.DateTime.Now, 10.0m, "Fiction", "English", "path/to/image1", 10, 0);
-            int bookId2 = _bookMock.AddBook("Book 2", "Author 2", 67890, System.DateTime.Now, 20.0m, "Non-Fiction", "English", "path/to/image2", 5, 0);
 
+            // Add books to BookMock
+            int bookId1 = _bookMock.AddBook("Book 1", "Author 1", 12345, DateTime.Now, 10.0m, "Fiction", "English", "path/to/image1", 10, 0);
+            int bookId2 = _bookMock.AddBook("Book 2", "Author 2", 67890, DateTime.Now, 20.0m, "Non-Fiction", "English", "path/to/image2", 5, 0);
+
+            // Add items to the user's cart
             _orderItemMock.AddItemToCart(userId, bookId1, 1);
             _orderItemMock.AddItemToCart(userId, bookId2, 2);
 
@@ -81,9 +117,16 @@ namespace BookHavenUnitTests
 
             // Assert
             Assert.AreEqual(2, userCart.Count, "Cart should contain two items.");
+            Assert.IsNotNull(userCart[0].Book, "First book should not be null.");
             Assert.AreEqual(bookId1, userCart[0].Book.Id, "First book ID should match.");
+            Assert.IsNotNull(userCart[1].Book, "Second book should not be null.");
             Assert.AreEqual(bookId2, userCart[1].Book.Id, "Second book ID should match.");
         }
+
+
+
+
+
 
         [TestMethod]
         public void IncreaseQuantity_ShouldIncrementItemQuantity()

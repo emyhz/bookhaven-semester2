@@ -1,4 +1,5 @@
 using DataAccessLayer.MockDAL;
+using LogicLayer.EntityClasses;
 using LogicLayer.Enums;
 using LogicLayer.Managers;
 
@@ -111,14 +112,6 @@ namespace BookHavenUnitTests
             // Assert handled by ExpectedException
         }
 
-
-
-
-
-
-
-
-
         // Example test case: Authenticating a user
         [TestMethod]
         public void AuthenticateUser_ShouldReturnTrueForCorrectCredentials()
@@ -150,5 +143,97 @@ namespace BookHavenUnitTests
             // Assert
             Assert.IsFalse(isAuthenticated, "Authentication should fail for incorrect credentials.");
         }
+
+        [TestMethod]
+        public void UpdatePassword_ShouldReturnMissingFields_WhenEmailIsEmpty()
+        {
+            // Act
+            var result = _userManager.UpdatePassword("", "oldPass", "newPass", "newPass");
+
+            // Assert
+            Assert.AreEqual(UpdatePasswordResults.MISSING_FIELDS, result, "Result should indicate missing fields.");
+        }
+
+        [TestMethod]
+        public void UpdatePassword_ShouldReturnInvalidOldPassword_WhenOldPasswordIsWrong()
+        {
+            // Arrange
+            _userDbMock.AddUser("John", "Doe", "john.doe@example.com", BCrypt.Net.BCrypt.HashPassword("password123"), UserType.CUSTOMER.ToString());
+
+            // Act
+            var result = _userManager.UpdatePassword("john.doe@example.com", "wrongPassword", "newPass", "newPass");
+
+            // Assert
+            Assert.AreEqual(UpdatePasswordResults.INVALID_OLD_PASSWORD, result, "Result should indicate invalid old password.");
+        }
+
+        [TestMethod]
+        public void UpdatePassword_ShouldReturnPasswordsDontMatch_WhenNewPasswordsMismatch()
+        {
+            // Arrange
+            _userDbMock.AddUser("Jane", "Doe", "jane.doe@example.com", BCrypt.Net.BCrypt.HashPassword("password123"), UserType.CUSTOMER.ToString());
+
+            // Act
+            var result = _userManager.UpdatePassword("jane.doe@example.com", "password123", "newPass", "differentPass");
+
+            // Assert
+            Assert.AreEqual(UpdatePasswordResults.PASSWORDS_DONT_MATCH, result, "Result should indicate passwords don't match.");
+        }
+
+        [TestMethod]
+        public void UpdatePassword_ShouldUpdatePassword_WhenAllFieldsValid()
+        {
+            // Arrange
+            _userDbMock.AddUser("Jane", "Doe", "jane.doe@example.com", BCrypt.Net.BCrypt.HashPassword("password123"), UserType.CUSTOMER.ToString());
+
+            // Act
+            var result = _userManager.UpdatePassword("jane.doe@example.com", "password123", "newPass", "newPass");
+
+            // Assert
+            Assert.AreEqual(UpdatePasswordResults.PASSWORD_UPDATED, result, "Result should indicate password was updated.");
+            var updatedUser = _userManager.GetUserByEmail("jane.doe@example.com");
+            Assert.IsTrue(BCrypt.Net.BCrypt.Verify("newPass", updatedUser.Password), "Password should be updated in the database.");
+        }
+
+        [TestMethod]
+        public void GetEmployees_ShouldReturnOnlyEmployees()
+        {
+            // Arrange
+            _userDbMock.AddUser("John", "Doe", "john.doe@example.com", "password123", UserType.EMPLOYEE.ToString());
+            _userDbMock.AddUser("Jane", "Smith", "jane.smith@example.com", "password123", UserType.CUSTOMER.ToString());
+
+            // Act
+            var employees = _userManager.GetEmployees();
+
+            // Assert
+            Assert.AreEqual(1, employees.Count, "Only one employee should be returned.");
+            Assert.AreEqual("John", employees[0].FirstName, "Employee's first name should match.");
+        }
+
+        [TestMethod]
+        public void GetPendingEmployees_ShouldReturnPendingEmployees()
+        {
+            // Arrange
+            // Add users with various user types to the mock data access
+            _userDbMock.AddUser("Alice", "Brown", "alice.brown@example.com", "password1", UserType.ADMIN.ToString());
+            _userDbMock.AddUser("Bob", "Smith", "bob.smith@example.com", "password2", UserType.EMPLOYEE.ToString());
+            _userDbMock.AddUser("Charlie", "Davis", "charlie.davis@example.com", "password3", UserType.PENDING_EMPLOYEE.ToString());
+            _userDbMock.AddUser("Diana", "Taylor", "diana.taylor@example.com", "password4", UserType.PENDING_EMPLOYEE.ToString());
+
+            // Act
+            List<User> pendingEmployees = _userManager.GetPendingEmployees();
+
+            // Assert
+            Assert.IsNotNull(pendingEmployees, "Pending employees list should not be null.");
+            Assert.AreEqual(2, pendingEmployees.Count, "There should be 2 pending employees.");
+            Assert.AreEqual("Charlie", pendingEmployees[0].FirstName, "The first pending employee's first name should be Charlie.");
+            Assert.AreEqual("Davis", pendingEmployees[0].LastName, "The first pending employee's last name should be Davis.");
+            Assert.AreEqual("charlie.davis@example.com", pendingEmployees[0].Email, "The first pending employee's email should be correct.");
+            Assert.AreEqual(UserType.PENDING_EMPLOYEE, pendingEmployees[0].UserType, "The first pending employee's UserType should be PENDING_EMPLOYEE.");
+
+           
+        }
+
+
     }
 }

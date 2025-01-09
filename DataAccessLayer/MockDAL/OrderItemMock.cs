@@ -11,14 +11,23 @@ namespace DataAccessLayer.MockDAL
     public class OrderItemMock : IOrderItemDb
     {
         private List<(int Id, int UserId, int BookId, int Quantity, int OrderId)> _orderItems = new List<(int, int, int, int, int)>();
+        private readonly BookMock _bookMock;
+
         private int _nextId = 1;
+
+        public OrderItemMock(BookMock bookMock)
+        {
+            _bookMock = bookMock;
+        }
+
 
         // Adds an item to the cart
         public void AddItemToCart(int userId, int bookId, int quantity = 1)
         {
-            int id = _nextId++;
-            _orderItems.Add((id, userId, bookId, quantity, 0)); // OrderId = 0 means it's in the cart
+            int id = _nextId++; // Generate an order item ID
+            _orderItems.Add((id, userId, bookId, quantity, 0)); // Use the BookId from BookMock
         }
+
 
         // Gets all items for a specific order
         public DataTable GetOrderItems(int orderId)
@@ -29,12 +38,13 @@ namespace DataAccessLayer.MockDAL
             {
                 if (item.OrderId == orderId)
                 {
-                    AddOrderItemToDataTable(dt, item);
+                    AddOrderItemToDataTable(dt, item); // Ensure BookId is correct here
                 }
             }
 
             return dt;
         }
+
 
         // Gets all items in a user's cart
         public DataTable GetUserCart(int userId)
@@ -43,7 +53,7 @@ namespace DataAccessLayer.MockDAL
 
             foreach (var item in _orderItems)
             {
-                if (item.UserId == userId && item.OrderId == 0) // Only items in the cart
+                if (item.UserId == userId && item.OrderId == 0)
                 {
                     AddOrderItemToDataTable(dt, item);
                 }
@@ -51,6 +61,7 @@ namespace DataAccessLayer.MockDAL
 
             return dt;
         }
+
 
         // Increases the quantity of a specific order item
         public void IncreaseQuantity(int orderItemId)
@@ -84,6 +95,10 @@ namespace DataAccessLayer.MockDAL
                 _orderItems[index] = (item.Id, item.UserId, item.BookId, item.Quantity, orderId);
             }
         }
+
+
+
+
 
         // Removes an audio item from the cart
         public void RemoveAudioOrderItem(int orderItemId)
