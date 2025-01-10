@@ -88,7 +88,7 @@ namespace LogicLayer.EntityClasses
 
         private void RecalculateDiscountedPrice()
         {
-            this.discountPrice = _discountStrategy?.ApplyDiscount(price) ?? price;
+            this.discountPrice = Math.Round(_discountStrategy?.ApplyDiscount(price) ?? price, 2);
 
         }
     }

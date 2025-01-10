@@ -26,30 +26,18 @@ namespace LogicLayer.Algorithm
 
         public void ApplyDiscountForInactiveUsers(int userId, List<Book> books)
         {
-            // Get the user's last purchase date
             DateTime? lastPurchaseDate = _orderManager.GetUserLastPurchaseDate(userId);
 
-            // Determine the discount strategy
+
             IDiscountStrategy discountStrategy;
 
-            if (lastPurchaseDate == null)
+            if (lastPurchaseDate == null || lastPurchaseDate == DateTime.MinValue)
             {
-                // User is new and has never made a purchase, so no discount
                 discountStrategy = new NoDiscount();
             }
             else
             {
-                int daysSinceLastPurchase = (DateTime.Now - lastPurchaseDate.Value).Days;
-
-                // If the user hasn't purchased in the last 20 days, apply the LongTimeNoBuyDiscount
-                if (daysSinceLastPurchase > 20)
-                {
-                    discountStrategy = new LongTimeNoBuyDiscount(lastPurchaseDate.Value, 10); // 10% discount
-                }
-                else
-                {
-                    discountStrategy = new NoDiscount();
-                }
+                discountStrategy = new LongTimeNoBuyDiscount(lastPurchaseDate.Value, 10); //discount = 10%
             }
 
             // Apply the discount strategy to all books
@@ -57,6 +45,7 @@ namespace LogicLayer.Algorithm
             {
                 book.SetDiscountStrategy(discountStrategy);
             }
+
         }
     }
 }
