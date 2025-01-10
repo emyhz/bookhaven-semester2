@@ -54,6 +54,7 @@ namespace BookHavenWebApp.Pages
 
         public IActionResult OnGet()
         {
+
             if (User.Identity.IsAuthenticated)
             {
                 user = _userManager.GetUserByEmail(User.Identity.Name);
@@ -70,6 +71,7 @@ namespace BookHavenWebApp.Pages
                 }
 
                 return Page();
+
             }
             else
             {
@@ -82,6 +84,7 @@ namespace BookHavenWebApp.Pages
             user = _userManager.GetUserByEmail(User.Identity.Name);
             orders = _orderManager.GetUserOrders(user.Id);
             reviews = _reviewManager.GetReviewsByUser(user.Id);
+            LastUsedAddress = _orderManager.GetLastUsedAddress(user.Id);
 
             if (!ModelState.IsValid)
             {
@@ -100,7 +103,7 @@ namespace BookHavenWebApp.Pages
                         ModelState.AddModelError("ConfirmPassword", "Passwords do not match.");
                         break;
                     case UpdatePasswordResults.MISSING_FIELDS:
-                        ModelState.AddModelError("", "Please fill in all fields.");
+                        ModelState.AddModelError("CurrentPassword", "Please fill in all fields.");
                         break;
                 }
                 return Page();
@@ -109,6 +112,7 @@ namespace BookHavenWebApp.Pages
             }
             TempData["SuccessMessage"] = "Password changed successfully!";
             return RedirectToPage();
+
         }
         public IActionResult OnPostDeleteAccount()
         {

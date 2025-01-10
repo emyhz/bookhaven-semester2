@@ -39,13 +39,15 @@ namespace BookHavenWebApp.Pages
                 return NotFound();
             }
         }
-        public IActionResult OnPost()
+        public IActionResult OnPostChangeDetails()
         {
+            user = _userManager.GetUserByEmail(User.Identity.Name);
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-             _userManager.UpdateDetails(user.Email, NewFirstName, NewLastName);
+            _userManager.UpdateDetails(user.Email, NewFirstName, NewLastName);
             TempData["SuccessMessage"] = "Profile updated successfully!";
 
             return RedirectToPage("/Account");
