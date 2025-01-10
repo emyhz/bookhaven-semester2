@@ -13,12 +13,36 @@ namespace DataAccessLayer.MockDAL
         private List<(int Id, string Title, string Author, long ISBN, DateTime PublishDate, decimal Price, string Genre, string Language, string ImagePath, int Stock, int Sales, TimeSpan? AudioLength, string FileSize, string Link, string Dimensions, int? Pages, string CoverType)> _books = new List<(int, string, string, long, DateTime, decimal, string, string, string, int, int, TimeSpan?, string, string, string, int?, string)>();
         private int _nextId = 1;
 
+
+
+
         public int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales,
     TimeSpan? audioLength = null, string fileSize = null, string link = null, string dimensions = null, int? pages = null, string coverType = null)
         {
+            if (_books.Any(b => b.Title == title && b.Author == author && b.ISBN == isbn))
+            {
+                Console.WriteLine($"Book with title '{title}' and ISBN '{isbn}' already exists.");
+                return _books.First(b => b.Title == title && b.ISBN == isbn).Id;
+            }
+
             int newId = _nextId++; // Generate a new ID
             _books.Add((newId, title, author, isbn, publishDate, price, genre, language, imagePath, stock, sales, audioLength, fileSize, link, dimensions, pages, coverType));
             return newId;
+        }
+
+        public DataTable GetBookById(int id)
+        {
+            var book = _books.FirstOrDefault(b => b.Id == id);
+
+            if (book.Equals(default((int, string, string, long, DateTime, decimal, string, string, string, int, int, TimeSpan?, string, string, string, int?, string))))
+            {
+                Console.WriteLine($"Book with ID {id} not found.");
+                return new DataTable();
+            }
+
+            DataTable dt = CreateBookDataTable();
+            AddBookToDataTable(dt, book);
+            return dt;
         }
 
 
@@ -51,9 +75,12 @@ namespace DataAccessLayer.MockDAL
 
         public DataTable GetBooks()
         {
+            Console.WriteLine("Fetching all books from BookMock...");
+            Console.WriteLine($"Total books in BookMock: {_books.Count}");
             DataTable dt = CreateBookDataTable();
             foreach (var book in _books)
             {
+                Console.WriteLine($"Book ID: {book.Id}, Title: {book.Title}");
                 AddBookToDataTable(dt, book);
             }
             return dt;
@@ -94,8 +121,11 @@ namespace DataAccessLayer.MockDAL
         {
             var book = _books.FirstOrDefault(b => b.Id == id);
 
-            // Return an empty DataTable if the book is not found
-            if (book.Id == 0) return new DataTable();
+            if (book.Equals(default((int, string, string, long, DateTime, decimal, string, string, string, int, int, TimeSpan?, string, string, string, int?, string))))
+            {
+                Console.WriteLine($"Book with ID {id} not found in BookMock.");
+                return new DataTable(); // Empty DataTable
+            }
 
             DataTable dt = CreateBookDataTable();
             AddBookToDataTable(dt, book);
@@ -210,20 +240,7 @@ namespace DataAccessLayer.MockDAL
             return dt;
         }
 
-        public DataTable GetBookById(int id)
-        {
-            var book = _books.FirstOrDefault(b => b.Id == id);
-
-            if (book.Equals(default))
-            {
-                Console.WriteLine($"Book with ID {id} not found.");
-                return new DataTable();
-            }
-
-            DataTable dt = CreateBookDataTable();
-            AddBookToDataTable(dt, book);
-            return dt;
-        }
+       
 
 
 

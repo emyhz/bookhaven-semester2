@@ -40,9 +40,9 @@ namespace LogicLayer.Algorithm
 
             // Count occurrences of other books bought with the specified book
             Dictionary<int, int> bookCount = new Dictionary<int, int>(); //book id, frequency 
-            foreach (Order order in ordersBoughtByUsers)
+            foreach (var order in ordersBoughtByUsers)
             {
-                foreach (OrderItem item in order.OrderItems)
+                foreach (var item in order.OrderItems)
                 {
                     // Exclude the currently specified book
                     if (item.Book.Id != bookId)
@@ -53,7 +53,7 @@ namespace LogicLayer.Algorithm
                         }
                         else
                         {
-                            bookCount.Add(item.Book.Id, 1); //add to dictionary
+                            bookCount[item.Book.Id] = 1; //add to dictionary
                         }
                     }
                 }
