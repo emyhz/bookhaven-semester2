@@ -15,12 +15,26 @@ namespace BookHavenUnitTests
     {
         private BookManager _bookManager;
         private BookMock _bookMock;
+        private Order2Mock _order2Mock;
+        private OrderItem2Mock _orderItem2Mock;
+
 
         [TestInitialize]
         public void Setup()
         {
             _bookMock = new BookMock();
             _bookManager = new BookManager(_bookMock);
+
+            _orderItem2Mock = new OrderItem2Mock(_bookMock); 
+            _order2Mock = new Order2Mock(_orderItem2Mock);
+
+            int bookId1 = _bookMock.AddBook("Book 1", "Author 1", 12345, DateTime.Now, 10.0m, "Fiction", "English", "path1.jpg", 100, 0);
+            int bookId2 = _bookMock.AddBook("Book 2", "Author 2", 12346, DateTime.Now, 15.0m, "Fiction", "English", "path2.jpg", 50, 0);
+
+            foreach (var book in _bookMock.GetBooks().AsEnumerable())
+            {
+                Console.WriteLine($"Book ID: {book["Id"]}, Title: {book["Title"]}");
+            }
         }
 
         [TestMethod]
@@ -43,9 +57,11 @@ namespace BookHavenUnitTests
                 coverType: "Hardcover"
             );
 
-            // Assert
+            // Assert : Verify that the book was added to the mock database
             DataTable books = _bookMock.GetBooks();
             DataRow book = books.AsEnumerable().FirstOrDefault(row => (int)row["Id"] == bookId);
+
+            // Make sure book exists and has the correct title
             Assert.IsNotNull(book, "Book should be added to the mock database.");
             Assert.AreEqual("Test Book", book["Title"], "Book title should match.");
         }
@@ -70,10 +86,10 @@ namespace BookHavenUnitTests
                 coverType: "Paperback"
             );
 
-            // Act
+            // Act 
             Book book = _bookManager.GetBookById(bookId);
 
-            // Assert
+            // Assert : Verify the books details
             Assert.IsNotNull(book, "Book should not be null.");
             Assert.AreEqual("Sample Book", book.Title, "Book title should match.");
         }
@@ -109,7 +125,7 @@ namespace BookHavenUnitTests
                 stock: 12
             );
 
-            // Assert
+            // Assert : verify the book was updated
             DataTable books = _bookMock.GetBooks();
             DataRow book = books.AsEnumerable().FirstOrDefault(row => (int)row["Id"] == bookId);
             Assert.AreEqual("New Title", book["Title"], "Book title should be updated.");
@@ -132,10 +148,10 @@ namespace BookHavenUnitTests
                 sales: 0
             );
 
-            // Act
+            // Act : delelte the book
             _bookManager.DeleteBook(bookId);
 
-            // Assert
+            // Assert : verify the book was removed
             DataTable books = _bookMock.GetBooks();
             DataRow book = books.AsEnumerable().FirstOrDefault(row => (int)row["Id"] == bookId);
             Assert.IsNull(book, "Book should be removed from the mock database.");
@@ -154,7 +170,7 @@ namespace BookHavenUnitTests
             _bookMock.BuyBook(book2Id, 10); // Book 2 sold 10 copies
             _bookMock.BuyBook(book3Id, 8); // Book 3 sold 8 copies
 
-            // Act
+            // Act : get the top 2 best-selling books
             DataTable bestSellingBooksTable = _bookMock.GetBestSellingBooks(2);
 
             // Assert: Validate the top 2 books
@@ -169,23 +185,25 @@ namespace BookHavenUnitTests
         [ExpectedException(typeof(ArgumentException))]
         public void BuyBook_ShouldThrowException_WhenQuantityIsZeroOrNegative()
         {
-            // Arrange
+            // Arrange : add book with stock of 10
             int bookId = _bookMock.AddBook("Buy Test", "Author", 123, DateTime.Now, 19.99m, "Fiction", "English", "path.jpg", 10, 0);
 
-            // Act
+            // Act : try to buy 0 copies
             _bookManager.BuyBook(bookId, 0);
+
+            // Assert : handled by ExpectedException attribute
         }
 
         [TestMethod]
         public void BuyBook_ShouldReduceStockAndIncreaseSales()
         {
-            // Arrange
+            // Arrange : add stock 10 and sales 0
             int bookId = _bookMock.AddBook("Buy Test", "Author", 123, DateTime.Now, 19.99m, "Fiction", "English", "path.jpg", 10, 0);
 
             // Act
             _bookManager.BuyBook(bookId, 3);
 
-            // Assert
+            // Assert : check that stock and sales were updated
             DataTable books = _bookMock.GetBooks();
             DataRow book = books.AsEnumerable().FirstOrDefault(row => (int)row["Id"] == bookId);
             Assert.AreEqual(7, book["Stock"], "Stock should be reduced by 3.");
@@ -195,15 +213,40 @@ namespace BookHavenUnitTests
         [TestMethod]
         public void BookMock_GetBookById_ShouldReturnCorrectBook()
         {
+            // Arrange 
+            int bookId = _bookMock.AddBook("Book 2", "Author 1", 23456, DateTime.Now, 10.0m, "Fiction", "English", "path/to/image1", 10, 0);
+            Console.WriteLine($"Book added with ID: {bookId}");
+
+            // Act : get the book by ID
+            DataTable bookTable = null; // DataTable to store the result
+            try
+            {
+                bookTable = _bookMock.GetBookById(bookId); 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception occurred: {ex.Message}");
+                Assert.Fail("GetBookById threw an exception.");
+            }
+
+            // Assert : Verify the retrieved book matches the expected properties
+            Assert.IsNotNull(bookTable, "DataTable should not be null.");
+            Assert.AreEqual(1, bookTable.Rows.Count, "Book should be retrieved.");
+            Assert.AreEqual("Book 2", bookTable.Rows[0]["Title"], "Book title should match.");
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(KeyNotFoundException))]
+        public void GetBookById_ShouldThrowException_ForInvalidId()
+        {
             // Arrange
-            int bookId = _bookMock.AddBook("Book 1", "Author 1", 12345, DateTime.Now, 10.0m, "Fiction", "English", "path/to/image1", 10, 0);
+            int invalidBookId = 999; // An ID that does not exist
 
             // Act
-            DataTable bookTable = _bookMock.GetBookById(bookId);
+            var bookTable = _bookMock.GetBookById(invalidBookId);
 
-            // Assert
-            Assert.AreEqual(1, bookTable.Rows.Count, "Book should be retrieved.");
-            Assert.AreEqual("Book 1", bookTable.Rows[0]["Title"], "Book title should match.");
         }
+
     }
 }

@@ -17,9 +17,11 @@ namespace LogicLayer.Managers
             foreach (OrderItem orderItem in orderItems)
             {
                 decimal itemFinalPrice = orderItem.Book.CalculateFinalPrice();
+
+                // Multiply the final price by the quantity and add to the total price
                 totalPrice += itemFinalPrice * orderItem.Quantity;
             }
-
+            // 2 deciaml places
             return Math.Round(totalPrice, 2);
 
         }
@@ -32,19 +34,16 @@ namespace LogicLayer.Managers
             {
                 if (orderItem.Book is PhysicalBook physicalBook)
                 {
+                    // Calculate shipping cost as the difference between the full price and the discounted price 
                     decimal shippingCost = physicalBook.CalculateFinalPrice() - physicalBook.DiscountPrice;
+
+                    // Multiply the shipping cost by the quantity and add to the total shipping cost
                     totalShippingCost += shippingCost * orderItem.Quantity;
                 }
             }
 
+            // 2 decimal places
             return Math.Round(totalShippingCost, 2);
-        }
-        public static decimal CalculateGrandTotal(List<OrderItem> orderItems)
-        {
-            decimal itemsTotal = CalculateOrderTotal(orderItems);
-            decimal shippingTotal = CalculateOrderShipping(orderItems);
-
-            return Math.Round(itemsTotal + shippingTotal, 2);
         }
     }
 }

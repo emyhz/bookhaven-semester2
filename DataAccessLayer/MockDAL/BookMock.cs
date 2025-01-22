@@ -10,8 +10,11 @@ namespace DataAccessLayer.MockDAL
 {
     public class BookMock : IBookDb
     {
+
+        // List to store books as mock data
+
         private List<(int Id, string Title, string Author, long ISBN, DateTime PublishDate, decimal Price, string Genre, string Language, string ImagePath, int Stock, int Sales, TimeSpan? AudioLength, string FileSize, string Link, string Dimensions, int? Pages, string CoverType)> _books = new List<(int, string, string, long, DateTime, decimal, string, string, string, int, int, TimeSpan?, string, string, string, int?, string)>();
-        private int _nextId = 1;
+        private int _nextId = 1; // Next ID to assign to a new book
 
 
 
@@ -19,10 +22,11 @@ namespace DataAccessLayer.MockDAL
         public int AddBook(string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock, int sales,
     TimeSpan? audioLength = null, string fileSize = null, string link = null, string dimensions = null, int? pages = null, string coverType = null)
         {
+
+            // Check if a book with the same title and ISBN already exists
             if (_books.Any(b => b.Title == title && b.Author == author && b.ISBN == isbn))
             {
-                Console.WriteLine($"Book with title '{title}' and ISBN '{isbn}' already exists.");
-                return _books.First(b => b.Title == title && b.ISBN == isbn).Id;
+                throw new InvalidOperationException($"A book with title '{title}' and ISBN '{isbn}' already exists.");
             }
 
             int newId = _nextId++; // Generate a new ID
@@ -36,36 +40,42 @@ namespace DataAccessLayer.MockDAL
 
             if (book.Equals(default((int, string, string, long, DateTime, decimal, string, string, string, int, int, TimeSpan?, string, string, string, int?, string))))
             {
-                Console.WriteLine($"Book with ID {id} not found.");
-                return new DataTable();
+                throw new KeyNotFoundException($"Book with ID {id} not found.");
             }
 
-            DataTable dt = CreateBookDataTable();
-            AddBookToDataTable(dt, book);
+            DataTable dt = CreateBookDataTable(); // Create a DataTable structure
+            AddBookToDataTable(dt, book); // Add the book data to the DataTable
             return dt;
         }
 
 
+        // Updates an existing book in the mock database
         public void UpdateBook(int id, string title, string author, long isbn, DateTime publishDate, decimal price, string genre, string language, string imagePath, int stock,
             TimeSpan? length = null, string fileSize = null, string link = null, string dimensions = null, int? pages = null, string coverType = null)
         {
             var index = _books.FindIndex(b => b.Id == id);
-            if (index >= 0)
-            {
-                _books[index] = (id, title, author, isbn, publishDate, price, genre, language, imagePath, stock, _books[index].Sales, length, fileSize, link, dimensions, pages, coverType);
-            }
-            else
+            if (index < 0)
             {
                 throw new KeyNotFoundException($"Book with ID {id} not found.");
             }
+
+            // Check for duplicate ISBN
+            if (_books.Any(b => b.ISBN == isbn && b.Id != id))
+            {
+                throw new InvalidOperationException($"A book with ISBN '{isbn}' already exists.");
+            }
+
+            // Update the book's data
+            _books[index] = (id, title, author, isbn, publishDate, price, genre, language, imagePath, stock, _books[index].Sales, length, fileSize, link, dimensions, pages, coverType);
         }
 
+        // Deletes a book by its ID
         public void DeleteBook(int id)
         {
             var index = _books.FindIndex(b => b.Id == id);
             if (index >= 0)
             {
-                _books.RemoveAt(index);
+                _books.RemoveAt(index); // Remove the book from the list
             }
             else
             {
@@ -73,6 +83,7 @@ namespace DataAccessLayer.MockDAL
             }
         }
 
+        // Retrieves all books in the mock database
         public DataTable GetBooks()
         {
             Console.WriteLine("Fetching all books from BookMock...");
@@ -135,20 +146,25 @@ namespace DataAccessLayer.MockDAL
 
         public void BuyBook(int bookId, int quantity)
         {
-            var index = _books.FindIndex(b => b.Id == bookId);
-            if (index >= 0)
+            if (quantity <= 0)
             {
-                if (_books[index].Stock < quantity)
-                    throw new InvalidOperationException("Insufficient stock.");
-
-                _books[index] = (_books[index].Id, _books[index].Title, _books[index].Author, _books[index].ISBN, _books[index].PublishDate, _books[index].Price, _books[index].Genre,
-                    _books[index].Language, _books[index].ImagePath, _books[index].Stock - quantity, _books[index].Sales + quantity, _books[index].AudioLength, _books[index].FileSize,
-                    _books[index].Link, _books[index].Dimensions, _books[index].Pages, _books[index].CoverType);
+                throw new ArgumentException("Quantity must be greater than zero.");
             }
-            else
+
+            var index = _books.FindIndex(b => b.Id == bookId);
+            if (index < 0)
             {
                 throw new KeyNotFoundException($"Book with ID {bookId} not found.");
             }
+
+            if (_books[index].Stock < quantity)
+            {
+                throw new InvalidOperationException("Insufficient stock.");
+            }
+
+            _books[index] = (_books[index].Id, _books[index].Title, _books[index].Author, _books[index].ISBN, _books[index].PublishDate, _books[index].Price, _books[index].Genre,
+                _books[index].Language, _books[index].ImagePath, _books[index].Stock - quantity, _books[index].Sales + quantity, _books[index].AudioLength, _books[index].FileSize,
+                _books[index].Link, _books[index].Dimensions, _books[index].Pages, _books[index].CoverType);
         }
 
         public DataTable GetBestSellingBooks(int count)
@@ -166,6 +182,7 @@ namespace DataAccessLayer.MockDAL
             return dt;
         }
 
+        // Helper method to create the structure of a DataTable for books
         private DataTable CreateBookDataTable()
         {
             DataTable dt = new DataTable();
@@ -189,6 +206,7 @@ namespace DataAccessLayer.MockDAL
             return dt;
         }
 
+        // Helper method to add a book's data to a DataTable
         private void AddBookToDataTable(DataTable dt, (int Id, string Title, string Author, long ISBN, DateTime PublishDate, decimal Price, string Genre, string Language, string ImagePath, int Stock, int Sales, TimeSpan? AudioLength, string FileSize, string Link, string Dimensions, int? Pages, string CoverType) book)
         {
             DataRow row = dt.NewRow();
@@ -240,7 +258,88 @@ namespace DataAccessLayer.MockDAL
             return dt;
         }
 
-       
+
+        public int GetTotalBooksCount()
+        {
+            // Return a fixed number representing the total number of books in the mock dataset
+            return 50; // Example: Simulate 50 books in the dataset
+        }
+
+        public DataTable GetBooksWithPagination(int currentPage, int pageSize)
+        {
+            // Create a mock DataTable
+            DataTable booksTable = new DataTable();
+            booksTable.Columns.Add("Id", typeof(int));
+            booksTable.Columns.Add("Title", typeof(string));
+            booksTable.Columns.Add("Author", typeof(string));
+            booksTable.Columns.Add("ISBN", typeof(long));
+            booksTable.Columns.Add("PublishDate", typeof(DateTime));
+            booksTable.Columns.Add("Price", typeof(decimal));
+            booksTable.Columns.Add("Genre", typeof(string));
+            booksTable.Columns.Add("Language", typeof(string));
+            booksTable.Columns.Add("ImagePath", typeof(string));
+            booksTable.Columns.Add("Stock", typeof(int));
+            booksTable.Columns.Add("AudioLength", typeof(string)); // Nullable for AudioBook
+            booksTable.Columns.Add("FileSize", typeof(string));    // Nullable for AudioBook
+            booksTable.Columns.Add("Link", typeof(string));        // Nullable for AudioBook
+            booksTable.Columns.Add("Dimensions", typeof(string));  // Nullable for PhysicalBook
+            booksTable.Columns.Add("Pages", typeof(int));          // Nullable for PhysicalBook
+            booksTable.Columns.Add("CoverType", typeof(string));   // Nullable for PhysicalBook
+
+            // Calculate the starting index and ending index for the current page
+            int startIndex = (currentPage - 1) * pageSize;
+            int endIndex = startIndex + pageSize;
+
+            // Add mock data to the DataTable (simulate a total of 50 books)
+            for (int i = startIndex; i < endIndex && i < 50; i++) // Limit to 50 books for mock data
+            {
+                // Alternate between AudioBook and PhysicalBook mock data
+                if (i % 2 == 0) // Even index: AudioBook
+                {
+                    booksTable.Rows.Add(
+                        i + 1,                        // Id
+                        $"AudioBook Title {i + 1}",   // Title
+                        $"Author {i + 1}",            // Author
+                        1234567890123 + i,            // ISBN
+                        DateTime.Now.AddDays(-i),     // PublishDate
+                        19.99m + i,                   // Price
+                        "Fiction",                    // Genre
+                        "English",                    // Language
+                        $"/images/book{i + 1}.jpg",   // ImagePath
+                        100 - i,                      // Stock
+                        $"00:30:{i % 60}",            // AudioLength
+                        $"{i} MB",                    // FileSize
+                        $"http://audiobook{i + 1}.com", // Link
+                        DBNull.Value,                 // Dimensions
+                        DBNull.Value,                 // Pages
+                        DBNull.Value                  // CoverType
+                    );
+                }
+                else // Odd index: PhysicalBook
+                {
+                    booksTable.Rows.Add(
+                        i + 1,                        // Id
+                        $"PhysicalBook Title {i + 1}",// Title
+                        $"Author {i + 1}",            // Author
+                        1234567890123 + i,            // ISBN
+                        DateTime.Now.AddDays(-i),     // PublishDate
+                        9.99m + i,                    // Price
+                        "Non-Fiction",                // Genre
+                        "English",                    // Language
+                        $"/images/book{i + 1}.jpg",   // ImagePath
+                        50 - i,                       // Stock
+                        DBNull.Value,                 // AudioLength
+                        DBNull.Value,                 // FileSize
+                        DBNull.Value,                 // Link
+                        $"{i}x{i}x{i}",               // Dimensions
+                        100 + i,                      // Pages
+                        "Hardcover"                   // CoverType
+                    );
+                }
+            }
+
+            return booksTable;
+        }
 
 
 

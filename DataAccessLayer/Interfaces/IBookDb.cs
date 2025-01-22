@@ -22,5 +22,9 @@ namespace DataAccessLayer.Interfaces
         void BuyBook(int bookId, int quantity);
         DataTable GetBestSellingBooks(int count);
         DataTable GetSalesByBookType();
+        DataTable GetBooksWithPagination(int currentPage, int pageSize);
+        int GetTotalBooksCount();
+
+
     }
 }

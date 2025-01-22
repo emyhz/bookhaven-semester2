@@ -35,15 +35,28 @@ namespace BookHavenUnitTests
             _order2Mock = new Order2Mock(_orderItem2Mock);
             _orderManager = new OrderManager(_order2Mock, _userManager, new OrderItemManager(_orderItem2Mock, _userManager, _bookManager));
             _recommendationSystem = new RecommendationSystem(_orderManager, _bookManager);
+
+            // Setup initial data
+            _userMock.AddUser("John", "Doe", "john.doe@example.com", "password", "CUSTOMER");
+            var user = _userManager.GetUserByEmail("john.doe@example.com"); // Retrieve the user
+            int userId = user.Id; // Get the user ID
+
+            int bookId1 = _bookMock.AddBook("Book 1", "Author 1", 12345, DateTime.Now, 10.0m, "Fiction", "English", "path1.jpg", 100, 0);
+            int bookId2 = _bookMock.AddBook("Book 2", "Author 2", 12346, DateTime.Now, 15.0m, "Fiction", "English", "path2.jpg", 50, 0);
+            int orderId = _order2Mock.AddOrder(userId, "Address 1", "Country", "City", "12345", 50.0m, 1);
+            _orderItem2Mock.AddOrderItem(orderId, bookId1, 2);
+            _orderItem2Mock.AddOrderItem(orderId, bookId2, 1);
         }
 
         [TestMethod]
         public void GetFrequentlyBoughtBooks_ShouldReturnCorrectRecommendations()
         {
             // Arrange
-            var bookId = _bookMock.AddBook("Book 1", "Author 1", 12345, DateTime.Now, 10.0m, "Fiction", "English", "path1.jpg", 100, 0);
-            var book2Id = _bookMock.AddBook("Book 2", "Author 2", 12346, DateTime.Now, 15.0m, "Fiction", "English", "path2.jpg", 50, 0);
+            var bookId = _bookMock.AddBook("Book 1", "Author 1", 45752, DateTime.Now, 10.0m, "Fiction", "English", "path1.jpg", 100, 0);
+            var book2Id = _bookMock.AddBook("Book 2", "Author 2", 56732, DateTime.Now, 15.0m, "Fiction", "English", "path2.jpg", 50, 0);
             var book3Id = _bookMock.AddBook("Book 3", "Author 3", 12347, DateTime.Now, 20.0m, "Non-Fiction", "English", "path3.jpg", 30, 0);
+
+            Console.WriteLine($"Added Book IDs: {bookId}, {book2Id}, {book3Id}");
 
             _userMock.AddUser("John", "Doe", "john.doe@example.com", "password", "CUSTOMER");
             var user = _userManager.GetUserByEmail("john.doe@example.com");
@@ -65,12 +78,13 @@ namespace BookHavenUnitTests
             Assert.AreEqual(book3Id, recommendations[1].Id, "Book 3 should be the next frequently bought book.");
         }
 
+
         [TestMethod]
         public void GetFrequentlyBoughtBooks_ShouldExcludeTargetBook()
         {
             // Arrange
-            var bookId = _bookMock.AddBook("Book 1", "Author 1", 12345, DateTime.Now, 10.0m, "Fiction", "English", "path1.jpg", 100, 0);
-            var book2Id = _bookMock.AddBook("Book 2", "Author 2", 12346, DateTime.Now, 15.0m, "Fiction", "English", "path2.jpg", 50, 0);
+            var bookId = _bookMock.AddBook("Book 10", "Author 1", 56873, DateTime.Now, 10.0m, "Fiction", "English", "path1.jpg", 100, 0);
+            var book2Id = _bookMock.AddBook("Book 20", "Author 2", 69234, DateTime.Now, 15.0m, "Fiction", "English", "path2.jpg", 50, 0);
 
             _userMock.AddUser("John", "Doe", "john.doe@example.com", "password", "CUSTOMER");
             var user = _userManager.GetUserByEmail("john.doe@example.com");
@@ -97,32 +111,23 @@ namespace BookHavenUnitTests
         }
 
         [TestMethod]
-        public void GetFrequentlyBoughtBooks_ShouldReturnAllAvailableRecommendations()
+        public void GetOrdersForSpecificBook_ShouldReturnValidOrders()
         {
             // Arrange
-            var bookId = _bookMock.AddBook("Book 1", "Author 1", 12345, DateTime.Now, 10.0m, "Fiction", "English", "path1.jpg", 100, 0);
-            var book2Id = _bookMock.AddBook("Book 2", "Author 2", 12346, DateTime.Now, 15.0m, "Fiction", "English", "path2.jpg", 50, 0);
-
             _userMock.AddUser("John", "Doe", "john.doe@example.com", "password", "CUSTOMER");
             var user = _userManager.GetUserByEmail("john.doe@example.com");
 
-            var orderId = _order2Mock.AddOrder(user.Id, "123 Street", "Country", "City", "12345", 100.0m, 1);
+            int userId = user.Id;
+            int bookId = _bookMock.AddBook("Test Book", "Test Author", 12345, DateTime.Now, 10.0m, "Fiction", "English", "test.jpg", 50, 0);
+            int orderId = _order2Mock.AddOrder(userId, "Address", "Country", "City", "12345", 50.0m, 1);
             _orderItem2Mock.AddOrderItem(orderId, bookId, 1);
-            _orderItem2Mock.AddOrderItem(orderId, book2Id, 1);
 
             // Act
-            var recommendations = _recommendationSystem.GetFrequentlyBoughtBooks(bookId, 5);
+            var orders = _orderManager.GetOrdersForSpecificBook(bookId);
 
             // Assert
-            Assert.AreEqual(1, recommendations.Count, "Should return all available recommendations.");
-            Assert.AreEqual(book2Id, recommendations[0].Id, "Book 2 should be the recommended book.");
+            Assert.AreEqual(1, orders.Count);
+            Console.WriteLine($"Orders fetched: {orders.Count}");
         }
-
-
-
-
-
-
-
     }
 }

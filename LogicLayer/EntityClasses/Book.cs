@@ -77,7 +77,7 @@ namespace LogicLayer.EntityClasses
         //methods
         public abstract decimal CalculateFinalPrice();
 
-        //discount strategy
+        // Sets the discount strategy and ensures the discounted price is updated accordingly
         public void SetDiscountStrategy(IDiscountStrategy strategy)
         {
             _discountStrategy = strategy;
@@ -85,7 +85,7 @@ namespace LogicLayer.EntityClasses
         }
 
 
-
+        // Recalculates the discounted price using the current strategy and base price
         private void RecalculateDiscountedPrice()
         {
             this.discountPrice = Math.Round(_discountStrategy?.ApplyDiscount(price) ?? price, 2);

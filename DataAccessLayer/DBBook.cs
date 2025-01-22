@@ -560,6 +560,85 @@ namespace DataAccessLayer
             }
         }
 
+        //pagination
+        public DataTable GetBooksWithPagination(int currentPage, int pageSize)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = @"
+        SELECT 
+            b.Id,
+            b.Title,
+            b.Author,
+            b.ISBN,
+            b.PublishDate,
+            b.Price,
+            b.Genre,
+            b.Language,
+            b.ImagePath,
+            b.Stock,
+            b.Sales,
+            ab.Length AS AudioLength,
+            ab.FileSize,
+            ab.Link,
+            pb.Dimensions,
+            pb.Pages,
+            pb.CoverType
+        FROM [Book] b
+        LEFT JOIN [AudioBook] ab ON b.Id = ab.Id
+        LEFT JOIN [PhysicalBook] pb ON b.Id = pb.Id
+        ORDER BY b.Id 
+        OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY"; //offset skip fetch next
+
+                SqlCommand cmd = new SqlCommand(query, connection);
+
+                int offset = (currentPage - 1) * pageSize; 
+
+                cmd.Parameters.AddWithValue("@Offset", offset);
+                cmd.Parameters.AddWithValue("@PageSize", pageSize);
+
+                try
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        sda.Fill(dt);
+                        return dt;
+                    }
+                }
+                catch
+                {
+                    throw new Exception("An error occurred while fetching paginated books.");
+                }
+            }
+        }
+
+        public int GetTotalBooksCount()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT COUNT(*) FROM [Book]";
+
+                SqlCommand cmd = new SqlCommand(query, connection);
+
+                try
+                {
+                    return (int)cmd.ExecuteScalar();
+                }
+                catch
+                {
+                    throw new Exception("An error occurred while fetching the total count of books.");
+                }
+            }
+        }
+
+
+
+
 
     }
 }

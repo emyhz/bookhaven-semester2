@@ -19,16 +19,45 @@ namespace DataAccessLayer
             {
                 connection.Open();
 
-                string insertItemQuery = "INSERT INTO OrderItem (UserId, BookId, Quantity) VALUES (@UserId, @BookId, @Quantity)";
-                using (SqlCommand command = new SqlCommand(insertItemQuery, connection))
+                // Check if the book already exists in the cart
+                string checkItemQuery = "SELECT Id FROM OrderItem WHERE UserId = @UserId AND BookId = @BookId AND OrderId IS NULL";
+                using (SqlCommand checkCommand = new SqlCommand(checkItemQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@UserId", userId);
-                    command.Parameters.AddWithValue("@BookId", bookId);
-                    command.Parameters.AddWithValue("@Quantity", quantity);
-                    command.ExecuteNonQuery();
+                    checkCommand.Parameters.AddWithValue("@UserId", userId);
+                    checkCommand.Parameters.AddWithValue("@BookId", bookId);
+
+                    var result = checkCommand.ExecuteScalar();
+
+                    if (result != null) // Book already exists in the cart
+                    {
+                        // Update the quantity
+                        string updateItemQuery = "UPDATE OrderItem SET Quantity = Quantity + @Quantity WHERE UserId = @UserId AND BookId = @BookId AND OrderId IS NULL";
+                        using (SqlCommand updateCommand = new SqlCommand(updateItemQuery, connection))
+                        {
+                            updateCommand.Parameters.AddWithValue("@UserId", userId);
+                            updateCommand.Parameters.AddWithValue("@BookId", bookId);
+                            updateCommand.Parameters.AddWithValue("@Quantity", quantity);
+                            updateCommand.ExecuteNonQuery();
+                        }
+                    }
+                    else // Book does not exist in the cart
+                    {
+                        // Insert a new item
+                        string insertItemQuery = "INSERT INTO OrderItem (UserId, BookId, Quantity) VALUES (@UserId, @BookId, @Quantity)";
+                        using (SqlCommand insertCommand = new SqlCommand(insertItemQuery, connection))
+                        {
+                            insertCommand.Parameters.AddWithValue("@UserId", userId);
+                            insertCommand.Parameters.AddWithValue("@BookId", bookId);
+                            insertCommand.Parameters.AddWithValue("@Quantity", quantity);
+                            insertCommand.ExecuteNonQuery();
+                        }
+                    }
                 }
             }
         }
+
+
+
 
         // Retrieves cart items for a specific user based on the user ID
         public DataTable GetUserCart(int userID)

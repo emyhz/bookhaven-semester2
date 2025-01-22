@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -248,6 +250,9 @@ namespace LogicLayer.Managers
                         fileSize: row["FileSize"].ToString(),
                         link: row["Link"].ToString()
                     );
+                    book.SetDiscountStrategy(new NoDiscount());
+
+
                 }
                 else if (!string.IsNullOrEmpty(row["Dimensions"].ToString()) && !string.IsNullOrEmpty(row["CoverType"].ToString()))
                 {
@@ -270,6 +275,7 @@ namespace LogicLayer.Managers
 
                     book.SetDiscountStrategy(new NoDiscount());
                 }
+
             }
 
             return book; // Return null if no book was found or type doesn't match
@@ -410,6 +416,73 @@ namespace LogicLayer.Managers
 
             return booksBySales;
         }
+
+        //pagination
+        public List<Book> GetBooksPaginated(int currentPage, int pageSize)
+        {
+            DataTable booksTable = _bookDb.GetBooksWithPagination(currentPage, pageSize);
+
+            List<Book> books = new List<Book>();
+
+            foreach (DataRow row in booksTable.Rows)
+            {
+                Book book = null;
+
+                if (!string.IsNullOrEmpty(row["AudioLength"].ToString()) && !string.IsNullOrEmpty(row["FileSize"].ToString()))
+                {
+                    book = new AudioBook(
+                        id: Convert.ToInt32(row["Id"]),
+                        title: row["Title"].ToString(),
+                        author: row["Author"].ToString(),
+                        isbn: 0,
+                        publishYear: DateTime.MinValue,
+                        price: Convert.ToDecimal(row["Price"]),
+                        genre: (Genre)0,
+                        language: "Unknown",
+                        imagePath: row["ImagePath"].ToString(),
+                        stock: 0,
+                        sales: Convert.ToInt32(row["Sales"]),
+                        audioLength: TimeSpan.Parse(row["AudioLength"].ToString()),
+                        fileSize: row["FileSize"].ToString(),
+                        link: row["Link"].ToString()
+                    );
+                }
+                else if (!string.IsNullOrEmpty(row["Dimensions"].ToString()) && !string.IsNullOrEmpty(row["CoverType"].ToString()))
+                {
+                    book = new PhysicalBook(
+                        id: Convert.ToInt32(row["Id"]),
+                        title: row["Title"].ToString(),
+                        author: row["Author"].ToString(),
+                        isbn: 0,
+                        publishYear: DateTime.MinValue,
+                        price: Convert.ToDecimal(row["Price"]),
+                        genre: (Genre)0,
+                        language: "Unknown",
+                        imagePath: row["ImagePath"].ToString(),
+                        stock: 0,
+                        sales: Convert.ToInt32(row["Sales"]),
+                        dimensions: row["Dimensions"].ToString(),
+                        pages: 0,
+                        coverType: row["CoverType"].ToString()
+                    );
+
+
+                }
+                if (book != null)
+                {
+                    books.Add(book);
+                }
+
+            }
+
+            return books;
+        }
+
+        public int GetTotalBooksCount()
+        {
+            return _bookDb.GetTotalBooksCount();
+        }
+
 
 
 

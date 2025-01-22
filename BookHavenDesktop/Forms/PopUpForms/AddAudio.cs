@@ -107,9 +107,11 @@ namespace BookHavenDesktop.Forms.PopUpForms
                     // Set the initial directory to the Resources folder
                     string resourcesPath = Path.Combine(Application.StartupPath, "Resources");
                     openFileDialog.InitialDirectory = resourcesPath;
+                    // Limit the file selection to common image formats like PNG, JPG, and JPEG
                     openFileDialog.Filter = "Image Files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg";
                     openFileDialog.Title = "Select an Image";
 
+                    // If the user selects a file and clicks "OK"
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
                         // Get the full path of the selected file
@@ -118,7 +120,7 @@ namespace BookHavenDesktop.Forms.PopUpForms
                         // Get the relative path starting from the "Resources" folder
                         string relativePath = Path.GetRelativePath(Application.StartupPath, selectedFilePath);
 
-                        // Set the relative path to the txtFilePath TextBox (or store it in the database)
+                        /// Display the relative path in the txtFilePath TextBox
                         txtFilePath.Text = relativePath;
                     }
                 }

@@ -44,14 +44,15 @@ namespace BookHavenWebApp.Pages
 
                 var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, Email), 
-                new Claim(ClaimTypes.Role, user.UserType.ToString())
+                new Claim(ClaimTypes.Name, Email),  // User's email (to identify)
+                new Claim(ClaimTypes.Role, user.UserType.ToString()) // User's role (for authorization)
             };
 
-                // Set up the user's claims identity and sign in
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-                // Sign the user in with the established claims
+                
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme); // claims and cookie based authentication
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity); //manage user identity across requests
+
+                // logs in user, sends to browser, used in requests to authenticate
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
                 Response.Redirect("/Index");
             }

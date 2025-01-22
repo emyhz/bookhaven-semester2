@@ -17,13 +17,13 @@ builder.Services.AddRazorPages();
 // Configure cookie-based authentication with custom paths for login, access denied, and logout.
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
-    options.LoginPath = new PathString("/Login");
-    options.AccessDeniedPath = new PathString("/AccessDenied");
-    options.LogoutPath = new PathString("/LogOut");
+    options.LoginPath = new PathString("/Login"); //redirect if not authenticated
+    options.AccessDeniedPath = new PathString("/AccessDenied"); 
+    options.LogoutPath = new PathString("/LogOut"); 
 
 });
 
-//authorization
+//authorization (role)
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "ADMIN")); 

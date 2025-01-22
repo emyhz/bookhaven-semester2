@@ -11,7 +11,7 @@ namespace LogicLayer.Managers
 {
     public class ReviewManager
     {
-        private readonly IReviewDb _reviewDb;
+        private readonly IReviewDb _reviewDb; //depend on abstraction rather than concrete implementation
         private readonly UserManager _userManager;
         private readonly BookManager _bookManager;
 

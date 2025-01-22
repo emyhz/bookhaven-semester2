@@ -45,9 +45,9 @@ namespace DataAccessLayer.MockDAL
             Console.WriteLine($"Fetching orders for Book ID: {bookId}");
 
             DataTable dt = CreateOrderDataTable();
-            var matchingOrders = _orderItem2Mock.GetOrderItemsByBookId(bookId);
+            var matchingOrderItems = _orderItem2Mock.GetOrderItemsByBookId(bookId);
 
-            foreach (var orderItem in matchingOrders)
+            foreach (var orderItem in matchingOrderItems)
             {
                 var order = _orders.FirstOrDefault(o => o.Id == orderItem.OrderId);
                 if (order != default)
@@ -60,6 +60,8 @@ namespace DataAccessLayer.MockDAL
             Console.WriteLine($"Total Orders Found for Book ID {bookId}: {dt.Rows.Count}");
             return dt;
         }
+
+
 
         public DataTable GetOrderDetails(int id)
         {
@@ -121,6 +123,19 @@ namespace DataAccessLayer.MockDAL
             return ConvertOrdersToDataTable(order != default ? new List<(int, int, string, string, string, string, decimal, int, DateTime)> { order } : new List<(int, int, string, string, string, string, decimal, int, DateTime)>());
         }
 
+        public List<(int OrderId, int BookId, int Quantity)> GetOrderItemsForOrder(int orderId)
+        {
+            return _orderItem2Mock.GetOrderItems(orderId)
+                .AsEnumerable()
+                .Select(row => (
+                    OrderId: (int)row["OrderId"],
+                    BookId: (int)row["BookId"],
+                    Quantity: (int)row["Quantity"]
+                ))
+                .ToList();
+        }
+
+
         private DataTable ConvertOrdersToDataTable(IEnumerable<(int Id, int UserId, string Address, string Country, string City, string ZipCode, decimal TotalPrice, int Status, DateTime Date)> orders)
         {
             DataTable dt = new();
@@ -171,5 +186,24 @@ namespace DataAccessLayer.MockDAL
             row["Date"] = order.Date;
             dt.Rows.Add(row);
         }
+
+        public List<(int OrderId, int UserId, string Address, string Country, string City, string ZipCode, decimal TotalPrice, int Status, DateTime Date)> GetOrdersForSpecificBook(int bookId)
+        {
+            Console.WriteLine($"Fetching orders for Book ID: {bookId}");
+
+            // Fetch matching order items for the book
+            var matchingOrderItems = _orderItem2Mock.GetOrderItemsByBookId(bookId);
+
+            // Find corresponding orders
+            var matchingOrders = matchingOrderItems
+                .Select(orderItem => _orders.FirstOrDefault(order => order.Id == orderItem.OrderId))
+                .Where(order => order != default)
+                .Distinct()
+                .ToList();
+
+            Console.WriteLine($"Total Orders Found for Book ID {bookId}: {matchingOrders.Count}");
+            return matchingOrders;
+        }
+
     }
 }
