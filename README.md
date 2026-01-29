@@ -29,7 +29,7 @@ This solution consists of multiple projects:
 - C# (.NET)
 - WinForms
 - ASP.NET Razor Pages
-- SQL Database
+- MSSQL Database
 
 
 ### Requirements
